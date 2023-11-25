@@ -1,0 +1,3 @@
+/Users/harrisabdullah/CLionProjects/psudo_interprator_2/cmake-build-debug/CMakeFiles/psudo_interprator_2.dir
+/Users/harrisabdullah/CLionProjects/psudo_interprator_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/harrisabdullah/CLionProjects/psudo_interprator_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
