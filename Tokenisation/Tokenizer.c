@@ -106,8 +106,7 @@ int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct T
     for (int j=currantCodeIndex+1; j < codeLen && !isspace(code[j]); j++){
         if ((!isdigit(code[j]) && code[j] != '.')){
             // catches invalid chars
-            perror("invalid syntax");
-            exit(EXIT_FAILURE);
+            break;
         } else if (code[j] == '.'){
             if (!isInt){
                 // catches two decimal places in a number
@@ -139,7 +138,7 @@ int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct T
     return nextNumIndex;
 };
 
-struct Token* tokenize(char* code, int codeLen){
+struct TokenArray tokenize(char* code, int codeLen){
     int tokenArraySize = 50;
     int nextTokenIndex = 0;
     struct Token* tokens = malloc(50 * sizeof(struct Token));
@@ -181,11 +180,11 @@ struct Token* tokenize(char* code, int codeLen){
                         while(isalpha(code[j]) || isdigit(code[j]) || code[j] == '-' || code[j] == '_'){
                             lexeme[nextLexemeIndex] = code[j];
                             nextLexemeIndex++;
-                            j++;
+                                j++;
 
                             if (nextLexemeIndex >= lexemeLen){
                                 lexemeLen += 50;
-                                lexeme = realloc(lexeme, lexemeLen * sizeof(char));
+                                    lexeme = realloc(lexeme, lexemeLen * sizeof(char));
 
                                 if (lexeme == NULL){
                                     perror("failed to allocate memory");
@@ -193,6 +192,7 @@ struct Token* tokenize(char* code, int codeLen){
                                 }
                             }
                         }
+                        i += j-i;
 
                         tokens[nextTokenIndex].type = IDENTIFIER;
                         tokens[nextTokenIndex].lexeme = lexeme;
@@ -214,5 +214,53 @@ struct Token* tokenize(char* code, int codeLen){
         }
     }
 
-    return tokens;
+    struct TokenArray tokenArray = {.tokens = tokens, .len = nextTokenIndex};
+    return tokenArray;
 };
+
+void printTokenArray(struct TokenArray tokens){
+    for (int i = 0; i<tokens.len; i++){
+        if (tokens.tokens[i].lexeme != NULL) {
+            printf("{%s : \"%s\"}\n", tokenTypeToString(tokens.tokens[i].type), tokens.tokens[i].lexeme);
+        } else {
+            printf("{%s}\n", tokenTypeToString(tokens.tokens[i].type));
+        }
+    }
+};
+
+const char* tokenTypeToString(enum TokenType token) {
+    switch (token) {
+        case NULL_TOKEN:
+            return "NULL_TOKEN";
+        case DECLARE:
+            return "DECLARE";
+        case IDENTIFIER:
+            return "IDENTIFIER";
+        case INTEGER_IDENTIFIER:
+            return "INTEGER_IDENTIFIER";
+        case REAL_IDENTIFIER:
+            return "REAL_IDENTIFIER";
+        case INTEGER:
+            return "INTEGER";
+        case REAL:
+            return "REAL";
+        case ASSIGNMENT:
+            return "ASSIGNMENT";
+        case ADDITION:
+            return "ADDITION";
+        case SUBTRACTION:
+            return "SUBTRACTION";
+        case DIVISION:
+            return "DIVISION";
+        case MULTIPLICATION:
+            return "MULTIPLICATION";
+        case OPEN_PAREN:
+            return "OPEN_PAREN";
+        case CLOSE_PAREN:
+            return "CLOSE_PAREN";
+        case NEW_LINE:
+            return "NEW_LINE";
+        default:
+            return "UNKNOWN_TOKEN";
+    }
+}

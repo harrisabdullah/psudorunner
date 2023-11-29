@@ -2,6 +2,6 @@
 #include "Tokenisation/Tokenizer.h"
 
 int main() {
-    struct Token* tokens = tokenize("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", 2);
-    printf("%s", tokens[0].lexeme);
+    struct TokenArray tokens = tokenize("DECLARE Number 1.0+1+2/2<-33.344 test_name-1", 44);
+    printTokenArray(tokens);
 }

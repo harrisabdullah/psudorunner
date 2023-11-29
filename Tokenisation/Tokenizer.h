@@ -29,12 +29,18 @@ struct Token {
     int lexemeLen;
 };
 
-struct Token* tokenize(char* code, int codeLen);
+struct TokenArray{
+    struct Token* tokens;
+    int len;
+};
+
+struct TokenArray tokenize(char* code, int codeLen);
 static int tokenizeOneChar(char Char, struct Token* currantToken, struct Token* previousToken);
 static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
 static int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
 static int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
-
+void printTokenArray(struct TokenArray tokens);
+const char* tokenTypeToString(enum TokenType token);
 
 
 #endif //PSUDO_INTERPRATOR_2_TOKENIZER_H
