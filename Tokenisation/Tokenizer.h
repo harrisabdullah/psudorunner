@@ -4,6 +4,7 @@
 
 #ifndef PSUDO_INTERPRATOR_2_TOKENIZER_H
 #define PSUDO_INTERPRATOR_2_TOKENIZER_H
+#include "TokensList.h"
 
 enum TokenType {
     NULL_TOKEN,
@@ -34,13 +35,19 @@ struct TokenArray{
     int len;
 };
 
-struct TokenArray tokenize(char* code, int codeLen);
+// tokenize text units
 static int tokenizeOneChar(char Char, struct Token* currantToken, struct Token* previousToken);
 static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
 static int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
 static int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
-void printTokenArray(struct TokenArray tokens);
+
+// main tokenizer functions
+static int tokenizettt(const char* code, int codeLen, int currantCodeIndex, struct Token* currantToken, struct Token* )
+struct TokenArray tokenize(char* code, int codeLen);
+
+// debug functions
 const char* tokenTypeToString(enum TokenType token);
+void printTokenArray(struct TokenArray tokens);
 
 
 #endif //PSUDO_INTERPRATOR_2_TOKENIZER_H
