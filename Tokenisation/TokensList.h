@@ -15,5 +15,6 @@ struct TokenList {
 
 struct TokenList* tokenListInit();
 struct TokenList* tokenListAppend(struct TokenList* tokenList, struct Token token);
+struct Token* getPrevious(struct TokenList* tokenList);
 
 #endif //PSUDO_INTERPRATOR_2_TOKENSLIST_H

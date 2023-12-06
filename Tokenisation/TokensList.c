@@ -39,3 +39,10 @@ struct TokenList* tokenListAppend(struct TokenList* tokenList, struct Token toke
     tokenList->tokenArray[tokenList->currantIndex] = token;
     tokenList->currantIndex++;
 };
+
+struct Token* getPrevious(struct TokenList* tokenList){
+    if (tokenList->currantIndex == 0){
+        return NULL;
+    }
+    return &tokenList->tokenArray[tokenList->currantIndex-1];
+};

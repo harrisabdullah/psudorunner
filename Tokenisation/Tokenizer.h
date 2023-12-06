@@ -36,13 +36,13 @@ struct TokenArray{
 };
 
 // tokenize text units
-static int tokenizeOneChar(char Char, struct Token* currantToken, struct Token* previousToken);
+void tokenizeOneChar(char Char, struct, struct TokenList* tokens);
 static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
-static int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
+void tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct TokenList* currantToken);
 static int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
 
 // main tokenizer functions
-static int tokenizettt(const char* code, int codeLen, int currantCodeIndex, struct Token* currantToken, struct Token* )
+static int tokenize(const char* code, int codeLen, int currantCodeIndex, struct Token* currantToken, struct Token* )
 struct TokenArray tokenize(char* code, int codeLen);
 
 // debug functions

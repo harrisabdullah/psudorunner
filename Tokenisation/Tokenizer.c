@@ -3,52 +3,64 @@
 //
 
 #include "Tokenizer.h"
+#include "TokensList.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 
-int tokenizeOneChar(char Char, struct Token* currantToken, struct Token* previousToken){
+void tokenizeOneChar(char Char, struct TokenList* tokens){
+    struct Token* previousToken = getPrevious(tokens);
+
     switch (Char) {
         case '+':
-            currantToken->type = ADDITION;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                    {.type=ADDITION,
+                     .lexeme=NULL});
+            return;
 
         case '-':
-            currantToken->type = SUBTRACTION;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                    {.type=SUBTRACTION,
+                     .lexeme=NULL});
+            return;
 
         case '/':
-            currantToken->type = DIVISION;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                {.type=DIVISION,
+                 .lexeme=NULL});
+            return;
 
         case '*':
-            currantToken->type = MULTIPLICATION;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                    {.type=MULTIPLICATION,
+                     .lexeme=NULL});
+            return;
 
         case '(':
-            currantToken->type = OPEN_PAREN;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                    {.type=OPEN_PAREN,
+                     .lexeme=NULL});
+            return;
 
         case ')':
-            currantToken->type = CLOSE_PAREN;
-            currantToken->lexeme = NULL;
-            return 1;
+            tokenListAppend(tokens, (struct Token)
+                    {.type=CLOSE_PAREN,
+                     .lexeme=NULL});
+            return;
 
         case '\n':
-            if (previousToken == NULL_TOKEN || previousToken->type != NEW_LINE){
-                currantToken->type = NEW_LINE;
-                currantToken->lexeme = NULL;
-                return 1;
+            if (previousToken != NULL){
+                if (previousToken->type != NEW_LINE){
+                    tokenListAppend(tokens, (struct Token)
+                            {.type=NEW_LINE,
+                             .lexeme=NULL});
+                    return;
+                }
             }
 
         default:
-            return 0;
+            return;
     }
 };
 
@@ -64,7 +76,7 @@ int isKeyword(const char* keyword, int keywordLen, const char* code, int currant
     return 1;
 };
 
-int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken){
+void tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken){
     if (isKeyword("DECLARE", 7, code, currantCodeIndex, codeLen)){
         currantToken->type = DECLARE;
         currantToken->lexeme = NULL;
