@@ -9,61 +9,19 @@
 #include <ctype.h>
 #include <string.h>
 
-void tokenizeOneChar(char Char, struct TokenList* tokens){
-    struct Token* previousToken = getPrevious(tokens);
-
-    switch (Char) {
-        case '+':
-            tokenListAppend(tokens, (struct Token)
-                    {.type=ADDITION,
-                     .lexeme=NULL});
-            return;
-
-        case '-':
-            tokenListAppend(tokens, (struct Token)
-                    {.type=SUBTRACTION,
-                     .lexeme=NULL});
-            return;
-
-        case '/':
-            tokenListAppend(tokens, (struct Token)
-                {.type=DIVISION,
-                 .lexeme=NULL});
-            return;
-
-        case '*':
-            tokenListAppend(tokens, (struct Token)
-                    {.type=MULTIPLICATION,
-                     .lexeme=NULL});
-            return;
-
-        case '(':
-            tokenListAppend(tokens, (struct Token)
-                    {.type=OPEN_PAREN,
-                     .lexeme=NULL});
-            return;
-
-        case ')':
-            tokenListAppend(tokens, (struct Token)
-                    {.type=CLOSE_PAREN,
-                     .lexeme=NULL});
-            return;
-
-        case '\n':
-            if (previousToken != NULL){
-                if (previousToken->type != NEW_LINE){
-                    tokenListAppend(tokens, (struct Token)
-                            {.type=NEW_LINE,
-                             .lexeme=NULL});
-                    return;
-                }
-            }
-
-        default:
-            return;
-    }
-};
-
+// helper function
+/**
+ * Checks if a specified keyword matches a substring in a given code.
+ *
+ * @param keyword: Pointer to the keyword to be checked.
+ * @param keywordLen: Length of the keyword.
+ * @param code: Pointer to the code string.
+ * @param currantCodeIndex: Current index in the code string to start matching.
+ * @param codeLen: Total length of the code string.
+ *
+ * @return: Returns 1 if the keyword is found at the specified position in the code,
+ *          Returns 0 if the keyword is not found or if the specified position is invalid.
+ */
 int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen){
     if (keywordLen+currantCodeIndex > codeLen){
         return 0;
@@ -76,174 +34,235 @@ int isKeyword(const char* keyword, int keywordLen, const char* code, int currant
     return 1;
 };
 
-void tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken){
+// tokenize text unit
+/**
+ * Tokenizes a single character and appends the corresponding token to the given list of tokens.
+ *
+ * @param Char: The character to be tokenized.
+ * @param tokens: Pointer to a struct TokenList, representing the list of tokens.
+ *               The function appends the newly created token to this list.
+ */
+int tokenizeOneChar(char Char, struct TokenList* tokens){
+    struct Token* previousToken = getPrevious(tokens);
+
+    switch (Char) {
+        case '+':
+            tokenListAppend(tokens, (struct Token)
+                    {.type=ADDITION,
+                     .lexeme=""});
+            return 1;
+
+        case '-':
+            tokenListAppend(tokens, (struct Token)
+                    {.type=SUBTRACTION,
+                     .lexeme=""});
+            return 1;
+
+        case '/':
+            tokenListAppend(tokens, (struct Token)
+                {.type=DIVISION,
+                 .lexeme=""});
+            return 1;
+
+        case '*':
+            tokenListAppend(tokens, (struct Token)
+                    {.type=MULTIPLICATION,
+                     .lexeme=""});
+            return 1;
+
+        case '(':
+            tokenListAppend(tokens, (struct Token)
+                    {.type=OPEN_PAREN,
+                     .lexeme=""});
+            return 1;
+
+        case ')':
+            tokenListAppend(tokens, (struct Token)
+                    {.type=CLOSE_PAREN,
+                     .lexeme=""});
+            return 1;
+
+        case '\n':
+            if (previousToken != NULL){
+                if (previousToken->type != NEW_LINE){
+                    tokenListAppend(tokens, (struct Token)
+                            {.type=NEW_LINE,
+                             .lexeme=""});
+                    return 1;
+                }
+            }
+
+        default:
+            return 0;
+    }
+};
+
+/**
+ * Tokenizes keywords in the given code snippet.
+ *
+ * @param code The input code snippet to be tokenized.
+ * @param currantCodeIndex The current index in the code snippet for processing.
+ * @param codeLen The length of the code snippet.
+ * @param tokens Pointer to the TokenList structure where tokens will be stored.
+ *
+ * @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is matched.
+ */
+int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct TokenList* tokens){
     if (isKeyword("DECLARE", 7, code, currantCodeIndex, codeLen)){
-        currantToken->type = DECLARE;
-        currantToken->lexeme = NULL;
+        tokenListAppend(tokens, (struct Token){
+            .type=DECLARE,
+            .lexeme=""});
         return 7;
     }
 
     if (isKeyword("INTEGER", 7, code, currantCodeIndex, codeLen)){
-        currantToken->type = INTEGER_IDENTIFIER;
-        currantToken->lexeme = NULL;
+        tokenListAppend(tokens, (struct Token){
+                .type=INTEGER,
+                .lexeme=""});
         return 7;
     }
 
     if (isKeyword("REAL", 4, code, currantCodeIndex, codeLen)){
-        currantToken->type = REAL_IDENTIFIER;
-        currantToken->lexeme = NULL;
+        tokenListAppend(tokens, (struct Token){
+                .type=REAL,
+                .lexeme=""});
         return 4;
     }
 
     if (isKeyword("<-", 2, code, currantCodeIndex, codeLen)){
-        currantToken->type = ASSIGNMENT;
-        currantToken->lexeme = NULL;
+        tokenListAppend(tokens, (struct Token){
+                .type=ASSIGNMENT,
+                .lexeme=""});
         return 2;
     }
 
-    return 0;
+    return -1;
 };
 
-int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken){
-    if (!isdigit(code[currantCodeIndex])) {
-        return 0;
+/**
+ * Tokenizes a number in the given code snippet.
+ *
+ * @param code The input code snippet to be tokenized.
+ * @param currentCodeIndex The current index in the code snippet for processing.
+ * @param codeLen The length of the code snippet.
+ * @param tokens Pointer to the TokenList structure where tokens will be stored.
+ *
+ * @return The number of characters consumed to tokenize the number, or -1 if the character at the current index is not a digit.
+ */
+int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct TokenList* tokens){
+    if (!isdigit(code[currentCodeIndex])) {
+        return -1;
     }
 
-    int isInt = 1;
-    int numStringLen = 10;
-    char * numString = malloc(numStringLen * sizeof(char));
-    numString[0] = code[currantCodeIndex];
-    int nextNumIndex = 1;
+    int i = currentCodeIndex + 1;
+    int isInt = 0;
 
-    for (int j=currantCodeIndex+1; j < codeLen && !isspace(code[j]); j++){
-        if ((!isdigit(code[j]) && code[j] != '.')){
-            // catches invalid chars
-            break;
-        } else if (code[j] == '.'){
-            if (!isInt){
-                // catches two decimal places in a number
-                perror("invalid syntax");
-                exit(EXIT_FAILURE);
-            }
-            isInt = 0;
-            numString[nextNumIndex] = '.';
-            nextNumIndex++;
-        } else {
-            numString[nextNumIndex] = code[j];
-            nextNumIndex++;
+    while (i<codeLen && (isdigit(code[i]) || code[i] == '.')){
+        if (code[i] == '.' && isInt == 0){
+            isInt = 1;
         }
-
-        if (nextNumIndex >= numStringLen){
-            numStringLen += 10;
-            numString = realloc(numString, numStringLen * sizeof(char));
-
-            if (numString == NULL){
-                perror("failed to allocate memory");
-                exit(EXIT_FAILURE);
-            }
+        else if (code[i] == '.' && isInt == 1){
+            perror("Syntax Error: real contain two '.''s");
+            exit(EXIT_FAILURE);
         }
+        i++;
     }
 
-    currantToken->type = isInt? INTEGER:REAL;
-    currantToken->lexeme = numString;
-    currantToken->lexemeLen = nextNumIndex;
-    return nextNumIndex;
+    int lexemeLen = i - currentCodeIndex;
+    char *lexeme = (char *)malloc(lexemeLen + 1);
+    strncpy(lexeme, code + currentCodeIndex, lexemeLen);
+    lexeme[lexemeLen] = '\0';
+
+    tokenListAppend(tokens, (struct Token) {
+        .type = isInt? INTEGER:REAL,
+        .lexeme = lexeme
+    });
+    return lexemeLen;
 };
 
-struct TokenArray tokenize(char* code, int codeLen){
-    int tokenArraySize = 50;
-    int nextTokenIndex = 0;
-    struct Token* tokens = malloc(50 * sizeof(struct Token));
-
-    if (tokens == NULL){
-        perror("failed to allocate memory");
-        exit(EXIT_FAILURE);
+/**
+ * Tokenizes an identifier in the given code snippet.
+ *
+ * @param code The input code snippet to be tokenized.
+ * @param currentCodeIndex The current index in the code snippet for processing.
+ * @param codeLen The length of the code snippet.
+ * @param tokens Pointer to the TokenList structure where tokens will be stored.
+ *
+ * @return The number of characters consumed to tokenize the identifier, or -1 if the character at the current index is not a valid start for an identifier.
+ */
+int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, struct TokenList* tokens){
+    if (!isalpha(code[currentCodeIndex]) && code[currentCodeIndex] != '_' && code[currentCodeIndex] != '-'){
+        return -1;
     }
+    int i = currentCodeIndex + 1;
+
+    while (i < codeLen && (isalpha(code[i]) || isdigit(code[i]) || code[i] == '_' || code[i] == '-')){
+        i++;
+    }
+
+    int lexemeLen = i - currentCodeIndex;
+    char *lexeme = (char *)malloc(lexemeLen + 1);
+    strncpy(lexeme, code + currentCodeIndex, lexemeLen);
+    lexeme[lexemeLen] = '\0';
+
+    tokenListAppend(tokens, (struct Token){
+        .type=IDENTIFIER,
+        .lexeme=lexeme
+    });
+
+    return lexemeLen;
+};
+
+// main tokenizer function
+/**
+ * Tokenizes a code snippet, identifying and categorizing individual tokens.
+ *
+ * @param code The input code snippet to be tokenized.
+ * @param codeLen The length of the code snippet.
+ *
+ * @return A dynamically allocated TokenList structure containing the identified tokens.
+ *         It is the responsibility of the caller to free the memory when done using the TokenList.
+ */
+struct TokenList* tokenize(char* code, int codeLen){
+    struct TokenList* tokens = tokenListInit();
 
     for (int i = 0; i < codeLen; i++){
+        if (tokenizeOneChar(code[i], tokens)){
+            continue;
+        };
 
-        // tokenize one character
-        int isOneChar = tokenizeOneChar(code[i], &tokens[nextTokenIndex], nextTokenIndex == 0 ? NULL : &tokens[nextTokenIndex - 1]);
-        if (isOneChar) {
-            nextTokenIndex++;
-        }
-        else {
-            // Tokenize keywords
-            int keyWordLen = tokenizeKeywords(code, i, codeLen, &tokens[nextTokenIndex]);
-            if (keyWordLen != 0) {
-                nextTokenIndex++;
-                i += keyWordLen - 1;
-            }
-            else {
-                // Tokenize numbers
-                int numberLen = tokenizeNumber(code, i, codeLen, &tokens[nextTokenIndex]);
-                if (numberLen != 0) {
-                    nextTokenIndex++;
-                    i += numberLen - 1;
-                }
-                else {
-                    if (isalpha(code[i])){
-                        int j = i+1;
-                        int lexemeLen = 50;
-                        char* lexeme = malloc(sizeof(char) * lexemeLen);
-                        lexeme[0] = code[i];
-                        int nextLexemeIndex = 1;
-
-                        while(isalpha(code[j]) || isdigit(code[j]) || code[j] == '-' || code[j] == '_'){
-                            lexeme[nextLexemeIndex] = code[j];
-                            nextLexemeIndex++;
-                                j++;
-
-                            if (nextLexemeIndex >= lexemeLen){
-                                lexemeLen += 50;
-                                    lexeme = realloc(lexeme, lexemeLen * sizeof(char));
-
-                                if (lexeme == NULL){
-                                    perror("failed to allocate memory");
-                                    exit(EXIT_FAILURE);
-                                }
-                            }
-                        }
-                        i += j-i;
-
-                        tokens[nextTokenIndex].type = IDENTIFIER;
-                        tokens[nextTokenIndex].lexeme = lexeme;
-                        tokens[nextTokenIndex].lexemeLen = nextLexemeIndex;
-                        nextTokenIndex++;
-                    }
-                }
-            }
+        int keywordLen = tokenizeKeywords(code, i, codeLen, tokens);
+        if (keywordLen != -1){
+            i += keywordLen-1;
+            continue;
         }
 
-        if (nextTokenIndex >= tokenArraySize){
-            tokenArraySize += 50;
-            tokens = realloc(tokens, tokenArraySize * sizeof(struct Token));
+        int numLen = tokenizeNumber(code, i, codeLen, tokens);
+        if (numLen != -1){
+            i += numLen-1;
+            continue;
+        }
 
-            if (tokens == NULL){
-                perror("failed to allocate memory");
-                exit(EXIT_FAILURE);
-            }
+        int identifierLen = tokenizeIdentifier(code, i, codeLen, tokens);
+        if (identifierLen != -1){
+            i += identifierLen-1;
+            continue;
         }
     }
 
-    struct TokenArray tokenArray = {.tokens = tokens, .len = nextTokenIndex};
-    return tokenArray;
+    return tokens;
 };
 
-void printTokenArray(struct TokenArray tokens){
-    for (int i = 0; i<tokens.len; i++){
-        if (tokens.tokens[i].lexeme != NULL) {
-            printf("{%s : \"%s\"}\n", tokenTypeToString(tokens.tokens[i].type), tokens.tokens[i].lexeme);
-        } else {
-            printf("{%s}\n", tokenTypeToString(tokens.tokens[i].type));
-        }
-    }
-};
-
+// debug function
+/**
+ * Converts a TokenType enum value to its corresponding string representation.
+ *
+ * @param token The TokenType enum value to be converted.
+ *
+ * @return A string representing the TokenType, or "UNKNOWN_TOKEN" if the TokenType is not recognized.
+ */
 const char* tokenTypeToString(enum TokenType token) {
     switch (token) {
-        case NULL_TOKEN:
-            return "NULL_TOKEN";
         case DECLARE:
             return "DECLARE";
         case IDENTIFIER:
@@ -276,3 +295,8 @@ const char* tokenTypeToString(enum TokenType token) {
             return "UNKNOWN_TOKEN";
     }
 }
+void printToken(struct Token token){
+    printf("Token Type: %s\n", tokenTypeToString(token.type));
+    printf("Lexeme: %s\n", token.lexeme);
+    printf("---------------------------\n");
+};

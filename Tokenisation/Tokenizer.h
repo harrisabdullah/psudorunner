@@ -7,7 +7,6 @@
 #include "TokensList.h"
 
 enum TokenType {
-    NULL_TOKEN,
     DECLARE, // DECLARE statement e.g. "DECLARE i: INTEGER"
     IDENTIFIER, // names of function or variables e.g. `i`
     INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
@@ -27,27 +26,23 @@ enum TokenType {
 struct Token {
     enum TokenType type;
     char* lexeme; // TODO: consider using linked list or something similar
-    int lexemeLen;
 };
 
-struct TokenArray{
-    struct Token* tokens;
-    int len;
-};
+// helper function
+static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
 
 // tokenize text units
-void tokenizeOneChar(char Char, struct, struct TokenList* tokens);
-static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
-void tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct TokenList* currantToken);
-static int tokenizeNumber(const char* code, int currantCodeIndex, int codeLen, struct Token* currantToken);
+int tokenizeOneChar(char Char, struct TokenList* tokens);
+int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct TokenList* tokens);
+int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct TokenList* tokens);
+int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, struct TokenList* tokens);
 
 // main tokenizer functions
-static int tokenize(const char* code, int codeLen, int currantCodeIndex, struct Token* currantToken, struct Token* )
-struct TokenArray tokenize(char* code, int codeLen);
+struct TokenList* tokenize(char* code, int codeLen);
 
 // debug functions
 const char* tokenTypeToString(enum TokenType token);
-void printTokenArray(struct TokenArray tokens);
+void printToken(struct Token token);
 
 
 #endif //PSUDO_INTERPRATOR_2_TOKENIZER_H

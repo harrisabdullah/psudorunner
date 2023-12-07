@@ -46,3 +46,9 @@ struct Token* getPrevious(struct TokenList* tokenList){
     }
     return &tokenList->tokenArray[tokenList->currantIndex-1];
 };
+
+void printTokenList(struct TokenList* tokenList){
+    for (int i=0; i<tokenList->currantIndex; i++){
+        printToken(tokenList->tokenArray[i]);
+    }
+};
