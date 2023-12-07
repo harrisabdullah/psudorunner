@@ -9,7 +9,6 @@
 #include <ctype.h>
 #include <string.h>
 
-// helper function
 /**
  * Checks if a specified keyword matches a substring in a given code.
  *
@@ -34,7 +33,6 @@ int isKeyword(const char* keyword, int keywordLen, const char* code, int currant
     return 1;
 };
 
-// tokenize text unit
 /**
  * Tokenizes a single character and appends the corresponding token to the given list of tokens.
  *
@@ -98,15 +96,15 @@ int tokenizeOneChar(char Char, struct TokenList* tokens){
 };
 
 /**
- * Tokenizes keywords in the given code snippet.
- *
- * @param code The input code snippet to be tokenized.
- * @param currantCodeIndex The current index in the code snippet for processing.
- * @param codeLen The length of the code snippet.
- * @param tokens Pointer to the TokenList structure where tokens will be stored.
- *
- * @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is matched.
- */
+Extracts and tokenizes keywords from the given code snippet.
+*
+* @param code The input code snippet to be processed.
+* @param currentCodeIndex The current index in the code snippet for processing.
+* @param codeLen The length of the code snippet.
+* @param tokens Pointer to the TokenList structure where tokens will be stored.
+*
+* @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
+*/
 int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct TokenList* tokens){
     if (isKeyword("DECLARE", 7, code, currantCodeIndex, codeLen)){
         tokenListAppend(tokens, (struct Token){
@@ -140,15 +138,15 @@ int tokenizeKeywords(const char* code, int currantCodeIndex, int codeLen, struct
 };
 
 /**
- * Tokenizes a number in the given code snippet.
- *
- * @param code The input code snippet to be tokenized.
- * @param currentCodeIndex The current index in the code snippet for processing.
- * @param codeLen The length of the code snippet.
- * @param tokens Pointer to the TokenList structure where tokens will be stored.
- *
- * @return The number of characters consumed to tokenize the number, or -1 if the character at the current index is not a digit.
- */
+* Extracts and tokenizes a numeric literal from the given code snippet.
+*
+* @param code The input code snippet to be processed.
+* @param currentCodeIndex The current index in the code snippet for processing.
+* @param codeLen The length of the code snippet.
+* @param tokens Pointer to the TokenList structure where tokens will be stored.
+
+* @return The number of characters consumed to tokenize the numeric literal, or -1 if the character at the current index is not a digit.
+*/
 int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct TokenList* tokens){
     if (!isdigit(code[currentCodeIndex])) {
         return -1;
@@ -213,12 +211,11 @@ int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, stru
     return lexemeLen;
 };
 
-// main tokenizer function
 /**
- * Tokenizes a code snippet, identifying and categorizing individual tokens.
+ * Tokenizes a code string, identifying and categorizing individual tokens.
  *
- * @param code The input code snippet to be tokenized.
- * @param codeLen The length of the code snippet.
+ * @param code The input code string to be tokenized.
+ * @param codeLen The length of the code string.
  *
  * @return A dynamically allocated TokenList structure containing the identified tokens.
  *         It is the responsibility of the caller to free the memory when done using the TokenList.
@@ -295,6 +292,12 @@ const char* tokenTypeToString(enum TokenType token) {
             return "UNKNOWN_TOKEN";
     }
 }
+
+/**
+ * Print the content of a Token structure including the Type and Lexeme.
+ *
+ * @param token the token to be printed.
+ */
 void printToken(struct Token token){
     printf("Token Type: %s\n", tokenTypeToString(token.type));
     printf("Lexeme: %s\n", token.lexeme);
