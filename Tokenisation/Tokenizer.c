@@ -43,7 +43,7 @@ int isKeyword(const char* keyword, int keywordLen, const char* code, int currant
  *               The function appends the newly created token to this list.
  */
 int tokenizeOneChar(char Char, struct TokenList* tokens){
-    struct Token* previousToken = getPrevious(tokens);
+    struct Token* previousToken = tokenListGetPrevious(tokens);
 
     switch (Char) {
         case '+':

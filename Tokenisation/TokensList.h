@@ -15,7 +15,7 @@ struct TokenList {
 
 struct TokenList* tokenListInit();
 struct TokenList* tokenListAppend(struct TokenList* tokenList, struct Token token);
-struct Token* getPrevious(struct TokenList* tokenList);
+struct Token* tokenListGetPrevious(struct TokenList* tokenList);
 
 // debug function
 void printTokenList(struct TokenList* tokenList);

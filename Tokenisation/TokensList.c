@@ -6,6 +6,11 @@
 #include "TokensList.h"
 #include <stdlib.h>
 
+/**
+ * Initializes a new TokenList structure.
+ *
+ * @return A pointer to the newly allocated TokenList structure.
+ */
 struct TokenList* tokenListInit() {
     struct TokenList *tokens = malloc(sizeof(struct TokenList));
 
@@ -25,6 +30,14 @@ struct TokenList* tokenListInit() {
     return tokens;
 };
 
+/**
+ * Appends a Token to the TokenList, reallocating memory if necessary.
+ *
+ * @param tokenList A pointer to the TokenList structure.
+ * @param token The Token to be appended.
+ *
+ * @return A pointer to the modified TokenList structure.
+ */
 struct TokenList* tokenListAppend(struct TokenList* tokenList, struct Token token){
     if (tokenList->currantIndex >= tokenList->length){
         tokenList->length += 50;
@@ -40,7 +53,14 @@ struct TokenList* tokenListAppend(struct TokenList* tokenList, struct Token toke
     tokenList->currantIndex++;
 };
 
-struct Token* getPrevious(struct TokenList* tokenList){
+/**
+ * Retrieves the previous Token in the TokenList.
+ *
+ * @param tokenList A pointer to the TokenList structure.
+ *
+ * @return A pointer to the previous Token in the TokenList, or NULL if at the beginning.
+ */
+struct Token* tokenListGetPrevious(struct TokenList* tokenList){
     if (tokenList->currantIndex == 0){
         return NULL;
     }
