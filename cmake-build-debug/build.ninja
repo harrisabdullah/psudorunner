@@ -64,6 +64,12 @@ build CMakeFiles/psudo_interprator_2.dir/common/List.c.o: C_COMPILER__psudo_inte
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/common
 
+build CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/poop/Parser/Parser.c || cmake_object_order_depends_target_psudo_interprator_2
+  DEP_FILE = CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -std=gnu99
+  OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/Parser
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target psudo_interprator_2
@@ -72,7 +78,7 @@ build CMakeFiles/psudo_interprator_2.dir/common/List.c.o: C_COMPILER__psudo_inte
 #############################################
 # Link the executable psudo_interprator_2
 
-build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o
+build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   POST_BUILD = :

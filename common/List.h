@@ -8,14 +8,17 @@
 #define ARRAY_SIZE 50
 
 #include "../Tokenisation/Token.h"
+#include "../Parser/ASTNode.h"
 #include <stdio.h>
 
 enum listValueType {
-    TOKEN
+    TOKEN,
+    ASTNode
 };
 
 union listValue {
-    struct Token token;
+    struct Token tokenValue;
+    struct ASTNode astNodeValue;
 };
 
 struct List {

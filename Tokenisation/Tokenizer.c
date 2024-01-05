@@ -34,11 +34,11 @@ int isKeyword(const char* keyword, int keywordLen, const char* code, int currant
 };
 
 /**
- * Tokenizes a single character and appends the corresponding token to the given list of tokens.
+ * Tokenizes a single character and appends the corresponding tokenValue to the given list of tokens.
  *
  * @param Char: The character to be tokenized.
  * @param tokens: Pointer to a struct TokenList, representing the list of tokens.
- *               The function appends the newly created token to this list.
+ *               The function appends the newly created tokenValue to this list.
  */
 int tokenizeOneChar(char Char, struct List* tokens) {
 
@@ -49,34 +49,34 @@ int tokenizeOneChar(char Char, struct List* tokens) {
 
     switch (Char) {
         case '+':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = ADDITION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_ADDITION, .lexeme = ""}});
             return 1;
 
         case '-':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = SUBTRACTION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_SUBTRACTION, .lexeme = ""}});
             return 1;
 
         case '/':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = DIVISION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_DIVISION, .lexeme = ""}});
             return 1;
 
         case '*':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = MULTIPLICATION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_MULTIPLICATION, .lexeme = ""}});
             return 1;
 
         case '(':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = OPEN_PAREN, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_OPEN_PAREN, .lexeme = ""}});
             return 1;
 
         case ')':
-            listAppend(tokens, (union listValue){.token = (struct Token){.type = CLOSE_PAREN, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_CLOSE_PAREN, .lexeme = ""}});
             return 1;
 
         case '\n':
             if (previousToken != NULL) {
-                struct Token* prevToken = &previousToken->token;
-                if (prevToken->type != NEW_LINE) {
-                    listAppend(tokens, (union listValue){.token = (struct Token){.type = NEW_LINE, .lexeme = ""}});
+                struct Token* prevToken = &previousToken->tokenValue;
+                if (prevToken->type != TK_NEW_LINE) {
+                    listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_NEW_LINE, .lexeme = ""}});
                     return 1;
                 }
             }
@@ -97,30 +97,30 @@ Extracts and tokenizes keywords from the given code snippet.
 * @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
-    if (isKeyword("DECLARE", 7, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("TK_DECLARE", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
-                .token = {
-                        .type = DECLARE,
+                .tokenValue = {
+                        .type = TK_DECLARE,
                         .lexeme = ""
                 }
         });
         return 7;
     }
 
-    if (isKeyword("INTEGER", 7, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("TK_INTEGER", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
-                .token = {
-                        .type = INTEGER,
+                .tokenValue = {
+                        .type = TK_INTEGER,
                         .lexeme = ""
                 }
         });
         return 7;
     }
 
-    if (isKeyword("REAL", 4, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("TK_REAL", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
-                .token = {
-                        .type = REAL,
+                .tokenValue = {
+                        .type = TK_REAL,
                         .lexeme = ""
                 }
         });
@@ -129,8 +129,8 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
 
     if (isKeyword("<-", 2, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
-                .token = {
-                        .type = ASSIGNMENT,
+                .tokenValue = {
+                        .type = TK_ASSIGNMENT,
                         .lexeme = ""
                 }
         });
@@ -174,8 +174,8 @@ int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct L
 
     // Assuming tokens is a list of Token
     listAppend(tokens, (union listValue) {
-            .token = {
-                    .type = isInt ? INTEGER : REAL,
+            .tokenValue = {
+                    .type = isInt ? TK_INTEGER : TK_REAL,
                     .lexeme = lexeme
             }
     });
@@ -211,10 +211,10 @@ int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, stru
 
     // Create a union listValue with a struct Token and set its values
     union listValue tokenValue;
-    tokenValue.token.type = IDENTIFIER;
-    tokenValue.token.lexeme = lexeme;
+    tokenValue.tokenValue.type = TK_IDENTIFIER;
+    tokenValue.tokenValue.lexeme = lexeme;
 
-    // Append the token to the list
+    // Append the tokenValue to the list
     listAppend(tokens, tokenValue);
 
     return lexemeLen;
@@ -270,34 +270,34 @@ struct List* tokenize(char* code, int codeLen) {
  */
 const char* tokenTypeToString(enum TokenType token) {
     switch (token) {
-        case DECLARE:
-            return "DECLARE";
-        case IDENTIFIER:
-            return "IDENTIFIER";
-        case INTEGER_IDENTIFIER:
-            return "INTEGER_IDENTIFIER";
-        case REAL_IDENTIFIER:
-            return "REAL_IDENTIFIER";
-        case INTEGER:
-            return "INTEGER";
-        case REAL:
-            return "REAL";
-        case ASSIGNMENT:
-            return "ASSIGNMENT";
-        case ADDITION:
-            return "ADDITION";
-        case SUBTRACTION:
-            return "SUBTRACTION";
-        case DIVISION:
-            return "DIVISION";
-        case MULTIPLICATION:
-            return "MULTIPLICATION";
-        case OPEN_PAREN:
-            return "OPEN_PAREN";
-        case CLOSE_PAREN:
-            return "CLOSE_PAREN";
-        case NEW_LINE:
-            return "NEW_LINE";
+        case TK_DECLARE:
+            return "TK_DECLARE";
+        case TK_IDENTIFIER:
+            return "TK_IDENTIFIER";
+        case TK_INTEGER_IDENTIFIER:
+            return "TK_INTEGER_IDENTIFIER";
+        case TK_REAL_IDENTIFIER:
+            return "TK_REAL_IDENTIFIER";
+        case TK_INTEGER:
+            return "TK_INTEGER";
+        case TK_REAL:
+            return "TK_REAL";
+        case TK_ASSIGNMENT:
+            return "TK_ASSIGNMENT";
+        case TK_ADDITION:
+            return "TK_ADDITION";
+        case TK_SUBTRACTION:
+            return "TK_SUBTRACTION";
+        case TK_DIVISION:
+            return "TK_DIVISION";
+        case TK_MULTIPLICATION:
+            return "TK_MULTIPLICATION";
+        case TK_OPEN_PAREN:
+            return "TK_OPEN_PAREN";
+        case TK_CLOSE_PAREN:
+            return "TK_CLOSE_PAREN";
+        case TK_NEW_LINE:
+            return "TK_NEW_LINE";
         default:
             return "UNKNOWN_TOKEN";
     }
@@ -306,7 +306,7 @@ const char* tokenTypeToString(enum TokenType token) {
 /**
  * Print the content of a Token structure including the Type and Lexeme.
  *
- * @param token the token to be printed.
+ * @param token the tokenValue to be printed.
  */
 void printToken(struct Token token){
     printf("Token Type: %s\n", tokenTypeToString(token.type));
@@ -321,6 +321,6 @@ void printToken(struct Token token){
  */
 void printTokenList(struct List* tokens){
     for (int i = 0; i<tokens->head; i++){
-        printToken(tokens->array[i].token);
+        printToken(tokens->array[i].tokenValue);
     }
 };
