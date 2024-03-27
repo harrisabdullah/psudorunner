@@ -5,23 +5,26 @@
 #ifndef PSUDO_INTERPRATOR_2_ASTNODE_H
 #define PSUDO_INTERPRATOR_2_ASTNODE_H
 #include "../common/List.h"
+#include "../Tokenisation/Token.h"
 #include "Expression.h"
 
 struct ASTDeclare {
-    enum DataTypes type;
-    struct Expression* expression;
+    char* identifier;
+    enum TokenType type;
+};
+
+struct ASTAssignment {
+    char* identifier;
+    struct Expression* value;
 };
 
 union ASTNodeValue {
     struct ASTDeclare declare;
-};
-
-enum ASTNodeTypes {
-    AST_DECLARE,
+    struct ASTAssignment assignment;
 };
 
 struct ASTNode {
-    enum ASTNodeTypes type;
+    enum TokenType type;
     union ASTNodeValue value;
 };
 

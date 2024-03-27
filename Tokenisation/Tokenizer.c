@@ -49,34 +49,37 @@ int tokenizeOneChar(char Char, struct List* tokens) {
 
     switch (Char) {
         case '+':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_ADDITION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = ADDITION, .lexeme = ""}});
             return 1;
 
         case '-':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_SUBTRACTION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = SUBTRACTION, .lexeme = ""}});
             return 1;
 
         case '/':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_DIVISION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = DIVISION, .lexeme = ""}});
             return 1;
 
         case '*':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_MULTIPLICATION, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = MULTIPLICATION, .lexeme = ""}});
             return 1;
 
         case '(':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_OPEN_PAREN, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = OPEN_PAREN, .lexeme = ""}});
             return 1;
 
         case ')':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_CLOSE_PAREN, .lexeme = ""}});
+            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = CLOSE_PAREN, .lexeme = ""}});
             return 1;
+
+        case ':':
+             listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = COLON, .lexeme = ""}});
 
         case '\n':
             if (previousToken != NULL) {
                 struct Token* prevToken = &previousToken->tokenValue;
-                if (prevToken->type != TK_NEW_LINE) {
-                    listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = TK_NEW_LINE, .lexeme = ""}});
+                if (prevToken->type != NEW_LINE) {
+                    listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = NEW_LINE, .lexeme = ""}});
                     return 1;
                 }
             }
@@ -97,30 +100,30 @@ Extracts and tokenizes keywords from the given code snippet.
 * @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
-    if (isKeyword("TK_DECLARE", 7, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("DECLARE", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = TK_DECLARE,
+                        .type = DECLARE,
                         .lexeme = ""
                 }
         });
         return 7;
     }
 
-    if (isKeyword("TK_INTEGER", 7, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("INTEGER", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = TK_INTEGER,
+                        .type = INTEGER,
                         .lexeme = ""
                 }
         });
         return 7;
     }
 
-    if (isKeyword("TK_REAL", 4, code, currentCodeIndex, codeLen)) {
+    if (isKeyword("REAL", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = TK_REAL,
+                        .type = REAL,
                         .lexeme = ""
                 }
         });
@@ -130,7 +133,7 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
     if (isKeyword("<-", 2, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = TK_ASSIGNMENT,
+                        .type = ASSIGNMENT,
                         .lexeme = ""
                 }
         });
@@ -175,7 +178,7 @@ int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct L
     // Assuming tokens is a list of Token
     listAppend(tokens, (union listValue) {
             .tokenValue = {
-                    .type = isInt ? TK_INTEGER : TK_REAL,
+                    .type = isInt ? INTEGER : REAL,
                     .lexeme = lexeme
             }
     });
@@ -211,7 +214,7 @@ int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, stru
 
     // Create a union listValue with a struct Token and set its values
     union listValue tokenValue;
-    tokenValue.tokenValue.type = TK_IDENTIFIER;
+    tokenValue.tokenValue.type = IDENTIFIER;
     tokenValue.tokenValue.lexeme = lexeme;
 
     // Append the tokenValue to the list
@@ -270,36 +273,36 @@ struct List* tokenize(char* code, int codeLen) {
  */
 const char* tokenTypeToString(enum TokenType token) {
     switch (token) {
-        case TK_DECLARE:
-            return "TK_DECLARE";
-        case TK_IDENTIFIER:
-            return "TK_IDENTIFIER";
-        case TK_INTEGER_IDENTIFIER:
-            return "TK_INTEGER_IDENTIFIER";
-        case TK_REAL_IDENTIFIER:
-            return "TK_REAL_IDENTIFIER";
-        case TK_INTEGER:
-            return "TK_INTEGER";
-        case TK_REAL:
-            return "TK_REAL";
-        case TK_ASSIGNMENT:
-            return "TK_ASSIGNMENT";
-        case TK_ADDITION:
-            return "TK_ADDITION";
-        case TK_SUBTRACTION:
-            return "TK_SUBTRACTION";
-        case TK_DIVISION:
-            return "TK_DIVISION";
-        case TK_MULTIPLICATION:
-            return "TK_MULTIPLICATION";
-        case TK_OPEN_PAREN:
-            return "TK_OPEN_PAREN";
-        case TK_CLOSE_PAREN:
-            return "TK_CLOSE_PAREN";
-        case TK_NEW_LINE:
-            return "TK_NEW_LINE";
-        default:
-            return "UNKNOWN_TOKEN";
+        case DECLARE:
+            return "DECLARE";
+        case IDENTIFIER:
+            return "IDENTIFIER";
+        case INTEGER_IDENTIFIER:
+            return "INTEGER_IDENTIFIER";
+        case REAL_IDENTIFIER:
+            return "REAL_IDENTIFIER";
+        case INTEGER:
+            return "INTEGER";
+        case REAL:
+            return "REAL";
+        case ASSIGNMENT:
+            return "ASSIGNMENT";
+        case ADDITION:
+            return "ADDITION";
+        case SUBTRACTION:
+            return "SUBTRACTION";
+        case DIVISION:
+            return "DIVISION";
+        case MULTIPLICATION:
+            return "MULTIPLICATION";
+        case OPEN_PAREN:
+            return "OPEN_PAREN";
+        case CLOSE_PAREN:
+            return "CLOSE_PAREN";
+        case NEW_LINE:
+            return "NEW_LINE";
+        case COLON:
+            return "COLON"
     }
 }
 
