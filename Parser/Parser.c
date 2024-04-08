@@ -3,10 +3,12 @@
 //
 
 #include "../common/List.h"
+#include "../common/tokenTypeToString.h"
 #include "Parser.h"
 #include "ASTNode.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 
 int findClosingParen(int openParenIndex, struct List* tokens, int endIndex){
     int depth = 1;
@@ -56,7 +58,6 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                     bestOperationIndex = i;
                     operationLevel = 2;
                 }
-                continue;
 
             case ADDITION:
             case SUBTRACTION:
@@ -64,12 +65,10 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                     bestOperationIndex = i;
                     operationLevel = 1;
                 }
-                continue;
 
             default:
-                continue;
+                i++;
         };
-        i++;
     };
 
 
@@ -87,11 +86,7 @@ struct List* parse(struct List* tokens){
     int end = 0;
 
     while (end < tokens->head){
-        // Moving to the next line of code.
-        end += 2; // Skipping over the previous NEW_LINE.
-        start = end;
-
-        while (end < tokens->head && tokens->array[end].tokenValue.type != NEW_LINE){
+        while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE){
             end++;
         }
         // If this line is empty. i.e. two new lines next to each other or a newline then EOF.
@@ -112,5 +107,60 @@ struct List* parse(struct List* tokens){
         }
 
         listAppend(ASTList, (union listValue)newNode);
+
+        // Moving to the next line of code.
+        end += 2; // Skipping over the previous NEW_LINE.
+        start = end;
+
+    }
+    return ASTList;
+};
+
+void printASTList(struct List* AST){
+    for (int i=0; i<AST->head; i++){
+        switch (AST->array[i].astNodeValue.type) {
+            case DECLARE:
+                printf("DECLARE: {identifier: %s, type: %s}\n", AST->array[i].astNodeValue.value.declare.identifier,
+                       tokenTypeToString(AST->array->astNodeValue.value.declare.type));
+                continue;
+            case ASSIGNMENT:
+                printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier);
+                printExpression(AST->array[i].astNodeValue.value.assignment.value);
+                printf("}\n");
+                continue;
+        }
+    }
+}
+
+void printExpression(struct Expression* expression){
+    switch (expression->type) {
+        case ADDITION:
+            printExpression(expression->right);
+            printf("+");
+            printExpression(expression->left);
+            return;
+
+        case SUBTRACTION:
+            printExpression(expression->right);
+            printf("-");
+            printExpression(expression->left);
+            return;
+
+
+        case DIVISION:
+            printExpression(expression->right);
+            printf("/");
+            printExpression(expression->left);
+            return;
+
+
+        case MULTIPLICATION:
+            printExpression(expression->right);
+            printf("*");
+            printExpression(expression->left);
+            return;
+
+        default:
+            printf("%s", expression->lexeme);
     }
 };

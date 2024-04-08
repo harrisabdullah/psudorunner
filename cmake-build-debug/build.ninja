@@ -36,7 +36,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /Users/harrisabdullah/CLionProjects/poop/cmake-build-debug/
+cmake_ninja_workdir = /Users/harrisabdullah/CLionProjects/interp/cmake-build-debug/
 # =============================================================================
 # Object build statements for EXECUTABLE target psudo_interprator_2
 
@@ -46,29 +46,35 @@ cmake_ninja_workdir = /Users/harrisabdullah/CLionProjects/poop/cmake-build-debug
 
 build cmake_object_order_depends_target_psudo_interprator_2: phony || CMakeFiles/psudo_interprator_2.dir
 
-build CMakeFiles/psudo_interprator_2.dir/main.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/poop/main.c || cmake_object_order_depends_target_psudo_interprator_2
+build CMakeFiles/psudo_interprator_2.dir/main.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/main.c || cmake_object_order_depends_target_psudo_interprator_2
   DEP_FILE = CMakeFiles/psudo_interprator_2.dir/main.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -std=gnu99
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir
 
-build CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/poop/Tokenisation/Tokenizer.c || cmake_object_order_depends_target_psudo_interprator_2
+build CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/Tokenisation/Tokenizer.c || cmake_object_order_depends_target_psudo_interprator_2
   DEP_FILE = CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -std=gnu99
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/Tokenisation
 
-build CMakeFiles/psudo_interprator_2.dir/common/List.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/poop/common/List.c || cmake_object_order_depends_target_psudo_interprator_2
+build CMakeFiles/psudo_interprator_2.dir/common/List.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/common/List.c || cmake_object_order_depends_target_psudo_interprator_2
   DEP_FILE = CMakeFiles/psudo_interprator_2.dir/common/List.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -std=gnu99
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/common
 
-build CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/poop/Parser/Parser.c || cmake_object_order_depends_target_psudo_interprator_2
+build CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/Parser/Parser.c || cmake_object_order_depends_target_psudo_interprator_2
   DEP_FILE = CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0 -std=gnu99
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/Parser
+
+build CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/common/tokenTypeToString.c || cmake_object_order_depends_target_psudo_interprator_2
+  DEP_FILE = CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
+  OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/common
 
 
 # =============================================================================
@@ -78,8 +84,8 @@ build CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o: C_COMPILER__psudo_in
 #############################################
 # Link the executable psudo_interprator_2
 
-build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=14.0
+build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -91,7 +97,7 @@ build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeF
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/harrisabdullah/CLionProjects/poop/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /Users/harrisabdullah/CLionProjects/interp/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -102,7 +108,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /Users/harrisabdullah/CLionProjects/poop/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/harrisabdullah/CLionProjects/poop -B/Users/harrisabdullah/CLionProjects/poop/cmake-build-debug
+  COMMAND = cd /Users/harrisabdullah/CLionProjects/interp/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/harrisabdullah/CLionProjects/interp -B/Users/harrisabdullah/CLionProjects/interp/cmake-build-debug
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -118,7 +124,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 #############################################
-# Folder: /Users/harrisabdullah/CLionProjects/poop/cmake-build-debug
+# Folder: /Users/harrisabdullah/CLionProjects/interp/cmake-build-debug
 
 build all: phony psudo_interprator_2
 

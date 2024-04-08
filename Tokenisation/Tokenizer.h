@@ -20,7 +20,6 @@ int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, stru
 struct List* tokenize(char* code, int codeLen);
 
 // debug functions
-const char* tokenTypeToString(enum TokenType token);
 void printToken(struct Token token);
 void printTokenList(struct List* tokens);
 

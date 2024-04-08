@@ -23,10 +23,7 @@ struct List* listInit(enum listValueType type){
     newList->head = 0;
     newList->length = ARRAY_SIZE;
 
-    switch (type) {
-        case TOKEN:
-            newList->array = malloc(sizeof(union listValue) * ARRAY_SIZE);
-    }
+    newList->array = malloc(sizeof(union listValue) * ARRAY_SIZE);
 
     return newList;
 }

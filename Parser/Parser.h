@@ -8,4 +8,7 @@
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
 struct List* parse(struct List* tokens);
 
+// debug functions
+void printASTList(struct List* AST);
+void printExpression(struct Expression* expression);
 #endif //PSUDO_INTERPRATOR_2_PARSER_H

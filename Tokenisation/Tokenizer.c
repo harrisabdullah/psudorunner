@@ -4,6 +4,7 @@
 
 #include "Token.h"
 #include "../common/List.h"
+#include "../common/tokenTypeToString.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -47,46 +48,52 @@ int tokenizeOneChar(char Char, struct List* tokens) {
         previousToken = listGetLastItem(tokens);
     }
 
+    // type of declare is a stand in for NULL as it is impossible for declare to be one character.
+    struct Token new_token = {.type=DECLARE, .lexeme=""};
+
     switch (Char) {
         case '+':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = ADDITION, .lexeme = ""}});
-            return 1;
+            new_token.type = ADDITION;
+            break;
 
         case '-':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = SUBTRACTION, .lexeme = ""}});
-            return 1;
+            new_token.type = SUBTRACTION;
+            break;
 
         case '/':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = DIVISION, .lexeme = ""}});
-            return 1;
+            new_token.type = DIVISION;
+            break;
 
         case '*':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = MULTIPLICATION, .lexeme = ""}});
-            return 1;
+            new_token.type = MULTIPLICATION;
+            break;
 
         case '(':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = OPEN_PAREN, .lexeme = ""}});
-            return 1;
+            new_token.type = OPEN_PAREN;
+            break;
 
         case ')':
-            listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = CLOSE_PAREN, .lexeme = ""}});
-            return 1;
+            new_token.type = CLOSE_PAREN;
+            break;
 
         case ':':
-             listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = COLON, .lexeme = ""}});
+            new_token.type = COLON;
+            break;
 
         case '\n':
             if (previousToken != NULL) {
                 struct Token* prevToken = &previousToken->tokenValue;
                 if (prevToken->type != NEW_LINE) {
-                    listAppend(tokens, (union listValue){.tokenValue = (struct Token){.type = NEW_LINE, .lexeme = ""}});
-                    return 1;
+                    new_token.type = NEW_LINE;
+                    break;
                 }
             }
 
         default:
             return 0;
     }
+    listAppend(tokens, (union listValue) new_token);
+    return 1;
 }
 
 /**
@@ -271,40 +278,6 @@ struct List* tokenize(char* code, int codeLen) {
  *
  * @return A string representing the TokenType, or "UNKNOWN_TOKEN" if the TokenType is not recognized.
  */
-const char* tokenTypeToString(enum TokenType token) {
-    switch (token) {
-        case DECLARE:
-            return "DECLARE";
-        case IDENTIFIER:
-            return "IDENTIFIER";
-        case INTEGER_IDENTIFIER:
-            return "INTEGER_IDENTIFIER";
-        case REAL_IDENTIFIER:
-            return "REAL_IDENTIFIER";
-        case INTEGER:
-            return "INTEGER";
-        case REAL:
-            return "REAL";
-        case ASSIGNMENT:
-            return "ASSIGNMENT";
-        case ADDITION:
-            return "ADDITION";
-        case SUBTRACTION:
-            return "SUBTRACTION";
-        case DIVISION:
-            return "DIVISION";
-        case MULTIPLICATION:
-            return "MULTIPLICATION";
-        case OPEN_PAREN:
-            return "OPEN_PAREN";
-        case CLOSE_PAREN:
-            return "CLOSE_PAREN";
-        case NEW_LINE:
-            return "NEW_LINE";
-        case COLON:
-            return "COLON"
-    }
-}
 
 /**
  * Print the content of a Token structure including the Type and Lexeme.
