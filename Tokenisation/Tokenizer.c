@@ -97,14 +97,14 @@ int tokenizeOneChar(char Char, struct List* tokens) {
 }
 
 /**
-Extracts and tokenizes keywords from the given code snippet.
+extracts and tokenizes keywords from the given code snippet.
 *
-* @param code The input code snippet to be processed.
-* @param currentCodeIndex The current index in the code snippet for processing.
-* @param codeLen The length of the code snippet.
-* @param tokens Pointer to the TokenList structure where tokens will be stored.
+* @param code the input code snippet to be processed.
+* @param currentcodeindex the current index in the code snippet for processing.
+* @param codelen the length of the code snippet.
+* @param tokens pointer to the tokenlist structure where tokens will be stored.
 *
-* @return The number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
+* @return the number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
     if (isKeyword("DECLARE", 7, code, currentCodeIndex, codeLen)) {

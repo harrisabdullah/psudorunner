@@ -9,7 +9,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+/**
+* Finds the index of the closing parenthesis that corresponds to the given opening parenthesis index.
+*
+* @param openParenIndex The index of the opening parenthesis.
+* @param tokens The list of tokens.
+* @param endIndex The index of the last token to consider.
+*
+* @return The index of the closing parenthesis, or 0 if not found.
+*/
 int findClosingParen(int openParenIndex, struct List* tokens, int endIndex){
     int depth = 1;
     for (int i=openParenIndex+1; i<=endIndex; i++) {
@@ -26,11 +34,20 @@ int findClosingParen(int openParenIndex, struct List* tokens, int endIndex){
     return 0;
 }
 
+/**
+* Parses an expression from a list of tokens.
+*
+* @param tokens The list of tokens.
+* @param startIndex The index of the first token in the expression.
+* @param endIndex The index of the last token in the expression.
+*
+* @return A pointer to the parsed expression.
+*/
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex) {
     if (tokens->array[startIndex].tokenValue.type == OPEN_PAREN &&
         tokens->array[endIndex].tokenValue.type == CLOSE_PAREN) {
         startIndex++;
-        endIndex++;
+        endIndex--;
     }
 
     if (startIndex == endIndex){
@@ -52,15 +69,16 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         }
 
         switch (tokens->array[i].tokenValue.type) {
-            case DIVISION:
-            case MULTIPLICATION:
+
+            case ADDITION:
+            case SUBTRACTION:
                 if (operationLevel < 2){
                     bestOperationIndex = i;
                     operationLevel = 2;
                 }
 
-            case ADDITION:
-            case SUBTRACTION:
+            case DIVISION:
+            case MULTIPLICATION:
                 if (operationLevel < 1){
                     bestOperationIndex = i;
                     operationLevel = 1;
@@ -79,6 +97,13 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
     return returnValue;
 };
 
+/**
+* Parses a list of tokens into an abstract syntax tree (AST).
+*
+* @param tokens The list of tokens.
+*
+* @return The AST as a list of ASTNodes.
+*/
 struct List* parse(struct List* tokens){
     struct List* ASTList = listInit(ASTNode);
     // Two indexes that form an inclusive range representing the currant line of code.
@@ -116,6 +141,11 @@ struct List* parse(struct List* tokens){
     return ASTList;
 };
 
+/**
+* Prints the given AST list.
+*
+* @param AST The AST list to print.
+*/
 void printASTList(struct List* AST){
     for (int i=0; i<AST->head; i++){
         switch (AST->array[i].astNodeValue.type) {
@@ -132,35 +162,38 @@ void printASTList(struct List* AST){
     }
 }
 
+/**
+* Prints the given expression.
+*
+* @param expression The expression to print.
+*/
 void printExpression(struct Expression* expression){
+    if (expression->type == INTEGER || expression->type == REAL || expression->type == IDENTIFIER) {
+        printf("%s", expression->lexeme);
+        return;
+    }
+
+    printf("(");
+    printExpression(expression->right);
+
     switch (expression->type) {
         case ADDITION:
-            printExpression(expression->right);
             printf("+");
-            printExpression(expression->left);
-            return;
-
+            break;
         case SUBTRACTION:
-            printExpression(expression->right);
             printf("-");
-            printExpression(expression->left);
-            return;
-
-
+            break;
         case DIVISION:
-            printExpression(expression->right);
             printf("/");
-            printExpression(expression->left);
-            return;
-
-
+            break;
         case MULTIPLICATION:
-            printExpression(expression->right);
             printf("*");
-            printExpression(expression->left);
-            return;
-
+            break;
         default:
-            printf("%s", expression->lexeme);
+            // Handle unknown expression type
+            break;
     }
+
+    printExpression(expression->left);
+    printf(")");
 };
