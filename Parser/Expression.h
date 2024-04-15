@@ -8,6 +8,7 @@
 
 struct Expression {
     enum TokenType type;
+    int isConstant;
     struct Expression* left;
     struct Expression* right;
     char* lexeme;

@@ -9,16 +9,19 @@
 
 #include "../Tokenisation/Token.h"
 #include "../Parser/ASTNode.h"
+#include "../ExecutionEngine/Variable.h"
 #include <stdio.h>
 
 enum listValueType {
     TOKEN,
-    ASTNode
+    ASTNode,
+    Variable
 };
 
 union listValue {
     struct Token tokenValue;
     struct ASTNode astNodeValue;
+    struct Variable variable;
 };
 
 struct List {

@@ -46,5 +46,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "NEW_LINE";
         case COLON:
             return "COLON";
+        case OUTPUT:
+            return "OUTPUT";
     }
 }

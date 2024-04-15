@@ -107,6 +107,17 @@ extracts and tokenizes keywords from the given code snippet.
 * @return the number of characters consumed to tokenize the keyword, or -1 if no keyword is found.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
+
+    if (isKeyword("OUTPUT", 6, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = OUTPUT,
+                        .lexeme = ""
+                }
+        });
+        return 6;
+    }
+
     if (isKeyword("DECLARE", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
@@ -268,16 +279,6 @@ struct List* tokenize(char* code, int codeLen) {
 
     return tokens;
 }
-
-
-// debug function
-/**
- * Converts a TokenType enum value to its corresponding string representation.
- *
- * @param token The TokenType enum value to be converted.
- *
- * @return A string representing the TokenType, or "UNKNOWN_TOKEN" if the TokenType is not recognized.
- */
 
 /**
  * Print the content of a Token structure including the Type and Lexeme.

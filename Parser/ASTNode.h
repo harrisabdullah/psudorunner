@@ -13,6 +13,10 @@ struct ASTDeclare {
     enum TokenType type;
 };
 
+struct ASTOutput {
+    struct Expression* value;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -21,6 +25,7 @@ struct ASTAssignment {
 union ASTNodeValue {
     struct ASTDeclare declare;
     struct ASTAssignment assignment;
+    struct ASTOutput output;
 };
 
 struct ASTNode {

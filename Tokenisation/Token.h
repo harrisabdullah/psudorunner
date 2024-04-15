@@ -6,6 +6,7 @@
 #define PSUDO_INTERPRATOR_2_TOKEN_H
 
 enum TokenType {
+    NULL_TYPE = -1,
     DECLARE, // DECLARE statement e.g. "DECLARE i: INTEGER"
     IDENTIFIER, // names of function or variables e.g. `i`
     INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
@@ -21,6 +22,7 @@ enum TokenType {
     CLOSE_PAREN, // close parenthesis
     COLON, // colon
     NEW_LINE, // used to terminate statements e.g. the semicolon in c
+    OUTPUT, // its basically print
 };
 
 struct Token {

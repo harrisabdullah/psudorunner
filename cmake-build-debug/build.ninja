@@ -76,6 +76,24 @@ build CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o: C_COMPILE
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/common
 
+build CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/ExecutionEngine.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/ExecutionEngine/ExecutionEngine.c || cmake_object_order_depends_target_psudo_interprator_2
+  DEP_FILE = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/ExecutionEngine.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
+  OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine
+
+build CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Namespace.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/ExecutionEngine/Namespace.c || cmake_object_order_depends_target_psudo_interprator_2
+  DEP_FILE = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Namespace.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
+  OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine
+
+build CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Resolver.c.o: C_COMPILER__psudo_interprator_2_Debug /Users/harrisabdullah/CLionProjects/interp/ExecutionEngine/Resolver.c || cmake_object_order_depends_target_psudo_interprator_2
+  DEP_FILE = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Resolver.c.o.d
+  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0 -std=gnu99
+  OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
+  OBJECT_FILE_DIR = CMakeFiles/psudo_interprator_2.dir/ExecutionEngine
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target psudo_interprator_2
@@ -84,7 +102,7 @@ build CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o: C_COMPILE
 #############################################
 # Link the executable psudo_interprator_2
 
-build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o
+build psudo_interprator_2: C_EXECUTABLE_LINKER__psudo_interprator_2_Debug CMakeFiles/psudo_interprator_2.dir/main.c.o CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o CMakeFiles/psudo_interprator_2.dir/common/List.c.o CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/ExecutionEngine.c.o CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Namespace.c.o CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Resolver.c.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk -mmacosx-version-min=14.0
   OBJECT_DIR = CMakeFiles/psudo_interprator_2.dir
   POST_BUILD = :

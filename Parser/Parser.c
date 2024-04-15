@@ -54,6 +54,7 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
         returnValue->type = tokens->array[startIndex].tokenValue.type;
         returnValue->lexeme = tokens->array[startIndex].tokenValue.lexeme;
+        returnValue->isConstant = 1;
         return returnValue;
     }
 
@@ -94,6 +95,7 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
     returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex-1);
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex);
     returnValue->type = tokens->array[bestOperationIndex].tokenValue.type;
+    returnValue->isConstant = 0;
     return returnValue;
 };
 
@@ -130,6 +132,10 @@ struct List* parse(struct List* tokens){
             newNode.value.assignment = (struct ASTAssignment){.identifier = tokens->array[start].tokenValue.lexeme,
                                                                 .value = parseExpression(tokens, start+2, end)};
         }
+        else if (tokens->array[start].tokenValue.type == OUTPUT) {
+            newNode.type = OUTPUT;
+            newNode.value.output = (struct ASTOutput){.value = parseExpression(tokens, start+1, end)};
+        }
 
         listAppend(ASTList, (union listValue)newNode);
 
@@ -154,10 +160,15 @@ void printASTList(struct List* AST){
                        tokenTypeToString(AST->array->astNodeValue.value.declare.type));
                 continue;
             case ASSIGNMENT:
+                printf("%s\n", AST->array[i].astNodeValue.value.assignment.value->lexeme);
                 printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier);
                 printExpression(AST->array[i].astNodeValue.value.assignment.value);
                 printf("}\n");
                 continue;
+            case OUTPUT:
+                printf("OUTPUT: {value: ");
+                printExpression(AST->array[i].astNodeValue.value.output.value);
+                printf("}\n");
         }
     }
 }
@@ -168,7 +179,7 @@ void printASTList(struct List* AST){
 * @param expression The expression to print.
 */
 void printExpression(struct Expression* expression){
-    if (expression->type == INTEGER || expression->type == REAL || expression->type == IDENTIFIER) {
+    if (expression->isConstant) {
         printf("%s", expression->lexeme);
         return;
     }
