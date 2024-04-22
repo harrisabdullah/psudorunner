@@ -96,6 +96,10 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
         case MULTIPLICATION:
             result->data.real = leftValue * rightValue;
             break;
+
+        case EQUALS:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) == (float)(rightValue);
     }
     return result;
 }

@@ -4,7 +4,7 @@
 #include "ExecutionEngine/ExecutionEngine.h"
 
 int main() {
-    struct List* tokens = tokenize("DECLARE i: BOOLEAN\ni <- TRUE\nOUTPUT i", 37);
+    struct List* tokens = tokenize("OUTPUT 1 = 2", 12);
     // printTokenList(tokens);
     struct List* ast = parse(tokens);
     // printASTList(ast);

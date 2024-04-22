@@ -80,6 +80,10 @@ int tokenizeOneChar(char Char, struct List* tokens) {
             new_token.type = COLON;
             break;
 
+        case '=':
+            new_token.type = EQUALS;
+            break;
+
         case '\n':
             if (previousToken != NULL) {
                 struct Token* prevToken = &previousToken->tokenValue;

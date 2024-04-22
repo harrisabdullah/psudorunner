@@ -73,13 +73,19 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
             case ADDITION:
             case SUBTRACTION:
+                if (operationLevel < 3){
+                    bestOperationIndex = i;
+                    operationLevel = 3;
+                }
+
+            case DIVISION:
+            case MULTIPLICATION:
                 if (operationLevel < 2){
                     bestOperationIndex = i;
                     operationLevel = 2;
                 }
 
-            case DIVISION:
-            case MULTIPLICATION:
+            case EQUALS:
                 if (operationLevel < 1){
                     bestOperationIndex = i;
                     operationLevel = 1;
@@ -200,6 +206,8 @@ void printExpression(struct Expression* expression){
         case MULTIPLICATION:
             printf("*");
             break;
+        case EQUALS:
+            printf("=");
         default:
             // Handle unknown expression type
             break;

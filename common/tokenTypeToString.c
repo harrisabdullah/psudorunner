@@ -50,5 +50,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "OUTPUT";
         case BOOLEAN:
             return "BOOLEAN";
+        case EQUALS:
+            return "EQUALS";
     }
 }

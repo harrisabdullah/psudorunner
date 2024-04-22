@@ -19,6 +19,7 @@ enum TokenType {
     SUBTRACTION, // the subtraction operator e.g. "2-1"
     DIVISION, // the division operator e.g. "4/2"
     MULTIPLICATION, // the multiplication operator e.g. "3*3"
+    EQUALS,
     OPEN_PAREN, // open parenthesis
     CLOSE_PAREN, // close parenthesis
     COLON, // colon
