@@ -108,6 +108,36 @@ extracts and tokenizes keywords from the given code snippet.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
 
+    if (isKeyword("TRUE", 4, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = BOOLEAN,
+                        .lexeme = "TRUE"
+                }
+        });
+        return 4;
+    }
+
+    if (isKeyword("FALSE", 5, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = BOOLEAN,
+                        .lexeme = "FALSE"
+                }
+        });
+        return 5;
+    }
+
+    if (isKeyword("BOOLEAN", 7, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = BOOLEAN,
+                        .lexeme = ""
+                }
+        });
+        return 7;
+    }
+
     if (isKeyword("OUTPUT", 6, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

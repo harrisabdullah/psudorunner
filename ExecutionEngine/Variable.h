@@ -8,6 +8,7 @@
 union VariableData {
     int integer;
     float real;
+    int boolean;
 };
 
 struct VariableValue {

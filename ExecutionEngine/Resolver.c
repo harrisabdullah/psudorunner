@@ -38,6 +38,8 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
         case INTEGER:
             result->data.integer = atoi(data);
             break;
+        case BOOLEAN:
+            result->data.boolean = strcmp(data, "TRUE") == 0? 1:0;
     }
 
     return result;

@@ -11,8 +11,9 @@ enum TokenType {
     IDENTIFIER, // names of function or variables e.g. `i`
     INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
     REAL_IDENTIFIER, // the real type
-    INTEGER, // integer values e.g. "1", "23", "-444"
-    REAL, // real values e.g. "1.1", "-23.0", "22.22"
+    INTEGER, // declaring integer values
+    REAL, // declaring real values
+    BOOLEAN, // declaring boolean values
     ASSIGNMENT, // the assignment operator e.g. the "<-" in "i <- 5"
     ADDITION, // the addition operator e.g. "1+1"
     SUBTRACTION, // the subtraction operator e.g. "2-1"

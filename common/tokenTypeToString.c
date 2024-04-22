@@ -48,5 +48,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "COLON";
         case OUTPUT:
             return "OUTPUT";
+        case BOOLEAN:
+            return "BOOLEAN";
     }
 }

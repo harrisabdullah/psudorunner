@@ -38,6 +38,9 @@ void executeAST(struct List* ASTList){
                 else if (temp->type == REAL){
                     printf("%f\n", temp->data.real);
                 }
+                else if (temp->type == BOOLEAN){
+                    printf("%s\n", temp->data.boolean? "TRUE":"FALSE");
+                }
                 break;
         }
     }
