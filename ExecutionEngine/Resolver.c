@@ -62,6 +62,12 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
     float leftValue = left->type == REAL? left->data.real:left->data.integer;
     float rightValue = right->type == REAL? right->data.real:right->data.integer;
 
+    if (expression->type == DIVISION){
+      result->type = REAL;
+      result->data.real = leftValue / rightValue;
+        return result;
+    };
+
     if (left->type == REAL || right->type == REAL){
         result->type = REAL;
     } else {
@@ -86,19 +92,7 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
             break;
 
         case MULTIPLICATION:
-            if (result->type == REAL){
-                result->data.real = leftValue * rightValue;
-                break;
-            }
-            result->data.integer = (int)(leftValue * rightValue);
-            break;
-
-        case DIVISION:
-            if (result->type == REAL){
-                result->data.real = leftValue / rightValue;
-                break;
-            }
-            result->data.integer = (int)(leftValue / rightValue);
+            result->data.real = leftValue * rightValue;
             break;
     }
     return result;
