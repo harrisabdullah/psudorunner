@@ -112,18 +112,19 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 *
 * @return The AST as a list of ASTNodes.
 */
-struct List* parse(struct List* tokens){
+struct List* parse(struct List* tokens, int start_index, int end_index){
     struct List* ASTList = listInit(ASTNode);
     // Two indexes that form an inclusive range representing the currant line of code.
-    int start = 0;
-    int end = 0;
-
-    while (end < tokens->head){
-        while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE){
+    int start = start_index == -1? 0:start_index;
+    int end = start_index == -1? 0:start_index;
+    int lengh = end_index == -1? tokens->head:end_index;
+    while (end < lengh){
+        while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE && end < lengh){
             end++;
         }
         // If this line is empty. i.e. two new lines next to each other or a newline then EOF.
         if (start == end){
+            end += 2;
             continue;
         }
 
@@ -143,6 +144,17 @@ struct List* parse(struct List* tokens){
             newNode.value.output = (struct ASTOutput){.value = parseExpression(tokens, start+1, end)};
         }
 
+        else if (tokens->array[start].tokenValue.type == IF){
+            int i = end+2;
+            while (i<lengh && tokens->array[i].tokenValue.type != ENDIF){
+                i++;
+            };
+
+            newNode.type = IF;
+            newNode.value.If = (struct ASTif){.test=parseExpression(tokens, start+1, end-1),
+                                                .content=parse(tokens, end+2, i)};
+            end = i;
+        }
         listAppend(ASTList, (union listValue)newNode);
 
         // Moving to the next line of code.
@@ -166,7 +178,6 @@ void printASTList(struct List* AST){
                        tokenTypeToString(AST->array->astNodeValue.value.declare.type));
                 continue;
             case ASSIGNMENT:
-                printf("%s\n", AST->array[i].astNodeValue.value.assignment.value->lexeme);
                 printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier);
                 printExpression(AST->array[i].astNodeValue.value.assignment.value);
                 printf("}\n");
@@ -175,6 +186,14 @@ void printASTList(struct List* AST){
                 printf("OUTPUT: {value: ");
                 printExpression(AST->array[i].astNodeValue.value.output.value);
                 printf("}\n");
+                continue;
+            case IF:
+                printf("IF: {test: ");
+                printExpression(AST->array[i].astNodeValue.value.If.test);
+                printf(", code: ");
+                printASTList(AST->array[i].astNodeValue.value.If.content);
+                printf("}\n");
+                continue;
         }
     }
 }

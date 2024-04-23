@@ -112,6 +112,36 @@ extracts and tokenizes keywords from the given code snippet.
 */
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
 
+    if (isKeyword("THEN", 4, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = THEN,
+                        .lexeme = ""
+                }
+        });
+        return 4;
+    }
+
+    if (isKeyword("IF", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = IF,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+    if (isKeyword("ENDIF", 5, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = ENDIF,
+                        .lexeme = ""
+                }
+        });
+        return 5;
+    }
+
     if (isKeyword("TRUE", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

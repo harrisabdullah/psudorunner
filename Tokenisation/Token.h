@@ -25,6 +25,9 @@ enum TokenType {
     COLON, // colon
     NEW_LINE, // used to terminate statements e.g. the semicolon in c
     OUTPUT, // its basically print
+    IF,
+    THEN,
+    ENDIF,
 };
 
 struct Token {

@@ -14,8 +14,7 @@
  *
  * @return: None
  */
-void executeAST(struct List* ASTList){
-    struct List* namespace = namespaceInit();
+struct List* executeAST(struct List* ASTList, struct List* namespace){
     struct VariableValue* temp;
     for (int i=0; i<ASTList->head; i++){
         switch (ASTList->array[i].astNodeValue.type) {
@@ -42,6 +41,12 @@ void executeAST(struct List* ASTList){
                     printf("%s\n", temp->data.boolean? "TRUE":"FALSE");
                 }
                 break;
-        }
+
+            case IF:
+                temp = resolveExpression(namespace, ASTList->array[i].astNodeValue.value.If.test);
+                if (temp->data.boolean){
+                    namespace = executeAST(ASTList->array[i].astNodeValue.value.If.content, namespace);
+                }
+      ;  }
     }
 }

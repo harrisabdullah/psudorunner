@@ -17,6 +17,11 @@ struct ASTOutput {
     struct Expression* value;
 };
 
+struct ASTif {
+    struct Expression* test;
+    struct List* content;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -26,6 +31,7 @@ union ASTNodeValue {
     struct ASTDeclare declare;
     struct ASTAssignment assignment;
     struct ASTOutput output;
+    struct ASTif If;
 };
 
 struct ASTNode {

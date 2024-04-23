@@ -6,7 +6,6 @@
 #define PSUDO_INTERPRATOR_2_EXECUTIONENGINE_H
 #include "../common/List.h"
 
-void executeAST(struct List* ASTList);
-
+struct List* executeAST(struct List* ASTList, struct List* namespace);
 
 #endif //PSUDO_INTERPRATOR_2_EXECUTIONENGINE_H
