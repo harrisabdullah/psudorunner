@@ -57,6 +57,14 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
     if (expression->isConstant){
         return stringToVariableValue(expression->type, expression->lexeme, namespace);
     }
+
+    if (expression->type == NOT){
+        struct VariableValue* result = malloc(sizeof(struct VariableValue));
+        result->type = BOOLEAN;
+        result->data.boolean = !resolveExpression(namespace, expression->right);
+        return result;
+    }
+
     struct VariableValue* left = resolveExpression(namespace, expression->left);
     struct VariableValue* right = resolveExpression(namespace, expression->right);
     struct VariableValue* result = malloc(sizeof(struct VariableValue));
@@ -94,12 +102,47 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
             break;
 
         case MULTIPLICATION:
-            result->data.real = leftValue * rightValue;
+            if (result->type == REAL){
+                result->data.real = leftValue * rightValue;
+                break;
+            }
+            result->data.integer = (int)(leftValue * rightValue);
             break;
 
         case EQUALS:
             result->type = BOOLEAN;
             result->data.boolean = (float)(leftValue) == (float)(rightValue);
+            break;
+
+        case GREATER:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) > (float)(rightValue);
+            break;
+
+        case GREATER_OR_EQUALS:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) >= (float)(rightValue);
+            break;
+
+        case LESSER:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) < (float)(rightValue);
+            break;
+
+        case LESSER_OR_EQUALS:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) <= (float)(rightValue);
+            break;
+
+        case AND:
+            result->type = BOOLEAN;
+            result->data.boolean = left->data.boolean && right->data.boolean;
+            break;
+
+        case OR:
+            result->type = BOOLEAN;
+            result->data.boolean = left->data.boolean || right->data.boolean;
+            break;
     }
     return result;
 }

@@ -60,6 +60,7 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
     int i = startIndex;
     int bestOperationIndex = -1;
+    int is_not = 0;
     int operationLevel = 0; // the importance of the operation, 0 means NULL,
     // 1 means addition or subtraction
     // and 2 means division or multiplication
@@ -71,26 +72,41 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
         switch (tokens->array[i].tokenValue.type) {
 
-            case ADDITION:
-            case SUBTRACTION:
+            case AND:
+            case OR:
+                if (operationLevel < 4){
+                    bestOperationIndex = i;
+                    operationLevel = 4;
+                }
+            case NOT:
+                if (operationLevel < 5){
+                    bestOperationIndex = i;
+                    operationLevel = 5;
+                    is_not = 1;
+                }
+
+            case EQUALS:
+            case GREATER:
+            case LESSER:
+            case GREATER_OR_EQUALS:
+            case LESSER_OR_EQUALS:
                 if (operationLevel < 3){
                     bestOperationIndex = i;
                     operationLevel = 3;
                 }
-
-            case DIVISION:
-            case MULTIPLICATION:
+            case ADDITION:
+            case SUBTRACTION:
                 if (operationLevel < 2){
                     bestOperationIndex = i;
                     operationLevel = 2;
                 }
 
-            case EQUALS:
+            case DIVISION:
+            case MULTIPLICATION:
                 if (operationLevel < 1){
                     bestOperationIndex = i;
                     operationLevel = 1;
                 }
-
             default:
                 i++;
         };
@@ -98,10 +114,17 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
 
     struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
-    returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex-1);
+
+    returnValue->left = NULL;
+    if (!is_not) {
+        returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex - 1);
+    }
+
+
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex);
     returnValue->type = tokens->array[bestOperationIndex].tokenValue.type;
     returnValue->isConstant = 0;
+    printf("%i\n", returnValue == NULL);
     return returnValue;
 };
 
@@ -210,6 +233,13 @@ void printExpression(struct Expression* expression){
     }
 
     printf("(");
+    if (expression->type == NOT){
+        printf("NOT ");
+        printExpression(expression->right);
+        printf(")");
+        return;
+    }
+
     printExpression(expression->right);
 
     switch (expression->type) {
@@ -227,6 +257,26 @@ void printExpression(struct Expression* expression){
             break;
         case EQUALS:
             printf("=");
+            break;
+        case GREATER:
+            printf(">");
+            break;
+        case LESSER:
+            printf("<");
+            break;
+        case LESSER_OR_EQUALS:
+            printf("<=");
+            break;
+        case GREATER_OR_EQUALS:
+            printf(">=");
+            break;
+        case AND:
+            printf(" AND ");
+            break;
+        case OR:
+            printf(" OR ");
+            break;
+
         default:
             // Handle unknown expression type
             break;

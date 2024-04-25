@@ -84,6 +84,14 @@ int tokenizeOneChar(char Char, struct List* tokens) {
             new_token.type = EQUALS;
             break;
 
+        case '<':
+            new_token.type = LESSER;
+            break;
+
+        case '>':
+            new_token.type = GREATER;
+            break;
+
         case '\n':
             if (previousToken != NULL) {
                 struct Token* prevToken = &previousToken->tokenValue;
@@ -222,6 +230,66 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 2;
     }
 
+    if (isKeyword("<-", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = ASSIGNMENT,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+    if (isKeyword("<=", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = LESSER_OR_EQUALS,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+    if (isKeyword(">=", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = GREATER_OR_EQUALS,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+    if (isKeyword("OR", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = OR,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+    if (isKeyword("AND", 3, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = AND,
+                        .lexeme = ""
+                }
+        });
+        return 3;
+    }
+
+    if (isKeyword("NOT", 3, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = NOT,
+                        .lexeme = ""
+                }
+        });
+        return 3;
+    }
+
     return -1;
 }
 /**
@@ -318,13 +386,13 @@ struct List* tokenize(char* code, int codeLen) {
     struct List* tokens = listInit(TOKEN);
 
     for (int i = 0; i < codeLen; i++) {
-        if (tokenizeOneChar(code[i], tokens)) {
-            continue;
-        }
-
         int keywordLen = tokenizeKeywords(code, i, codeLen, tokens);
         if (keywordLen != -1) {
             i += keywordLen - 1;
+            continue;
+        }
+
+        if (tokenizeOneChar(code[i], tokens)) {
             continue;
         }
 

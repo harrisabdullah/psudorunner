@@ -49,4 +49,5 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 }
       ;  }
     }
+    return namespace;
 }

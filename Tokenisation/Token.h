@@ -20,6 +20,13 @@ enum TokenType {
     DIVISION, // the division operator e.g. "4/2"
     MULTIPLICATION, // the multiplication operator e.g. "3*3"
     EQUALS,
+    GREATER,
+    LESSER,
+    GREATER_OR_EQUALS,
+    LESSER_OR_EQUALS,
+    AND,
+    OR,
+    NOT,
     OPEN_PAREN, // open parenthesis
     CLOSE_PAREN, // close parenthesis
     COLON, // colon

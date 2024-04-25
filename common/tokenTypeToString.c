@@ -58,5 +58,19 @@ const char* tokenTypeToString(enum TokenType token) {
             return "ENDIF";
         case THEN:
             return "THEN";
+        case GREATER:
+            return "GREATER";
+        case LESSER:
+            return "LESSER";
+        case LESSER_OR_EQUALS:
+            return "LESSER_OR_EQUALS";
+        case GREATER_OR_EQUALS:
+            return "GREATER_OR_EQUALS";
+        case AND:
+            return "AND";
+        case NOT:
+            return "NOT";
+        case OR:
+            return "OR";
     }
 }
