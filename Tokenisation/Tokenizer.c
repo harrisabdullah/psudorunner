@@ -173,7 +173,7 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
     if (isKeyword("BOOLEAN", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = BOOLEAN,
+                        .type = BOOLEAN_IDENTIFIER,
                         .lexeme = ""
                 }
         });
@@ -203,7 +203,7 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
     if (isKeyword("INTEGER", 7, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = INTEGER,
+                        .type = INTEGER_IDENTIFIER,
                         .lexeme = ""
                 }
         });
@@ -213,7 +213,7 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
     if (isKeyword("REAL", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
-                        .type = REAL,
+                        .type = REAL_IDENTIFIER,
                         .lexeme = ""
                 }
         });

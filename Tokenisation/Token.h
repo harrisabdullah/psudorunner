@@ -11,6 +11,7 @@ enum TokenType {
     IDENTIFIER, // names of function or variables e.g. `i`
     INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
     REAL_IDENTIFIER, // the real type
+    BOOLEAN_IDENTIFIER,
     INTEGER, // declaring integer values
     REAL, // declaring real values
     BOOLEAN, // declaring boolean values

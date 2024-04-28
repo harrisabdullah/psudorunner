@@ -72,5 +72,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "NOT";
         case OR:
             return "OR";
+        case BOOLEAN_IDENTIFIER:
+            return "BOOLEAN_IDENTIFIER";
     }
 }
