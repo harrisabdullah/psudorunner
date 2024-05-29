@@ -86,6 +86,7 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                 }
 
             case EQUALS:
+            case NOT_EQUALS:
             case GREATER:
             case LESSER:
             case GREATER_OR_EQUALS:
@@ -253,47 +254,7 @@ void printExpression(struct Expression* expression){
     }
 
     printExpression(expression->right);
-
-    switch (expression->type) {
-        case ADDITION:
-            printf("+");
-            break;
-        case SUBTRACTION:
-            printf("-");
-            break;
-        case DIVISION:
-            printf("/");
-            break;
-        case MULTIPLICATION:
-            printf("*");
-            break;
-        case EQUALS:
-            printf("=");
-            break;
-        case GREATER:
-            printf(">");
-            break;
-        case LESSER:
-            printf("<");
-            break;
-        case LESSER_OR_EQUALS:
-            printf("<=");
-            break;
-        case GREATER_OR_EQUALS:
-            printf(">=");
-            break;
-        case AND:
-            printf(" AND ");
-            break;
-        case OR:
-            printf(" OR ");
-            break;
-
-        default:
-            // Handle unknown expression type
-            break;
-    }
-
+    printf("%s", tokenTypeToString(expression->type));
     printExpression(expression->left);
     printf(")");
 };

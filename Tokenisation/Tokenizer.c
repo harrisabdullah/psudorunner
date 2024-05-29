@@ -140,6 +140,16 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 2;
     }
 
+    if (isKeyword("<>", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = NOT_EQUALS,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
     if (isKeyword("ENDIF", 5, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

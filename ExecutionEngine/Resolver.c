@@ -114,6 +114,11 @@ struct VariableValue* resolveExpression(struct List* namespace, struct Expressio
             result->data.boolean = (float)(leftValue) == (float)(rightValue);
             break;
 
+        case NOT_EQUALS:
+            result->type = BOOLEAN;
+            result->data.boolean = (float)(leftValue) != (float)(rightValue);
+            break;
+
         case GREATER:
             result->type = BOOLEAN;
             result->data.boolean = (float)(leftValue) > (float)(rightValue);

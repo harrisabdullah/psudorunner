@@ -74,5 +74,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "OR";
         case BOOLEAN_IDENTIFIER:
             return "BOOLEAN_IDENTIFIER";
+        case NOT_EQUALS:
+            return "!=";
     }
 }
