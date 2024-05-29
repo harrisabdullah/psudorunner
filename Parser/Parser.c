@@ -124,7 +124,6 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex);
     returnValue->type = tokens->array[bestOperationIndex].tokenValue.type;
     returnValue->isConstant = 0;
-    printf("%i\n", returnValue == NULL);
     return returnValue;
 };
 
@@ -135,18 +134,35 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 *
 * @return The AST as a list of ASTNodes.
 */
-struct List* parse(struct List* tokens, int start_index, int end_index){
+struct List* parse(struct List* tokens, int start, enum TokenType haltToken){
     struct List* ASTList = listInit(ASTNode);
     // Two indexes that form an inclusive range representing the currant line of code.
-    int start = start_index == -1? 0:start_index;
-    int end = start_index == -1? 0:start_index;
-    int lengh = end_index == -1? tokens->head:end_index;
-    while (end < lengh){
-        while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE && end < lengh){
+    int end = start;
+    int linesToSkip = -1;
+    int linesSkipped = 0;
+
+    while (end < tokens->head){
+        while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE){
             end++;
         }
-        // If this line is empty. i.e. two new lines next to each other or a newline then EOF.
+
+         if (linesToSkip != -1 && linesSkipped < linesToSkip){
+            linesSkipped++;
+            end += 2;
+            start = end;
+            continue;
+        }
+
+        if (linesToSkip != -1){
+            linesToSkip = -1;
+            linesSkipped = 0;
+        }
+
+       // If this line is empty. i.e. two new lines next to each other or a newline then EOF.
         if (start == end){
+            if (haltToken != NULL_TYPE && haltToken == tokens->array[start].tokenValue.type){
+                break;
+            }
             end += 2;
             continue;
         }
@@ -168,15 +184,11 @@ struct List* parse(struct List* tokens, int start_index, int end_index){
         }
 
         else if (tokens->array[start].tokenValue.type == IF){
-            int i = end+2;
-            while (i<lengh && tokens->array[i].tokenValue.type != ENDIF){
-                i++;
-            };
-
+            struct List* content = parse(tokens, end+2, ENDIF);
             newNode.type = IF;
             newNode.value.If = (struct ASTif){.test=parseExpression(tokens, start+1, end-1),
-                                                .content=parse(tokens, end+2, i)};
-            end = i;
+                                                .content=content};
+            linesToSkip = content->head+1;
         }
         listAppend(ASTList, (union listValue)newNode);
 

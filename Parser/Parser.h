@@ -6,7 +6,7 @@
 #define PSUDO_INTERPRATOR_2_PARSER_H
 
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
-struct List* parse(struct List* tokens, int start_index, int end_index);
+struct List* parse(struct List* tokens, int start, enum TokenType haltToken);
 
 // debug functions
 void printASTList(struct List* AST);

@@ -347,13 +347,13 @@ int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct L
  * @return The number of characters consumed to tokenize the identifier, or -1 if the character at the current index is not a valid start for an identifier.
  */
 int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
-    if (!isalpha(code[currentCodeIndex]) && code[currentCodeIndex] != '_' && code[currentCodeIndex] != '-') {
+    if (!isalpha(code[currentCodeIndex])) {
         return -1;
     }
 
     int i = currentCodeIndex + 1;
 
-    while (i < codeLen && (isalpha(code[i]) || isdigit(code[i]) || code[i] == '_' || code[i] == '-')) {
+    while (i < codeLen && (isalpha(code[i]) || isdigit(code[i]) || code[i] == '_')) {
         i++;
     }
 
