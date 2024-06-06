@@ -61,9 +61,8 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
     int i = startIndex;
     int bestOperationIndex = -1;
     int is_not = 0;
-    int operationLevel = 0; // the importance of the operation, 0 means NULL,
-    // 1 means addition or subtraction
-    // and 2 means division or multiplication
+    int operationLevel = 0;
+
     while (i <= endIndex){
         if (tokens->array[i].tokenValue.type == OPEN_PAREN){
             i = findClosingParen(i, tokens, endIndex) + 1;
@@ -78,12 +77,15 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                     bestOperationIndex = i;
                     operationLevel = 4;
                 }
+                break;
+
             case NOT:
                 if (operationLevel < 5){
                     bestOperationIndex = i;
                     operationLevel = 5;
                     is_not = 1;
                 }
+                break;
 
             case EQUALS:
             case NOT_EQUALS:
@@ -95,12 +97,15 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                     bestOperationIndex = i;
                     operationLevel = 3;
                 }
+                break;
+
             case ADDITION:
             case SUBTRACTION:
                 if (operationLevel < 2){
                     bestOperationIndex = i;
                     operationLevel = 2;
                 }
+                break;
 
             case DIVISION:
             case MULTIPLICATION:
@@ -108,11 +113,10 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
                     bestOperationIndex = i;
                     operationLevel = 1;
                 }
-            default:
-                i++;
+                break;
         };
+        i++;
     };
-
 
     struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
 
@@ -159,7 +163,6 @@ struct List* parse(struct List* tokens, int start, enum TokenType haltToken){
             linesSkipped = 0;
         }
 
-       // If this line is empty. i.e. two new lines next to each other or a newline then EOF.
         if (start == end){
             if (haltToken != NULL_TYPE && haltToken == tokens->array[start].tokenValue.type){
                 break;
@@ -193,7 +196,6 @@ struct List* parse(struct List* tokens, int start, enum TokenType haltToken){
         }
         listAppend(ASTList, (union listValue)newNode);
 
-        // Moving to the next line of code.
         end += 2; // Skipping over the previous NEW_LINE.
         start = end;
 
@@ -241,7 +243,7 @@ void printASTList(struct List* AST){
 */
 void printExpression(struct Expression* expression){
     if (expression->isConstant) {
-        printf("%s", expression->lexeme);
+        printf(" %s ", expression->lexeme);
         return;
     }
 

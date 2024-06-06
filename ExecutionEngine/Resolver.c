@@ -54,6 +54,7 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
  * @return: A pointer to the resolved VariableValue struct.
  */
 struct VariableValue* resolveExpression(struct List* namespace, struct Expression* expression){
+    // TODO: use a stack you FUCKIUNG idiot!!!!
     if (expression->isConstant){
         return stringToVariableValue(expression->type, expression->lexeme, namespace);
     }

@@ -440,6 +440,7 @@ void printToken(struct Token token){
  */
 void printTokenList(struct List* tokens){
     for (int i = 0; i<tokens->head; i++){
+        printf("index: %d\n", i);
         printToken(tokens->array[i].tokenValue);
     }
 };

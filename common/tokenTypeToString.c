@@ -16,6 +16,8 @@
  */
 const char* tokenTypeToString(enum TokenType token) {
     switch (token) {
+        case NULL_TYPE:
+            return "NULL_TYPE";
         case DECLARE:
             return "DECLARE";
         case IDENTIFIER:
@@ -31,17 +33,17 @@ const char* tokenTypeToString(enum TokenType token) {
         case ASSIGNMENT:
             return "ASSIGNMENT";
         case ADDITION:
-            return "ADDITION";
+            return " ('+') ";
         case SUBTRACTION:
-            return "SUBTRACTION";
+            return " ('-') ";
         case DIVISION:
-            return "DIVISION";
+            return " ('/') ";
         case MULTIPLICATION:
-            return "MULTIPLICATION";
+            return " ('*') ";
         case OPEN_PAREN:
-            return "OPEN_PAREN";
+            return " ('(') ";
         case CLOSE_PAREN:
-            return "CLOSE_PAREN";
+            return " (')') ";
         case NEW_LINE:
             return "NEW_LINE";
         case COLON:
@@ -59,13 +61,13 @@ const char* tokenTypeToString(enum TokenType token) {
         case THEN:
             return "THEN";
         case GREATER:
-            return "GREATER";
+            return " ('>') ";
         case LESSER:
-            return "LESSER";
+            return " ('<') ";
         case LESSER_OR_EQUALS:
-            return "LESSER_OR_EQUALS";
+            return " ('<=') ";
         case GREATER_OR_EQUALS:
-            return "GREATER_OR_EQUALS";
+            return " ('>=') ";
         case AND:
             return "AND";
         case NOT:
@@ -75,6 +77,6 @@ const char* tokenTypeToString(enum TokenType token) {
         case BOOLEAN_IDENTIFIER:
             return "BOOLEAN_IDENTIFIER";
         case NOT_EQUALS:
-            return "!=";
+            return " ('!=') ";
     }
 }
