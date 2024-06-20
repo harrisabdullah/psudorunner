@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "psudo_interprator_2::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-psudo_interprator_2-Debug-347fb75d6c462f088c55.json",
+					"jsonFile" : "target-psudo_interprator_2-Debug-203afa8c22e385bcdd45.json",
 					"name" : "psudo_interprator_2",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/harrisabdullah/Documents/vscode/c/build",
-		"source" : "/Users/harrisabdullah/Documents/vscode/c"
+		"build" : "/Users/harrisabdullah/Documents/vscode_projs/c/build",
+		"source" : "/Users/harrisabdullah/Documents/vscode_projs/c"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 6
+		"minor" : 7
 	}
 }

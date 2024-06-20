@@ -1,3 +1,3 @@
-/Users/harrisabdullah/Documents/vscode/c/build/CMakeFiles/psudo_interprator_2.dir
-/Users/harrisabdullah/Documents/vscode/c/build/CMakeFiles/edit_cache.dir
-/Users/harrisabdullah/Documents/vscode/c/build/CMakeFiles/rebuild_cache.dir
+/Users/harrisabdullah/Documents/vscode_projs/c/build/CMakeFiles/psudo_interprator_2.dir
+/Users/harrisabdullah/Documents/vscode_projs/c/build/CMakeFiles/edit_cache.dir
+/Users/harrisabdullah/Documents/vscode_projs/c/build/CMakeFiles/rebuild_cache.dir
