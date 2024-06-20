@@ -3,9 +3,12 @@
 //
 
 #include "ExecutionEngine.h"
+#include "../common/Stack.h"
 #include "Namespace.h"
 #include "Variable.h"
 #include "Resolver.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * Executes the Abstract Syntax Tree (AST) represented by ASTList.
@@ -15,6 +18,14 @@
  * @return: None
  */
 struct List* executeAST(struct List* ASTList, struct List* namespace){
+    struct Stack* stack = calloc(1, sizeof(struct Stack));
+
+    if (stack == NULL){
+        perror("allocation failure\n");
+        exit(EXIT_FAILURE);
+    }
+
+    stackInit(stack);
     struct VariableValue* temp;
     for (int i=0; i<ASTList->head; i++){
         switch (ASTList->array[i].astNodeValue.type) {
@@ -26,11 +37,14 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
             case ASSIGNMENT:
                 namespaceAssign(namespace,
                                 ASTList->array[i].astNodeValue.value.assignment.identifier,
-                                ASTList->array[i].astNodeValue.value.assignment.value);
+                                ASTList->array[i].astNodeValue.value.assignment.value,
+                                stack);
                 break;
             case OUTPUT:
-                temp = resolveExpression(namespace,
-                                         ASTList->array[i].astNodeValue.value.output.value);
+                resolveExpression(namespace,
+                                  ASTList->array[i].astNodeValue.value.output.value,
+                                  stack);
+                temp = stackPop(stack);
                 if (temp->type == INTEGER){
                     printf("%d\n", temp->data.integer);
                 }
@@ -43,7 +57,8 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 break;
 
             case IF:
-                temp = resolveExpression(namespace, ASTList->array[i].astNodeValue.value.If.test);
+                resolveExpression(namespace, ASTList->array[i].astNodeValue.value.If.test, stack);
+                temp = stackPop(stack);
                 if (temp->data.boolean){
                     namespace = executeAST(ASTList->array[i].astNodeValue.value.If.content, namespace);
                 }

@@ -4,6 +4,7 @@
 
 #include "Namespace.h"
 #include "Resolver.h"
+#include "../common/Stack.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -45,10 +46,11 @@ void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenTyp
  *
  * @return: None
  */
-void namespaceAssign(struct List* namespaceList, char* identifier, struct Expression* data){
+void namespaceAssign(struct List* namespaceList, char* identifier, struct Expression* data, struct Stack* stack){
     for (int i=0; i<namespaceList->head;i++){
         if (strcmp(namespaceList->array[i].variable.variableName, identifier) == 0){
-            namespaceList->array[i].variable.value = resolveExpression(namespaceList, data);
+            resolveExpression(namespaceList, data, stack);
+            namespaceList->array[i].variable.value = stackPop(stack);
             return;
         }
     }

@@ -63,3 +63,15 @@ union listValue* listGetLastItem(struct List* list){
 
     return &list->array[list->head - 1];
 }
+
+/**
+* Pops last item out of a list.
+*
+* @param list: a pointer to the list.
+* @return: the popped value.
+*/
+union listValue* listPop(struct List* list){
+    union listValue* value = listGetLastItem(list);
+    list->head--;
+    return value;    
+}

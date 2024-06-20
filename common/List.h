@@ -34,8 +34,6 @@ struct List {
 struct List* listInit(enum listValueType type);
 void listAppend(struct List* list, union listValue item);
 union listValue* listGetLastItem(struct List* list);
-
-// TODO
-// void printList(struct list* tokenList);
+union listValue* listPop(struct List* list);
 
 #endif //PSUDO_INTERPRATOR_2_LIST_H
