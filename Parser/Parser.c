@@ -109,6 +109,7 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
             case DIVISION:
             case MULTIPLICATION:
+            case MODULO:
                 if (operationLevel < 1){
                     bestOperationIndex = i;
                     operationLevel = 1;

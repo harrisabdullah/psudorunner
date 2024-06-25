@@ -142,6 +142,18 @@ void resolveExpression(struct List* namespace, struct Expression* expression, st
         return;
     }
 
+    if (expression->type == MODULO){
+        if (leftType != INTEGER || rightType != INTEGER){
+            // todo: typerrror
+            printf("typerror: MODULO\n");
+            exit(EXIT_FAILURE);
+        }
+        result->type = INTEGER;
+        result->data.integer = stackPop(stack)->data.integer % stackPop(stack)->data.integer;
+        stackPush(stack, result);
+        return;
+    }
+
     if (expression->type == EQUALS || expression->type == NOT_EQUALS){
         result->type = BOOLEAN;
         if (leftType == BOOLEAN && rightType == BOOLEAN){

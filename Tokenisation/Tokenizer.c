@@ -140,6 +140,16 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 2;
     }
 
+    if (isKeyword("MOD", 3, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = MODULO,
+                        .lexeme = ""
+                }
+        });
+        return 3;
+    }
+
     if (isKeyword("<>", 2, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

@@ -78,5 +78,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return "BOOLEAN_IDENTIFIER";
         case NOT_EQUALS:
             return " ('!=') ";
+        case MODULO:
+            return " MOD ";
     }
 }
