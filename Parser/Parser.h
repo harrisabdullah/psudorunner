@@ -4,9 +4,23 @@
 
 #ifndef PSUDO_INTERPRATOR_2_PARSER_H
 #define PSUDO_INTERPRATOR_2_PARSER_H
+#include "ASTNode.h"
+
+enum ParserStatus {
+   P_NORMAL,
+   P_IF,
+   P_ELSE
+};
+
+void parseDeclare(struct ASTNode* node, struct List* tokens, int startIndex);
+void parseAssignment(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+void parseOutput(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+
+int parseIf(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+int parseElse(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
-struct List* parse(struct List* tokens, int start, enum TokenType haltToken);
+int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex);
 
 // debug functions
 void printASTList(struct List* AST);

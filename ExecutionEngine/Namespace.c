@@ -5,6 +5,7 @@
 #include "Namespace.h"
 #include "Resolver.h"
 #include "../common/Stack.h"
+#include "../common/tokenTypeToString.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -27,9 +28,9 @@ struct List* namespaceInit(){
  * @return: None
  */
 void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenType type){
+    
     struct VariableValue* value = (struct VariableValue*) malloc(sizeof(struct VariableValue));
     value->type = type;
-    value->data = (union VariableData){};
 
     listAppend(namespaceList, (union listValue){.variable=(struct Variable){
         .variableName = identifier,
@@ -50,7 +51,8 @@ void namespaceAssign(struct List* namespaceList, char* identifier, struct Expres
     for (int i=0; i<namespaceList->head;i++){
         if (strcmp(namespaceList->array[i].variable.variableName, identifier) == 0){
             resolveExpression(namespaceList, data, stack);
-            namespaceList->array[i].variable.value = stackPop(stack);
+            struct VariableValue* test = stackPop(stack);
+            namespaceList->array[i].variable.value = test;
             return;
         }
     }

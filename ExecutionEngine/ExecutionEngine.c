@@ -4,6 +4,7 @@
 
 #include "ExecutionEngine.h"
 #include "../common/Stack.h"
+#include "../common/tokenTypeToString.h"
 #include "Namespace.h"
 #include "Variable.h"
 #include "Resolver.h"
@@ -45,6 +46,7 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                                   ASTList->array[i].astNodeValue.value.output.value,
                                   stack);
                 temp = stackPop(stack);
+
                 if (temp->type == INTEGER){
                     printf("%d\n", temp->data.integer);
                 }

@@ -4,7 +4,6 @@
 
 #ifndef PSUDO_INTERPRATOR_2_ASTNODE_H
 #define PSUDO_INTERPRATOR_2_ASTNODE_H
-#include "../common/List.h"
 #include "../Tokenisation/Token.h"
 #include "Expression.h"
 
@@ -22,6 +21,10 @@ struct ASTif {
     struct List* content;
 };
 
+struct ASTElse {
+    struct List* content;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -32,6 +35,7 @@ union ASTNodeValue {
     struct ASTAssignment assignment;
     struct ASTOutput output;
     struct ASTif If;
+    struct ASTElse Else;
 };
 
 struct ASTNode {

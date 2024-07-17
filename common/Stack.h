@@ -6,6 +6,7 @@
 #define PSUDO_INTERPRATOR_2_STACK_H
 #include "../ExecutionEngine/Variable.h"
 #include "../Tokenisation/Token.h"
+#include "../Parser/ASTNode.h"
 #define STACK_CHUNK_SIZE 32
 #define MAX_STACK_SIZE 1024
 

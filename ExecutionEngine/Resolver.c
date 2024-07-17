@@ -23,7 +23,7 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
     if (type == IDENTIFIER){
         for (int i=0; i<namespace->head; i++){
             if (strcmp(data, namespace->array[i].variable.variableName) == 0){
-                return &namespace->array[i].variable.value;
+                return namespace->array[i].variable.value;
             }
         }
     }

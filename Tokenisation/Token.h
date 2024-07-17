@@ -38,11 +38,12 @@ enum TokenType {
     IF,
     THEN,
     ENDIF,
+    ELSE,
 };
 
 struct Token {
     enum TokenType type;
-    char* lexeme; // TODO: consider using linked list or something similar
+    char* lexeme;
 };
 
 #endif //PSUDO_INTERPRATOR_2_TOKEN_H
