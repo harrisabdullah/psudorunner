@@ -80,5 +80,7 @@ const char* tokenTypeToString(enum TokenType token) {
             return " ('!=') ";
         case MODULO:
             return " MOD ";
+        case ELSE:
+            return "ELSE";
     }
 }

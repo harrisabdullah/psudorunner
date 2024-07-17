@@ -142,12 +142,17 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 */
 int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex){
     int lineStartIndex, newlineIndex = startIndex-1;
+    int moveStartIndex = 0, newStartIndex = 0;
     struct ASTNode newNode;
 
     while (newlineIndex < tokens->head) {
-
         newlineIndex++;
         lineStartIndex = newlineIndex;
+        if (moveStartIndex){
+            lineStartIndex = newStartIndex;
+            newlineIndex = newStartIndex;
+            moveStartIndex = 0;
+        }
         while (newlineIndex < tokens->head && tokens->array[newlineIndex].tokenValue.type != NEW_LINE)
             newlineIndex++;
         if (lineStartIndex == newlineIndex)
@@ -155,13 +160,18 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         
         if (status == P_IF || status == P_ELSE){
             if (tokens->array[lineStartIndex].tokenValue.type == ENDIF ||
-                tokens->array[lineStartIndex].tokenValue.type == ELSE)
-                return newlineIndex - startIndex;
+                tokens->array[lineStartIndex].tokenValue.type == ELSE){
+                return newlineIndex - startIndex - 1;
+                }
         }
-        if (tokens->array[lineStartIndex].tokenValue.type == IF)
-            newlineIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex);
-        else if (tokens->array[lineStartIndex].tokenValue.type == ELSE)
-            newlineIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex);
+        if (tokens->array[lineStartIndex].tokenValue.type == IF){
+            moveStartIndex = 1;
+            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex;
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == ELSE){
+            moveStartIndex = 1;
+            newStartIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex;
+        }
         else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
             parseDeclare(&newNode, tokens, lineStartIndex);
         else if (tokens->array[lineStartIndex + 1].tokenValue.type == ASSIGNMENT)
@@ -266,6 +276,10 @@ void printASTList(struct List* AST){
                 printASTList(AST->array[i].astNodeValue.value.If.content);
                 printf("}\n");
                 continue;
+            case ELSE:
+                printf("ELSE: {code: ");
+                printASTList(AST->array[i].astNodeValue.value.Else.content);
+                printf("}\n");
         }
     }
 }

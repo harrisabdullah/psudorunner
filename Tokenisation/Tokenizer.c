@@ -170,6 +170,16 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 5;
     }
 
+    if (isKeyword("ELSE", 4, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = ELSE,
+                        .lexeme = ""
+                }
+        });
+        return 4;
+    }
+
     if (isKeyword("TRUE", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

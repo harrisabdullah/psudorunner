@@ -64,6 +64,10 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 if (temp->data.boolean){
                     namespace = executeAST(ASTList->array[i].astNodeValue.value.If.content, namespace);
                 }
+                else if (i+1 < ASTList->head && ASTList->array[i+1].astNodeValue.type == ELSE) {
+                    namespace = executeAST(ASTList->array[i+1].astNodeValue.value.Else.content, namespace);
+                    i++;
+                }
       ;  }
     }
     return namespace;
