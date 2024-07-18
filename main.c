@@ -6,7 +6,7 @@
 
 int main() {
    // TODO: test IF and ELSE please
-   struct List* tokens = tokenize("IF FALSE THEN\nOUTPUT 1\nELSE\nOUTPUT 2\nENDIF\n", 43);
+   struct List* tokens = tokenize("IF FALSE THEN\nOUTPUT 1\nELSE\nOUTPUT 2\nENDIF\nOUTPUT 3\n", 52);
    printTokenList(tokens);
    struct List* AST = listInit(ASTNode);
    parse(tokens, AST, P_NORMAL, 0);

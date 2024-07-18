@@ -7,5 +7,5 @@ int parseIf(struct ASTNode* node, struct List* tokens, int startIndex, int endIn
    struct List* ifList = listInit(ASTNode);
    int offset = parse(tokens, ifList, P_IF, endIndex+1);
    node->value.If.content = ifList;
-   return offset + 1;
+   return offset;
 }

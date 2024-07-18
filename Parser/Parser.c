@@ -166,11 +166,11 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         }
         if (tokens->array[lineStartIndex].tokenValue.type == IF){
             moveStartIndex = 1;
-            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex;
+            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 1;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == ELSE){
             moveStartIndex = 1;
-            newStartIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex;
+            newStartIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 1;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
             parseDeclare(&newNode, tokens, lineStartIndex);
