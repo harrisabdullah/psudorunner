@@ -25,6 +25,11 @@ struct ASTElse {
     struct List* content;
 };
 
+struct ASTWhile { 
+    struct Expression* condition;
+    struct List* content;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -36,6 +41,7 @@ union ASTNodeValue {
     struct ASTOutput output;
     struct ASTif If;
     struct ASTElse Else;
+    struct ASTWhile While;
 };
 
 struct ASTNode {

@@ -149,28 +149,37 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         newlineIndex++;
         lineStartIndex = newlineIndex;
         if (moveStartIndex){
+            if (newStartIndex >= tokens->head){
+                break;
+            }
             lineStartIndex = newStartIndex;
             newlineIndex = newStartIndex;
             moveStartIndex = 0;
         }
-        while (newlineIndex < tokens->head && tokens->array[newlineIndex].tokenValue.type != NEW_LINE)
+        while (newlineIndex < tokens->head && tokens->array[newlineIndex].tokenValue.type != NEW_LINE){
             newlineIndex++;
-        if (lineStartIndex == newlineIndex)
+        }
+        if (lineStartIndex == newlineIndex){
             break;
-        
+        }
         if (status == P_IF || status == P_ELSE){
             if (tokens->array[lineStartIndex].tokenValue.type == ENDIF ||
                 tokens->array[lineStartIndex].tokenValue.type == ELSE){
                 return newlineIndex - startIndex - 1;
                 }
         }
+
         if (tokens->array[lineStartIndex].tokenValue.type == IF){
             moveStartIndex = 1;
-            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 1;
+            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == ELSE){
             moveStartIndex = 1;
             newStartIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 1;
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == WHILE){
+            moveStartIndex = 1;
+            newStartIndex = parseWhile(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 1;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
             parseDeclare(&newNode, tokens, lineStartIndex);
@@ -280,6 +289,7 @@ void printASTList(struct List* AST){
                 printf("ELSE: {code: ");
                 printASTList(AST->array[i].astNodeValue.value.Else.content);
                 printf("}\n");
+
         }
     }
 }

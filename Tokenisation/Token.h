@@ -39,6 +39,8 @@ enum TokenType {
     THEN,
     ENDIF,
     ELSE,
+    WHILE,
+    ENDWHILE
 };
 
 struct Token {

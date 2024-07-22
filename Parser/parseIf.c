@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "Parser.h"
 #include "../Common/List.h"
 
 int parseIf(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex){

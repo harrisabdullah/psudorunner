@@ -240,6 +240,26 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 7;
     }
 
+        if (isKeyword("WHILE", 5, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = WHILE,
+                        .lexeme = ""
+                }
+        });
+        return 5;
+    }
+
+        if (isKeyword("ENDWHILE", 8, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = ENDWHILE,
+                        .lexeme = ""
+                }
+        });
+        return 8;
+    }
+
     if (isKeyword("REAL", 4, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {

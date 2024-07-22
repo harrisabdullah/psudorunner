@@ -5,8 +5,7 @@
 #include "common/tokenTypeToString.h"
 
 int main() {
-   // TODO: test IF and ELSE please
-   struct List* tokens = tokenize("IF FALSE THEN\nOUTPUT 1\nELSE\nOUTPUT 2\nENDIF\nOUTPUT 3\n", 52);
+   struct List* tokens = tokenize("IF TRUE THEN\nOUTPUT 1\nENDIF", 27);
    printTokenList(tokens);
    struct List* AST = listInit(ASTNode);
    parse(tokens, AST, P_NORMAL, 0);

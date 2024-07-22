@@ -82,5 +82,9 @@ const char* tokenTypeToString(enum TokenType token) {
             return " MOD ";
         case ELSE:
             return "ELSE";
+        case WHILE:
+            return "WHILE";
+        case ENDWHILE:
+            return "ENDWHILE";
     }
 }
