@@ -40,7 +40,9 @@ enum TokenType {
     ENDIF,
     ELSE,
     WHILE,
-    ENDWHILE
+    ENDWHILE,
+    REPEAT,
+    UNTIL
 };
 
 struct Token {

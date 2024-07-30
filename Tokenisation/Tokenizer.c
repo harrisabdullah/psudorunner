@@ -330,6 +330,26 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 3;
     }
 
+    if (isKeyword("REPEAT", 6, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = REPEAT,
+                        .lexeme = ""
+                }
+        });
+        return 6;
+    }
+
+    if (isKeyword("UNTIL", 5, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = UNTIL,
+                        .lexeme = ""
+                }
+        });
+        return 5;
+    }
+
     return -1;
 }
 /**

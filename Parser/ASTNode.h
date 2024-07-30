@@ -30,6 +30,11 @@ struct ASTWhile {
     struct List* content;
 };
 
+struct ASTRepeat {
+    struct List* content;
+    struct Expression* condition;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -42,6 +47,7 @@ union ASTNodeValue {
     struct ASTif If;
     struct ASTElse Else;
     struct ASTWhile While;
+    struct ASTRepeat Repeat;
 };
 
 struct ASTNode {

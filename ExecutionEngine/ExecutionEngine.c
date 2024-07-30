@@ -75,6 +75,12 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                     executeAST(ASTList->array[i].astNodeValue.value.While.content, namespace);
                     resolveExpression(namespace, ASTList->array[i].astNodeValue.value.While.condition, stack);
                 }
+            
+            case REPEAT:
+                do {
+                    executeAST(ASTList->array[i].astNodeValue.value.Repeat.content, namespace);
+                    resolveExpression(namespace, ASTList->array[i].astNodeValue.value.Repeat.condition, stack);
+                } while (!stackPop(stack)->data.boolean)
       ;  }
     }
     return namespace;

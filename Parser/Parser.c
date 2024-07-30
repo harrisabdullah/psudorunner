@@ -150,7 +150,6 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         lineStartIndex = newlineIndex;
         if (moveStartIndex){
             if (newStartIndex >= tokens->head){
-                printf("here\n");
                 break;
             }
             lineStartIndex = newStartIndex;
@@ -174,6 +173,11 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
                 break;
             }
         }
+        if (status == P_REPEAT){
+            if (tokens->array[lineStartIndex].tokenValue.type == UNTIL){
+                break;
+            }
+        }
 
         if (tokens->array[lineStartIndex].tokenValue.type == IF){
             moveStartIndex = 1;
@@ -186,6 +190,10 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         else if (tokens->array[lineStartIndex].tokenValue.type == WHILE){
             moveStartIndex = 1;
             newStartIndex = parseWhile(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == REPEAT){
+            moveStartIndex = 1;
+            newStartIndex = parseRepeat(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
             parseDeclare(&newNode, tokens, lineStartIndex);
@@ -300,6 +308,12 @@ void printASTList(struct List* AST){
                 printExpression(AST->array[i].astNodeValue.value.While.condition);
                 printf(", code: ");
                 printASTList(AST->array[i].astNodeValue.value.While.content);
+                printf("}\n");
+            case REPEAT:
+                printf("REPEAT UNTIL: {condition: ");
+                printExpression(AST->array[i].astNodeValue.value.Repeat.condition);
+                printf(", code: ");
+                printASTList(AST->array[i].astNodeValue.value.Repeat.content);
                 printf("}\n");
 
         }

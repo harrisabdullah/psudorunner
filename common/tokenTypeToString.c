@@ -86,5 +86,9 @@ const char* tokenTypeToString(enum TokenType token) {
             return "WHILE";
         case ENDWHILE:
             return "ENDWHILE";
+        case REPEAT:
+            return "REPEAT";
+        case UNTIL:
+            return "UNTIL";
     }
 }

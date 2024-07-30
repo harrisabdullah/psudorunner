@@ -5,7 +5,7 @@
 #include "common/tokenTypeToString.h"
 
 int main() {
-   struct List* tokens = tokenize("DECLARE i: INTEGER\ni <- 1\nWHILE i < 10 THEN\ni <- i + 1\nOUTPUT i\nENDWHILE", 72);
+   struct List* tokens = tokenize("DECLARE i: INTEGER\ni <- 0\nREPEAT\ni <- i + 1\nOUTPUT i\nUNTIL i > 10", 65);
    printTokenList(tokens);
    struct List* AST = listInit(ASTNode);
    parse(tokens, AST, P_NORMAL, 0);

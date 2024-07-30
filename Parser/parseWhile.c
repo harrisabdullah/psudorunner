@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "../Common/List.h"
+#include "../common/List.h"
 
 int parseWhile(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex){
    node->type = WHILE;
