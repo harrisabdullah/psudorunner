@@ -35,6 +35,13 @@ struct ASTRepeat {
     struct Expression* condition;
 };
 
+struct ASTFor {
+    char* identifier;
+    struct Expression* rangeMin;
+    struct Expression* rangeMax;
+    struct List* content;
+};
+
 struct ASTAssignment {
     char* identifier;
     struct Expression* value;
@@ -48,6 +55,7 @@ union ASTNodeValue {
     struct ASTElse Else;
     struct ASTWhile While;
     struct ASTRepeat Repeat;
+    struct ASTFor For;
 };
 
 struct ASTNode {

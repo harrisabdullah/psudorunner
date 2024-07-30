@@ -178,6 +178,11 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
                 break;
             }
         }
+        if (status == P_FOR){
+            if (tokens->array[lineStartIndex].tokenValue.type == NEXT){
+                break;
+            }
+        }
 
         if (tokens->array[lineStartIndex].tokenValue.type == IF){
             moveStartIndex = 1;
@@ -194,6 +199,10 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
         else if (tokens->array[lineStartIndex].tokenValue.type == REPEAT){
             moveStartIndex = 1;
             newStartIndex = parseRepeat(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == FOR){
+            moveStartIndex = 1;
+            newStartIndex = parseFor(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
         else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
             parseDeclare(&newNode, tokens, lineStartIndex);
@@ -314,6 +323,14 @@ void printASTList(struct List* AST){
                 printExpression(AST->array[i].astNodeValue.value.Repeat.condition);
                 printf(", code: ");
                 printASTList(AST->array[i].astNodeValue.value.Repeat.content);
+                printf("}\n");
+            case FOR:
+                printf("FOR: {range: ");
+                printExpression(AST->array[i].astNodeValue.value.For.rangeMin);
+                printf(" -> ");
+                printExpression(AST->array[i].astNodeValue.value.For.rangeMax);
+                printf(", code: ");
+                printASTList(AST->array[i].astNodeValue.value.For.content);
                 printf("}\n");
 
         }

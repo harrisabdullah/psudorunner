@@ -90,5 +90,11 @@ const char* tokenTypeToString(enum TokenType token) {
             return "REPEAT";
         case UNTIL:
             return "UNTIL";
+        case FOR:
+            return "FOR";
+        case TO:
+            return "TO";
+        case NEXT:
+            return "NEXT";
     }
 }

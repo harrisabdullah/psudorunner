@@ -11,7 +11,8 @@ enum ParserStatus {
    P_IF,
    P_ELSE,
    P_WHILE,
-   P_REPEAT
+   P_REPEAT,
+   P_FOR,
 };
 
 void parseDeclare(struct ASTNode* node, struct List* tokens, int startIndex);
@@ -22,6 +23,7 @@ int parseIf(struct ASTNode* node, struct List* tokens, int startIndex, int endIn
 int parseElse(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 int parseWhile(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 int parseRepeat(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+int parseFor(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
 int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex);

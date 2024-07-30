@@ -350,6 +350,36 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 5;
     }
 
+        if (isKeyword("FOR", 3, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = FOR,
+                        .lexeme = ""
+                }
+        });
+        return 3;
+    }
+
+        if (isKeyword("TO", 2, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = TO,
+                        .lexeme = ""
+                }
+        });
+        return 2;
+    }
+
+        if (isKeyword("NEXT", 4, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = NEXT,
+                        .lexeme = ""
+                }
+        });
+        return 4;
+    }
+
     return -1;
 }
 /**

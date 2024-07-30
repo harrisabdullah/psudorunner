@@ -68,6 +68,7 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                     namespace = executeAST(ASTList->array[i+1].astNodeValue.value.Else.content, namespace);
                     i++;
                 }
+                break;
 
             case WHILE:
                 resolveExpression(namespace, ASTList->array[i].astNodeValue.value.While.condition, stack);
@@ -75,12 +76,46 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                     executeAST(ASTList->array[i].astNodeValue.value.While.content, namespace);
                     resolveExpression(namespace, ASTList->array[i].astNodeValue.value.While.condition, stack);
                 }
+                break;
             
             case REPEAT:
                 do {
                     executeAST(ASTList->array[i].astNodeValue.value.Repeat.content, namespace);
                     resolveExpression(namespace, ASTList->array[i].astNodeValue.value.Repeat.condition, stack);
-                } while (!stackPop(stack)->data.boolean)
+                } while (!stackPop(stack)->data.boolean);
+                break;
+            
+            case FOR:
+                namespaceAssign(namespace, ASTList->array[i].astNodeValue.value.For.identifier,
+                                           ASTList->array[i].astNodeValue.value.For.rangeMin, stack);
+                struct Expression condition;
+                struct Expression identifierGetter;
+                struct Expression increment;
+                struct Expression one;
+                identifierGetter.type = IDENTIFIER;
+                identifierGetter.isConstant = 1;
+                identifierGetter.lexeme = ASTList->array[i].astNodeValue.value.For.identifier;
+
+                condition.type = GREATER_OR_EQUALS;
+                condition.isConstant = 0;
+                condition.left = &identifierGetter;
+                condition.right = ASTList->array[i].astNodeValue.value.For.rangeMax;
+
+                one.type = INTEGER;
+                one.isConstant = 1;
+                one.lexeme = "1";
+
+                increment.type = ADDITION;
+                increment.isConstant = 0;
+                increment.left = &identifierGetter;
+                increment.right = &one;
+                resolveExpression(namespace, &condition, stack);
+                while (!stackPop(stack)->data.boolean){
+                    executeAST(ASTList->array[i].astNodeValue.value.For.content, namespace);
+                    namespaceAssign(namespace, ASTList->array[i].astNodeValue.value.For.identifier, &increment, stack);
+                    resolveExpression(namespace, &condition, stack);
+                }
+                break;
       ;  }
     }
     return namespace;

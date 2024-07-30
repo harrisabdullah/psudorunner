@@ -42,7 +42,10 @@ enum TokenType {
     WHILE,
     ENDWHILE,
     REPEAT,
-    UNTIL
+    UNTIL,
+    FOR,
+    TO,
+    NEXT
 };
 
 struct Token {
