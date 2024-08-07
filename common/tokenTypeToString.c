@@ -96,5 +96,9 @@ const char* tokenTypeToString(enum TokenType token) {
             return "TO";
         case NEXT:
             return "NEXT";
+        case STRING_IDENTIFIER:
+            return "STRING_IDENTIFIER";
+        case STRING:
+            return "STRING";
     }
 }

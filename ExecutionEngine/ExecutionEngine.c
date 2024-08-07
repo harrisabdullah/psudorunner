@@ -56,6 +56,9 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 else if (temp->type == BOOLEAN){
                     printf("%s\n", temp->data.boolean? "TRUE":"FALSE");
                 }
+                else if (temp->type == STRING){
+                    printf("%s\n", temp->data.string);
+                }
                 break;
 
             case IF:
@@ -114,7 +117,7 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                     executeAST(ASTList->array[i].astNodeValue.value.For.content, namespace);
                     namespaceAssign(namespace, ASTList->array[i].astNodeValue.value.For.identifier, &increment, stack);
                     resolveExpression(namespace, &condition, stack);
-                }
+                }   
                 break;
       ;  }
     }

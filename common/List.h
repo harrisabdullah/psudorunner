@@ -15,7 +15,7 @@
 enum listValueType {
     TOKEN,
     ASTNode,
-    Variable
+    Variable,
 };
 
 union listValue {

@@ -12,9 +12,11 @@ enum TokenType {
     INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
     REAL_IDENTIFIER, // the real type
     BOOLEAN_IDENTIFIER,
+    STRING_IDENTIFIER,
     INTEGER, // declaring integer values
     REAL, // declaring real values
     BOOLEAN, // declaring boolean values
+    STRING,
     ASSIGNMENT, // the assignment operator e.g. the "<-" in "i <- 5"
     ADDITION, // the addition operator e.g. "1+1"
     SUBTRACTION, // the subtraction operator e.g. "2-1"
@@ -45,7 +47,8 @@ enum TokenType {
     UNTIL,
     FOR,
     TO,
-    NEXT
+    NEXT,
+
 };
 
 struct Token {

@@ -44,6 +44,8 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
             break;
         case BOOLEAN:
             result->data.boolean = strcmp(data, "TRUE") == 0;
+        case STRING:
+            result->data.string = data;
     }
 
     return result;

@@ -215,69 +215,6 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
     return newlineIndex - startIndex - 1;
 };
 
-
-    // struct List* ASTList = listInit(ASTNode);
-    // // Two indexes that form an inclusive range representing the currant line of code.
-    // int end = start;
-    // int linesToSkip = -1;
-    // int linesSkipped = 0;
-
-    // while (end < tokens->head){
-    //     while (end+1 < tokens->head && tokens->array[end+1].tokenValue.type != NEW_LINE){
-    //         end++;
-    //     }
-
-    //      if (linesToSkip != -1 && linesSkipped < linesToSkip){
-    //         linesSkipped++;
-    //         end += 2;
-    //         start = end;
-    //         continue;
-    //     }
-
-    //     if (linesToSkip != -1){
-    //         linesToSkip = -1;
-    //         linesSkipped = 0;
-    //     }
-
-    //     if (start == end){
-    //         if (haltToken != NULL_TYPE && haltToken == tokens->array[start].tokenValue.type){
-    //             break;
-    //         }
-    //         end += 2;
-    //         continue;
-    //     }
-
-    //     struct ASTNode newNode;
-    //     if (tokens->array[start].tokenValue.type == DECLARE) {
-    //         newNode.type = DECLARE;
-    //         newNode.value.declare = (struct ASTDeclare){.type=tokens->array[start+3].tokenValue.type,
-    //                                                     .identifier=tokens->array[start+1].tokenValue.lexeme};
-    //     }
-    //     else if (tokens->array[start+1].tokenValue.type == ASSIGNMENT) {
-    //         newNode.type = ASSIGNMENT;
-    //         newNode.value.assignment = (struct ASTAssignment){.identifier = tokens->array[start].tokenValue.lexeme,
-    //                                                             .value = parseExpression(tokens, start+2, end)};
-    //     }
-    //     else if (tokens->array[start].tokenValue.type == OUTPUT) {
-    //         newNode.type = OUTPUT;
-    //         newNode.value.output = (struct ASTOutput){.value = parseExpression(tokens, start+1, end)};
-    //     }
-
-    //     else if (tokens->array[start].tokenValue.type == IF){
-    //         struct List* content = parse(tokens, end+2, ENDIF);
-    //         newNode.type = IF;
-    //         newNode.value.If = (struct ASTif){.test=parseExpression(tokens, start+1, end-1),
-    //                                             .content=content};
-    //         linesToSkip = content->head+1;
-    //     }
-    //     listAppend(ASTList, (union listValue)newNode);
-
-    //     end += 2; // Skipping over the previous NEW_LINE.
-    //     start = end;
-
-    // }
-    // return ASTList;
-
 /**
 * Prints the given AST list.
 *

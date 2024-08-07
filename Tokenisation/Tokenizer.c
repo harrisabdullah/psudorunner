@@ -210,6 +210,16 @@ int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct
         return 7;
     }
 
+        if (isKeyword("STRING", 6, code, currentCodeIndex, codeLen)) {
+        listAppend(tokens, (union listValue) {
+                .tokenValue = {
+                        .type = STRING_IDENTIFIER,
+                        .lexeme = ""
+                }
+        });
+        return 6;
+    }
+
     if (isKeyword("OUTPUT", 6, code, currentCodeIndex, codeLen)) {
         listAppend(tokens, (union listValue) {
                 .tokenValue = {
@@ -463,6 +473,35 @@ int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, stru
     return lexemeLen;
 }
 
+int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct List* tokens) {
+    if (code[currentCodeIndex] != '"'){
+        return -1;
+    }
+
+    int i = currentCodeIndex + 1;
+    while (code[i] != '"'){
+        if (code[i] == '\\'){
+            i++;
+        }
+        i++;
+    }
+
+    int lexemeLen = i - currentCodeIndex;
+    char* lexeme = (char*)malloc(lexemeLen - 1);
+    strncpy(lexeme, code + currentCodeIndex + 1, lexemeLen - 2);
+    lexeme[lexemeLen - 2] = '\0';
+
+    // Create a union listValue with a struct Token and set its values
+    union listValue tokenValue;
+    tokenValue.tokenValue.type = STRING;
+    tokenValue.tokenValue.lexeme = lexeme;
+
+    // Append the tokenValue to the list
+    listAppend(tokens, tokenValue);
+
+    return lexemeLen + 1;
+}
+
 /**
  * Tokenizes a code string, identifying and categorizing individual tokens.
  *
@@ -495,6 +534,12 @@ struct List* tokenize(char* code, int codeLen) {
         int identifierLen = tokenizeIdentifier(code, i, codeLen, tokens);
         if (identifierLen != -1) {
             i += identifierLen - 1;
+            continue;
+        }
+
+        int stringLen = tokenizeString(code, i, codeLen, tokens);
+        if (stringLen != -1) {
+            i += stringLen - 1;
             continue;
         }
     }

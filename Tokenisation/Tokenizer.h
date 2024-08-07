@@ -15,6 +15,7 @@ int tokenizeOneChar(char Char, struct List* tokens);
 int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
 int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
 int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
+int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
 
 // main tokenizer functions
 struct List* tokenize(char* code, int codeLen);
