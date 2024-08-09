@@ -74,6 +74,17 @@ void resolveExpression(struct List* namespace, struct Expression* expression, st
         exit(EXIT_FAILURE);
     }
 
+    if (expression->type == INDEXING){
+        resolveExpression(namespace, expression->left, stack);
+        char* value = stringToVariableValue(expression->right->type, expression->right->lexeme, namespace)->data.string;
+        result->type = STRING;
+        result->data.string = (char *)malloc(sizeof(char)*2);
+        result->data.string[0] = value[stackPop(stack)->data.integer - 1];
+        result->data.string[1] = '\0';
+        stackPush(stack, result);
+        return;
+    }
+
     if (expression->type == NOT){
         resolveExpression(namespace, expression->right, stack);
         if (stackTypePeek(stack, 0) != BOOLEAN){

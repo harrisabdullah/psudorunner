@@ -18,12 +18,12 @@
 *
 * @return The index of the closing parenthesis, or 0 if not found.
 */
-int findClosingParen(int openParenIndex, struct List* tokens, int endIndex){
+int findClosingToken(int openParenIndex, struct List* tokens, int endIndex, enum TokenType open, enum TokenType close){
     int depth = 1;
     for (int i=openParenIndex+1; i<=endIndex; i++) {
-        if (tokens->array[i].tokenValue.type == OPEN_PAREN) {
+        if (tokens->array[i].tokenValue.type == open) {
             depth++;
-        } else if (tokens->array[i].tokenValue.type == CLOSE_PAREN) {
+        } else if (tokens->array[i].tokenValue.type == close) {
             depth--;
 
             if (depth == 0) {
@@ -50,12 +50,24 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         endIndex--;
     }
 
+    struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
+
     if (startIndex == endIndex){
-        struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
         returnValue->type = tokens->array[startIndex].tokenValue.type;
         returnValue->lexeme = tokens->array[startIndex].tokenValue.lexeme;
         returnValue->isConstant = 1;
         return returnValue;
+    }
+
+    // catching indexing
+    if (tokens->array[startIndex].tokenValue.type == IDENTIFIER &&
+        tokens->array[startIndex + 1].tokenValue.type == OPEN_SQUARE_PAREN &&
+        tokens->array[endIndex].tokenValue.type == CLOSE_SQUARE_PAREN){
+            returnValue->type = INDEXING;
+            returnValue->right = parseExpression(tokens, startIndex, startIndex);
+            returnValue->left = parseExpression(tokens, startIndex+2, endIndex-1);
+            returnValue->isConstant = 0;
+            return returnValue;
     }
 
     int i = startIndex;
@@ -65,7 +77,10 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
     while (i <= endIndex){
         if (tokens->array[i].tokenValue.type == OPEN_PAREN){
-            i = findClosingParen(i, tokens, endIndex) + 1;
+            i = findClosingToken(i, tokens, endIndex, OPEN_PAREN, CLOSE_PAREN) + 1;
+            continue;
+        } else if (tokens->array[i].tokenValue.type == OPEN_SQUARE_PAREN){
+            i = findClosingToken(i, tokens, endIndex, OPEN_SQUARE_PAREN, CLOSE_SQUARE_PAREN) + 1;
             continue;
         }
 
@@ -118,8 +133,6 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         };
         i++;
     };
-
-    struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
 
     returnValue->left = NULL;
     if (!is_not) {

@@ -91,6 +91,14 @@ int tokenizeOneChar(char Char, struct List* tokens) {
         case '>':
             new_token.type = GREATER;
             break;
+        
+        case '[':
+            new_token.type = OPEN_SQUARE_PAREN;
+            break;
+        
+        case ']':
+            new_token.type = CLOSE_SQUARE_PAREN;
+            break;
 
         case '\n':
             if (previousToken != NULL) {
@@ -486,7 +494,7 @@ int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct L
         i++;
     }
 
-    int lexemeLen = i - currentCodeIndex;
+    int lexemeLen = i - currentCodeIndex + 1;
     char* lexeme = (char*)malloc(lexemeLen - 1);
     strncpy(lexeme, code + currentCodeIndex + 1, lexemeLen - 2);
     lexeme[lexemeLen - 2] = '\0';
@@ -498,8 +506,7 @@ int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct L
 
     // Append the tokenValue to the list
     listAppend(tokens, tokenValue);
-
-    return lexemeLen + 1;
+    return lexemeLen;
 }
 
 /**

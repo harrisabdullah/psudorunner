@@ -25,6 +25,7 @@ int parseWhile(struct ASTNode* node, struct List* tokens, int startIndex, int en
 int parseRepeat(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 int parseFor(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
 
+int findClosingToken(int openParenIndex, struct List* tokens, int endIndex, enum TokenType open, enum TokenType close);
 struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
 int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex);
 
