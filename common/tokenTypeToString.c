@@ -100,5 +100,11 @@ const char* tokenTypeToString(enum TokenType token) {
             return "STRING_IDENTIFIER";
         case STRING:
             return "STRING";
+        case OPEN_SQUARE_PAREN:
+            return "OPEN_SQUARE_PAREN";
+        case CLOSE_SQUARE_PAREN:
+            return "CLOSE_SQUARE_PAREN";
+        case CHARACTER:
+            return "CHARACTER";
     }
 }

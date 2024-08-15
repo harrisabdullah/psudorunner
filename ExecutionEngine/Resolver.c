@@ -63,6 +63,10 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
  // you dont need to return anything 
 void resolveExpression(struct List* namespace, struct Expression* expression, struct Stack* stack){
     if (expression->isConstant){
+        if (expression->type == IDENTIFIER){
+            resolveIdentifier(namespace, expression->identifier, stack);
+            return;
+        }
         stackPush(stack, stringToVariableValue(expression->type, expression->lexeme, namespace));
         return;
     }

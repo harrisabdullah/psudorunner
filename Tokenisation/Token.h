@@ -48,7 +48,9 @@ enum TokenType {
     FOR,
     TO,
     NEXT,
-
+    OPEN_SQUARE_PAREN,
+    CLOSE_SQUARE_PAREN,
+    CHARACTER,
 };
 
 struct Token {

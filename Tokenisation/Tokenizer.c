@@ -92,6 +92,14 @@ int tokenizeOneChar(char Char, struct List* tokens) {
             new_token.type = GREATER;
             break;
 
+        case '[':
+            new_token.type = OPEN_SQUARE_PAREN;
+            break;
+            
+        case ']':
+            new_token.type = CLOSE_SQUARE_PAREN;
+            break;
+
         case '\n':
             if (previousToken != NULL) {
                 struct Token* prevToken = &previousToken->tokenValue;

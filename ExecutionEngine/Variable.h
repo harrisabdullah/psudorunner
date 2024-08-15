@@ -12,6 +12,7 @@ union VariableData {
     float real;
     int boolean;
     char* string;
+    char character;
 };
 
 struct VariableValue {

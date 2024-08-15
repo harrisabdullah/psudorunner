@@ -59,6 +59,9 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 else if (temp->type == STRING){
                     printf("%s\n", temp->data.string);
                 }
+                else if (temp->type == CHARACTER){
+                    printf("%c\n", temp->data.character);
+                }
                 break;
 
             case IF:

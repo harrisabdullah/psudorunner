@@ -18,12 +18,12 @@
 *
 * @return The index of the closing parenthesis, or 0 if not found.
 */
-int findClosingParen(int openParenIndex, struct List* tokens, int endIndex){
+int findClosingParen(int openParenIndex, struct List* tokens, int endIndex, enum TokenType open, enum TokenType close){
     int depth = 1;
     for (int i=openParenIndex+1; i<=endIndex; i++) {
-        if (tokens->array[i].tokenValue.type == OPEN_PAREN) {
+        if (tokens->array[i].tokenValue.type == open) {
             depth++;
-        } else if (tokens->array[i].tokenValue.type == CLOSE_PAREN) {
+        } else if (tokens->array[i].tokenValue.type == close) {
             depth--;
 
             if (depth == 0) {
@@ -50,11 +50,36 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         endIndex--;
     }
 
+    struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
     if (startIndex == endIndex){
-        struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
+        if (tokens->array[startIndex].tokenValue.type == IDENTIFIER){
+            struct Identifier identifier_s;
+            identifier_s.lexeme = tokens->array[startIndex].tokenValue.lexeme;
+            identifier_s.hasIndex = 0;
+
+            returnValue->type = IDENTIFIER;
+            returnValue->isConstant = 1;
+            returnValue->identifier = identifier_s;
+            return returnValue;
+        }
+        
         returnValue->type = tokens->array[startIndex].tokenValue.type;
         returnValue->lexeme = tokens->array[startIndex].tokenValue.lexeme;
         returnValue->isConstant = 1;
+        return returnValue;
+    }
+
+    if (tokens->array[startIndex].tokenValue.type == IDENTIFIER &&
+    tokens->array[startIndex+1].tokenValue.type == OPEN_SQUARE_PAREN &&
+    tokens->array[endIndex].tokenValue.type == CLOSE_SQUARE_PAREN) {
+        struct Identifier identifier_s;
+        identifier_s.lexeme = tokens->array[startIndex].tokenValue.lexeme;
+        identifier_s.hasIndex = 1;
+        identifier_s.indexExpression = parseExpression(tokens, startIndex+2, endIndex-1);
+
+        returnValue->type = IDENTIFIER;
+        returnValue->isConstant = 1;
+        returnValue->identifier = identifier_s;
         return returnValue;
     }
 
@@ -65,7 +90,12 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
     while (i <= endIndex){
         if (tokens->array[i].tokenValue.type == OPEN_PAREN){
-            i = findClosingParen(i, tokens, endIndex) + 1;
+            i = findClosingParen(i, tokens, endIndex, OPEN_PAREN, CLOSE_PAREN) + 1;
+            continue;
+        }
+
+        if (tokens->array[i].tokenValue.type == OPEN_SQUARE_PAREN){
+            i = findClosingParen(i, tokens, endIndex, OPEN_SQUARE_PAREN, CLOSE_SQUARE_PAREN) + 1;
             continue;
         }
 
@@ -118,8 +148,6 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
         };
         i++;
     };
-
-    struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
 
     returnValue->left = NULL;
     if (!is_not) {
@@ -281,6 +309,17 @@ void printASTList(struct List* AST){
 */
 void printExpression(struct Expression* expression){
     if (expression->isConstant) {
+        if (expression->type == IDENTIFIER){
+            if (expression->identifier.hasIndex){
+                printf(" %s[", expression->identifier.lexeme);
+                printExpression(expression->identifier.indexExpression);
+                printf("] ");
+            } else {
+                printf(" %s ", expression->identifier.lexeme);
+            }
+            return;
+        };
+
         printf(" %s ", expression->lexeme);
         return;
     }
