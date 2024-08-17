@@ -11,6 +11,6 @@
 
 struct List* namespaceInit();
 void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenType type);
-void namespaceAssign(struct List* namespaceList, char* identifier, struct Expression* data, struct Stack* stack);
+void namespaceAssign(struct List* namespace, struct Identifier identifier, struct Expression* data, struct Stack* stack);
 
 #endif //PSUDO_INTERPRATOR_2_NAMESPACE_H

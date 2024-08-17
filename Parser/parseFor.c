@@ -3,7 +3,8 @@
 
 int parseFor(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex){
    node->type = FOR;
-   node->value.For.identifier = tokens->array[startIndex+1].tokenValue.lexeme;
+   node->value.For.identifier = (struct Identifier){.lexeme = tokens->array[startIndex+1].tokenValue.lexeme,
+                                                   .hasIndex = 0};
 
    int toIndex = startIndex+1;
    while (tokens->array[toIndex].tokenValue.type != TO){

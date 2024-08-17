@@ -100,7 +100,7 @@ struct List* executeAST(struct List* ASTList, struct List* namespace){
                 struct Expression one;
                 identifierGetter.type = IDENTIFIER;
                 identifierGetter.isConstant = 1;
-                identifierGetter.lexeme = ASTList->array[i].astNodeValue.value.For.identifier;
+                identifierGetter.identifier = ASTList->array[i].astNodeValue.value.For.identifier;
 
                 condition.type = GREATER_OR_EQUALS;
                 condition.isConstant = 0;

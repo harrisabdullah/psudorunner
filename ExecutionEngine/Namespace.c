@@ -47,15 +47,28 @@ void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenTyp
  *
  * @return: None
  */
-void namespaceAssign(struct List* namespaceList, char* identifier, struct Expression* data, struct Stack* stack){
-    for (int i=0; i<namespaceList->head;i++){
-        if (strcmp(namespaceList->array[i].variable.variableName, identifier) == 0){
-            resolveExpression(namespaceList, data, stack);
-            struct VariableValue* test = stackPop(stack);
-            namespaceList->array[i].variable.value = test;
-            return;
-        }
+void namespaceAssign(struct List* namespace, struct Identifier identifier, struct Expression* data, struct Stack* stack){
+    int i = 0;
+    while (i < namespace->head && strcmp(namespace->array[i].variable.variableName, identifier.lexeme) != 0){
+        i++;
     }
+    if (i >= namespace->head){
+        // TODO: explode
+        printf("cant find name to assign too\n");
+        return;
+    }
+
+    resolveExpression(namespace, data, stack);
+    struct VariableValue* resolvedValue = stackPop(stack);
+    if (identifier.hasIndex){
+        resolveExpression(namespace, identifier.indexExpression, stack);
+        int index = stackPop(stack)->data.integer;
+        char c = resolvedValue->data.string[0];
+        namespace->array[i].variable.value->data.string[index-1] = c;
+        return;
+    }
+    namespace->array[i].variable.value = resolvedValue;
+
 }
 
 

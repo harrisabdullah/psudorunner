@@ -232,12 +232,15 @@ int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, i
             moveStartIndex = 1;
             newStartIndex = parseFor(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE)
+        else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE){
             parseDeclare(&newNode, tokens, lineStartIndex);
-        else if (tokens->array[lineStartIndex + 1].tokenValue.type == ASSIGNMENT)
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == IDENTIFIER){
             parseAssignment(&newNode, tokens, lineStartIndex, newlineIndex);
-        else if (tokens->array[lineStartIndex].tokenValue.type == OUTPUT)
+        }
+        else if (tokens->array[lineStartIndex].tokenValue.type == OUTPUT){
             parseOutput(&newNode, tokens, lineStartIndex, newlineIndex);
+        }
         listAppend(ASTList, (union listValue)newNode);
     }
     return newlineIndex - startIndex - 1;
@@ -256,8 +259,12 @@ void printASTList(struct List* AST){
                        tokenTypeToString(AST->array->astNodeValue.value.declare.type));
                 continue;
             case ASSIGNMENT:
-                printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier);
+                printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier.lexeme);
                 printExpression(AST->array[i].astNodeValue.value.assignment.value);
+                if (AST->array[i].astNodeValue.value.assignment.identifier.hasIndex){
+                    printf(", index: ");
+                    printExpression(AST->array[i].astNodeValue.value.assignment.identifier.indexExpression);
+                }
                 printf("}\n");
                 continue;
             case OUTPUT:

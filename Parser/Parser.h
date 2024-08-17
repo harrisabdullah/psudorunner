@@ -5,6 +5,7 @@
 #ifndef PSUDO_INTERPRATOR_2_PARSER_H
 #define PSUDO_INTERPRATOR_2_PARSER_H
 #include "ASTNode.h"
+#include "../Common/List.h"
 
 enum ParserStatus {
    P_NORMAL,

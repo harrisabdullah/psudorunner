@@ -36,14 +36,14 @@ struct ASTRepeat {
 };
 
 struct ASTFor {
-    char* identifier;
+    struct Identifier identifier;
     struct Expression* rangeMin;
     struct Expression* rangeMax;
     struct List* content;
 };
 
 struct ASTAssignment {
-    char* identifier;
+    struct Identifier identifier;
     struct Expression* value;
 };
 

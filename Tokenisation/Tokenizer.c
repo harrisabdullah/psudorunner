@@ -495,9 +495,9 @@ int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct L
     }
 
     int lexemeLen = i - currentCodeIndex;
-    char* lexeme = (char*)malloc(lexemeLen - 1);
-    strncpy(lexeme, code + currentCodeIndex + 1, lexemeLen - 2);
-    lexeme[lexemeLen - 2] = '\0';
+    char* lexeme = (char*)malloc(lexemeLen);
+    strncpy(lexeme, code + currentCodeIndex + 1, lexemeLen - 1);
+    lexeme[lexemeLen - 1] = '\0';
 
     // Create a union listValue with a struct Token and set its values
     union listValue tokenValue;
