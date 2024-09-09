@@ -6,9 +6,9 @@
 
 void resolveIdentifier(struct List* namespace, struct Identifier identifier, struct Stack* stack){
    struct VariableValue* value;
-   for (int i=0; i<namespace->head; i++){
-      if (strcmp(identifier.lexeme, namespace->array[i].variable.variableName) == 0){
-            value = namespace->array[i].variable.value;
+   for (int i=0; i<namespace->length; i++){
+      if (strcmp(identifier.lexeme, ((Variable*)namespace->items[i])->variableName) == 0){
+            value = ((Variable*)namespace->items[i])->value;
             break;
       }
    }

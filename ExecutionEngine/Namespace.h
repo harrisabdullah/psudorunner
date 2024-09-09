@@ -4,7 +4,7 @@
 
 #ifndef PSUDO_INTERPRATOR_2_NAMESPACE_H
 #define PSUDO_INTERPRATOR_2_NAMESPACE_H
-#include "../Tokenisation/Token.h"
+#include "../Tokenisation/token.h"
 #include "../common/List.h"
 #include "../common/Stack.h"
 #include "Variable.h"

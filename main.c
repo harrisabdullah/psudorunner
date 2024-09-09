@@ -3,12 +3,16 @@
 #include "common/List.h"
 #include "ExecutionEngine/ExecutionEngine.h"
 #include "common/tokenTypeToString.h"
+#include <stdio.h>
 
 int main() {
-   struct List* tokens = tokenize("DECLARE i:STRING \n i <- \"pello\" \n i[1] <- \"h\" \n OUTPUT i", 56);
+   List tokens = tokenize("OUTPUT 1", 8);
    printTokenList(tokens);
-   struct List* AST = listInit(ASTNode);
-   parse(tokens, AST, P_NORMAL, 0);
-   printASTList(AST);
-   executeAST(AST, listInit(Variable));
+    List* AST = malloc(sizeof(List));
+   listInit(AST);
+   parse(AST, tokens, P_NORMAL, 0);
+   printASTList(*AST);
+   List* namespace = malloc(sizeof(List));
+   listInit(namespace);
+   executeAST(*AST, namespace);
 }

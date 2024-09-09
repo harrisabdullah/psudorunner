@@ -16,20 +16,20 @@ enum ParserStatus {
    P_FOR,
 };
 
-void parseDeclare(struct ASTNode* node, struct List* tokens, int startIndex);
-void parseAssignment(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
-void parseOutput(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+void parseDeclare(ASTNode* node, List tokens, int startIndex);
+void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex);
+void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex);
 
-int parseIf(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
-int parseElse(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
-int parseWhile(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
-int parseRepeat(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
-int parseFor(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex);
+int parseIf(ASTNode* node, List tokens, int startIndex, int endIndex);
+int parseElse(ASTNode* node, List tokens, int startIndex, int endIndex);
+int parseWhile(ASTNode* node, List tokens, int startIndex, int endIndex);
+int parseRepeat(ASTNode* node, List tokens, int startIndex, int endIndex);
+int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex);
 
-struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex);
-int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex);
+struct Expression* parseExpression(List tokens, int startIndex, int endIndex);
+int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex);
 
 // debug functions
-void printASTList(struct List* AST);
+void printASTList(List AST);
 void printExpression(struct Expression* expression);
 #endif //PSUDO_INTERPRATOR_2_PARSER_H

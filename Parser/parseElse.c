@@ -1,10 +1,15 @@
 #include "Parser.h"
-#include "../Common/List.h"
+#include "../common/List.h"
+#include "../errors/internalErrors.h"
 
-int parseElse(struct ASTNode* node, struct List* tokens, int startIndex, int endIndex){
+int parseElse(ASTNode* node, List tokens, int startIndex, int endIndex){
    node->type = ELSE;
-   struct List* elseList = listInit(ASTNode);
-   int offset = parse(tokens, elseList, P_ELSE, endIndex+1);
+   List* elseList = malloc(sizeof(List));
+   if (elseList == NULL){
+      ie_allocationError();
+   }
+   listInit(elseList);
+   int offset = parse(elseList, tokens, P_ELSE, endIndex+1);
    node->value.Else.content = elseList;
    return offset;
 }

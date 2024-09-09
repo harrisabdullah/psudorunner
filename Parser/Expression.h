@@ -4,7 +4,7 @@
 
 #ifndef PSUDO_INTERPRATOR_2_EXPRESSION_H
 #define PSUDO_INTERPRATOR_2_EXPRESSION_H
-#include "../Tokenisation/Token.h"
+#include "../Tokenisation/token.h"
 
 struct Identifier {
     char* lexeme;

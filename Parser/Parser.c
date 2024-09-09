@@ -4,26 +4,19 @@
 
 #include "../common/List.h"
 #include "../common/tokenTypeToString.h"
+#include "../errors/internalErrors.h"
 #include "Parser.h"
 #include "ASTNode.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
-* Finds the index of the closing parenthesis that corresponds to the given opening parenthesis index.
-*
-* @param openParenIndex The index of the opening parenthesis.
-* @param tokens The list of tokens.
-* @param endIndex The index of the last token to consider.
-*
-* @return The index of the closing parenthesis, or 0 if not found.
-*/
-int findClosingParen(int openParenIndex, struct List* tokens, int endIndex, enum TokenType open, enum TokenType close){
+
+int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenType open, enum TokenType close){
     int depth = 1;
     for (int i=openParenIndex+1; i<=endIndex; i++) {
-        if (tokens->array[i].tokenValue.type == open) {
+        if (((Token*)tokens.items[i])->type == open) {
             depth++;
-        } else if (tokens->array[i].tokenValue.type == close) {
+        } else if (((Token*)tokens.items[i])->type == close) {
             depth--;
 
             if (depth == 0) {
@@ -34,27 +27,19 @@ int findClosingParen(int openParenIndex, struct List* tokens, int endIndex, enum
     return 0;
 }
 
-/**
-* Parses an expression from a list of tokens.
-*
-* @param tokens The list of tokens.
-* @param startIndex The index of the first token in the expression.
-* @param endIndex The index of the last token in the expression.
-*
-* @return A pointer to the parsed expression.
-*/
-struct Expression* parseExpression(struct List* tokens, int startIndex, int endIndex) {
-    if (tokens->array[startIndex].tokenValue.type == OPEN_PAREN &&
-        tokens->array[endIndex].tokenValue.type == CLOSE_PAREN) {
+
+struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
+    if (((Token*)tokens.items[startIndex])->type == OPEN_PAREN &&
+        ((Token*)tokens.items[endIndex])->type == CLOSE_PAREN) {
         startIndex++;
         endIndex--;
     }
 
     struct Expression* returnValue = (struct Expression*)malloc(sizeof(struct Expression));
     if (startIndex == endIndex){
-        if (tokens->array[startIndex].tokenValue.type == IDENTIFIER){
+        if (((Token*)tokens.items[startIndex])->type == IDENTIFIER){
             struct Identifier identifier_s;
-            identifier_s.lexeme = tokens->array[startIndex].tokenValue.lexeme;
+            identifier_s.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
             identifier_s.hasIndex = 0;
 
             returnValue->type = IDENTIFIER;
@@ -63,17 +48,17 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
             return returnValue;
         }
         
-        returnValue->type = tokens->array[startIndex].tokenValue.type;
-        returnValue->lexeme = tokens->array[startIndex].tokenValue.lexeme;
+        returnValue->type = ((Token*)tokens.items[startIndex])->type;
+        returnValue->lexeme = ((Token*)tokens.items[startIndex])->lexeme;
         returnValue->isConstant = 1;
         return returnValue;
     }
 
-    if (tokens->array[startIndex].tokenValue.type == IDENTIFIER &&
-    tokens->array[startIndex+1].tokenValue.type == OPEN_SQUARE_PAREN &&
-    tokens->array[endIndex].tokenValue.type == CLOSE_SQUARE_PAREN) {
+    if (((Token*)tokens.items[startIndex])->type == IDENTIFIER &&
+    ((Token*)tokens.items[startIndex])->type == OPEN_SQUARE_PAREN &&
+    ((Token*)tokens.items[endIndex])->type == CLOSE_SQUARE_PAREN) {
         struct Identifier identifier_s;
-        identifier_s.lexeme = tokens->array[startIndex].tokenValue.lexeme;
+        identifier_s.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
         identifier_s.hasIndex = 1;
         identifier_s.indexExpression = parseExpression(tokens, startIndex+2, endIndex-1);
 
@@ -89,17 +74,17 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
     int operationLevel = 0;
 
     while (i <= endIndex){
-        if (tokens->array[i].tokenValue.type == OPEN_PAREN){
+        if (((Token*)tokens.items[i])->type == OPEN_PAREN){
             i = findClosingParen(i, tokens, endIndex, OPEN_PAREN, CLOSE_PAREN) + 1;
             continue;
         }
 
-        if (tokens->array[i].tokenValue.type == OPEN_SQUARE_PAREN){
+        if (((Token*)tokens.items[i])->type == OPEN_SQUARE_PAREN){
             i = findClosingParen(i, tokens, endIndex, OPEN_SQUARE_PAREN, CLOSE_SQUARE_PAREN) + 1;
             continue;
         }
 
-        switch (tokens->array[i].tokenValue.type) {
+        switch (((Token*)tokens.items[i])->type) {
 
             case AND:
             case OR:
@@ -156,153 +141,148 @@ struct Expression* parseExpression(struct List* tokens, int startIndex, int endI
 
 
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex);
-    returnValue->type = tokens->array[bestOperationIndex].tokenValue.type;
+    returnValue->type = ((Token*)tokens.items[bestOperationIndex])->type;
     returnValue->isConstant = 0;
     return returnValue;
 };
 
-/**
-* Parses a list of tokens into an abstract syntax tree (AST).
-*
-* @param tokens The list of tokens.
-*
-* @return The AST as a list of ASTNodes.
-*/
-int parse(struct List* tokens, struct List* ASTList, enum ParserStatus status, int startIndex){
+
+int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex){
+    enum TokenType currantType;
     int lineStartIndex, newlineIndex = startIndex-1;
     int moveStartIndex = 0, newStartIndex = 0;
-    struct ASTNode newNode;
-
-    while (newlineIndex < tokens->head) {
+     ASTNode* newNode;
+    while (newlineIndex < tokens.length) {
         newlineIndex++;
         lineStartIndex = newlineIndex;
         if (moveStartIndex){
-            if (newStartIndex >= tokens->head){
+            if (newStartIndex >= tokens.length){
                 break;
             }
             lineStartIndex = newStartIndex;
             newlineIndex = newStartIndex;
             moveStartIndex = 0;
         }
-        while (newlineIndex < tokens->head && tokens->array[newlineIndex].tokenValue.type != NEW_LINE){
+        while (newlineIndex < tokens.length && ((Token*)tokens.items[newlineIndex])->type != NEW_LINE){
             newlineIndex++;
         }
         if (lineStartIndex == newlineIndex){
             break;
         }
+        currantType = ((Token*)tokens.items[lineStartIndex])->type;
         if (status == P_IF || status == P_ELSE){
-            if (tokens->array[lineStartIndex].tokenValue.type == ENDIF ||
-                tokens->array[lineStartIndex].tokenValue.type == ELSE){
+            if (currantType == ENDIF ||
+                currantType == ELSE){
                 break;
                 }
         }
         if (status == P_WHILE){
-            if (tokens->array[lineStartIndex].tokenValue.type == ENDWHILE){
+            if (currantType == ENDWHILE){
                 break;
             }
         }
         if (status == P_REPEAT){
-            if (tokens->array[lineStartIndex].tokenValue.type == UNTIL){
+            if (currantType == UNTIL){
                 break;
             }
         }
         if (status == P_FOR){
-            if (tokens->array[lineStartIndex].tokenValue.type == NEXT){
+            if (currantType == NEXT){
                 break;
             }
         }
 
-        if (tokens->array[lineStartIndex].tokenValue.type == IF){
+        newNode = malloc(sizeof(ASTNode));
+        if (newNode == NULL){
+            ie_allocationError();
+        }
+        if (currantType == IF){
             moveStartIndex = 1;
-            newStartIndex = parseIf(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseIf(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == ELSE){
+        else if (currantType == ELSE){
             moveStartIndex = 1;
-            newStartIndex = parseElse(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseElse(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == WHILE){
+        else if (currantType == WHILE){
             moveStartIndex = 1;
-            newStartIndex = parseWhile(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseWhile(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == REPEAT){
+        else if (currantType == REPEAT){
             moveStartIndex = 1;
-            newStartIndex = parseRepeat(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseRepeat(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == FOR){
+        else if (currantType == FOR){
             moveStartIndex = 1;
-            newStartIndex = parseFor(&newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseFor(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == DECLARE){
-            parseDeclare(&newNode, tokens, lineStartIndex);
+        else if (currantType == DECLARE){
+            parseDeclare(newNode, tokens, lineStartIndex);
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == IDENTIFIER){
-            parseAssignment(&newNode, tokens, lineStartIndex, newlineIndex);
+        else if (currantType == IDENTIFIER){
+            parseAssignment(newNode, tokens, lineStartIndex, newlineIndex);
         }
-        else if (tokens->array[lineStartIndex].tokenValue.type == OUTPUT){
-            parseOutput(&newNode, tokens, lineStartIndex, newlineIndex);
+        else if (currantType == OUTPUT){
+            parseOutput(newNode, tokens, lineStartIndex, newlineIndex);
         }
-        listAppend(ASTList, (union listValue)newNode);
+        listAppend(ASTList, newNode);
     }
     return newlineIndex - startIndex - 1;
 };
 
-/**
-* Prints the given AST list.
-*
-* @param AST The AST list to print.
-*/
-void printASTList(struct List* AST){
-    for (int i=0; i<AST->head; i++){
-        switch (AST->array[i].astNodeValue.type) {
+
+void printASTList(List AST){
+    for (int i=0; i<AST.length; i++){
+        switch (((ASTNode*)AST.items[i])->type) {
             case DECLARE:
-                printf("DECLARE: {identifier: %s, type: %s}\n", AST->array[i].astNodeValue.value.declare.identifier,
-                       tokenTypeToString(AST->array->astNodeValue.value.declare.type));
+                printf("DECLARE: {identifier: %s, type: %s}\n", ((ASTNode*)AST.items[i])->value.declare.identifier,
+                       tokenTypeToString(((ASTNode*)AST.items[i])->value.declare.type));
                 continue;
             case ASSIGNMENT:
-                printf("ASSIGMENT: {identifier: %s, expression: ", AST->array[i].astNodeValue.value.assignment.identifier.lexeme);
-                printExpression(AST->array[i].astNodeValue.value.assignment.value);
-                if (AST->array[i].astNodeValue.value.assignment.identifier.hasIndex){
+                printf("ASSIGMENT: {identifier: %s, expression: ", ((ASTNode*)AST.items[i])->value.assignment.identifier.lexeme);
+                printExpression(((ASTNode*)AST.items[i])->value.assignment.value);
+                if (((ASTNode*)AST.items[i])->value.assignment.identifier.hasIndex){
                     printf(", index: ");
-                    printExpression(AST->array[i].astNodeValue.value.assignment.identifier.indexExpression);
+                    printExpression(((ASTNode*)AST.items[i])->value.assignment.identifier.indexExpression);
                 }
                 printf("}\n");
                 continue;
             case OUTPUT:
                 printf("OUTPUT: {value: ");
-                printExpression(AST->array[i].astNodeValue.value.output.value);
+                printExpression(((ASTNode*)AST.items[i])->value.output.value);
                 printf("}\n");
                 continue;
             case IF:
                 printf("IF: {test: ");
-                printExpression(AST->array[i].astNodeValue.value.If.test);
+                printExpression(((ASTNode*)AST.items[i])->value.If.test);
                 printf(", code: ");
-                printASTList(AST->array[i].astNodeValue.value.If.content);
+                printASTList(*(((ASTNode*)AST.items[i])->value.If.content));
                 printf("}\n");
                 continue;
             case ELSE:
                 printf("ELSE: {code: ");
-                printASTList(AST->array[i].astNodeValue.value.Else.content);
+                printASTList(*(((ASTNode*)AST.items[i])->value.Else.content));
                 printf("}\n");
 
             case WHILE:
                 printf("WHILE: {condition: ");
-                printExpression(AST->array[i].astNodeValue.value.While.condition);
+                printExpression(((ASTNode*)AST.items[i])->value.While.condition);
                 printf(", code: ");
-                printASTList(AST->array[i].astNodeValue.value.While.content);
+                printASTList(*(((ASTNode*)AST.items[i])->value.While.content));
                 printf("}\n");
             case REPEAT:
                 printf("REPEAT UNTIL: {condition: ");
-                printExpression(AST->array[i].astNodeValue.value.Repeat.condition);
+                printExpression(((ASTNode*)AST.items[i])->value.Repeat.condition);
                 printf(", code: ");
-                printASTList(AST->array[i].astNodeValue.value.Repeat.content);
+                printASTList(*(((ASTNode*)AST.items[i])->value.Repeat.content));
                 printf("}\n");
             case FOR:
                 printf("FOR: {range: ");
-                printExpression(AST->array[i].astNodeValue.value.For.rangeMin);
+                printExpression(((ASTNode*)AST.items[i])->value.For.rangeMin);
                 printf(" -> ");
-                printExpression(AST->array[i].astNodeValue.value.For.rangeMax);
+                printExpression(((ASTNode*)AST.items[i])->value.For.rangeMax);
                 printf(", code: ");
-                printASTList(AST->array[i].astNodeValue.value.For.content);
+                printASTList(*(((ASTNode*)AST.items[i])->value.For.content));
                 printf("}\n");
 
         }

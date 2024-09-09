@@ -4,7 +4,7 @@
 
 #ifndef PSUDO_INTERPRATOR_2_ASTNODE_H
 #define PSUDO_INTERPRATOR_2_ASTNODE_H
-#include "../Tokenisation/Token.h"
+#include "../Tokenisation/token.h"
 #include "Expression.h"
 
 struct ASTDeclare {
@@ -58,9 +58,9 @@ union ASTNodeValue {
     struct ASTFor For;
 };
 
-struct ASTNode {
+typedef struct ASTNode {
     enum TokenType type;
     union ASTNodeValue value;
-};
+} ASTNode;
 
 #endif //PSUDO_INTERPRATOR_2_ASTNODE_H

@@ -7,21 +7,19 @@
 #include "../common/List.h"
 #include "Token.h"
 
-// helper function
-static int isKeyword(const char* keyword, int keywordLen, const char* code, int currantCodeIndex, int codeLen);
 
 // tokenize text units
-int tokenizeOneChar(char Char, struct List* tokens);
-int tokenizeKeywords(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
-int tokenizeNumber(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
-int tokenizeIdentifier(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
-int tokenizeString(const char* code, int currentCodeIndex, int codeLen, struct List* tokens);
+int tokenizeOneChar(Token* token, Token* previouseToken, char Char);
+int tokenizeKeywords(Token* token, const char* code, int currentCodeIndex, int codeLen);
+int tokenizeNumber(Token* token, const char* code, int currentCodeIndex, int codeLen);
+int tokenizeIdentifier(Token* token, const char* code, int currentCodeIndex, int codeLen);
+int tokenizeString(Token* token, const char* code, int currentCodeIndex, int codeLen);
 
 // main tokenizer functions
-struct List* tokenize(char* code, int codeLen);
+struct List tokenize(char* code, int codeLen);
 
 // debug functions
-void printToken(struct Token token);
-void printTokenList(struct List* tokens);
+void printToken(struct Token* token);
+void printTokenList(List tokens);
 
 #endif //PSUDO_INTERPRATOR_2_TOKENIZER_H

@@ -5,7 +5,7 @@
 #ifndef PSUDO_INTERPRATOR_2_VARIABLE_H
 #define PSUDO_INTERPRATOR_2_VARIABLE_H
 #include <stdlib.h>
-#include "../Tokenisation/Token.h"
+#include "../Tokenisation/token.h"
 
 union VariableData {
     int integer;
@@ -20,10 +20,10 @@ struct VariableValue {
     union VariableData data;
 };
 
-struct Variable {
+typedef struct Variable {
     char* variableName;
     struct VariableValue* value;
-};
+} Variable;
 
 inline void freeVariable(struct Variable* pointer){
     free(pointer->variableName);

@@ -1,0 +1,41 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
+# The set of languages for which implicit dependencies are needed:
+set(CMAKE_DEPENDS_LANGUAGES
+  )
+
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/harrisabdullah/Documents/vscode_projs/c/ExecutionEngine/ExecutionEngine.c" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/ExecutionEngine.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/ExecutionEngine.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/ExecutionEngine/Namespace.c" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Namespace.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Namespace.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/ExecutionEngine/Resolver.c" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Resolver.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/Resolver.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/ExecutionEngine/resolveIdentifier.c" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/resolveIdentifier.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/ExecutionEngine/resolveIdentifier.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/Parser.c" "CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/Parser.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseAssignment.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseAssignment.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseAssignment.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseDeclare.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseDeclare.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseDeclare.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseElse.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseElse.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseElse.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseExpression.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseExpression.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseExpression.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseFor.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseFor.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseFor.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseIf.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseIf.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseIf.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseOutput.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseOutput.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseOutput.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseRepeat.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseRepeat.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseRepeat.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Parser/parseWhile.c" "CMakeFiles/psudo_interprator_2.dir/Parser/parseWhile.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Parser/parseWhile.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/Tokenisation/Tokenizer.c" "CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/Tokenisation/Tokenizer.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/common/List.c" "CMakeFiles/psudo_interprator_2.dir/common/List.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/common/List.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/common/Stack.c" "CMakeFiles/psudo_interprator_2.dir/common/Stack.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/common/Stack.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/common/tokenTypeToString.c" "CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/common/tokenTypeToString.c.o.d"
+  "/Users/harrisabdullah/Documents/vscode_projs/c/main.c" "CMakeFiles/psudo_interprator_2.dir/main.c.o" "gcc" "CMakeFiles/psudo_interprator_2.dir/main.c.o.d"
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+  )
+
+# Fortran module output directory.
+set(CMAKE_Fortran_TARGET_MODULE_DIR "")

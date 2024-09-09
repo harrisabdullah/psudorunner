@@ -6,6 +6,6 @@
 #define PSUDO_INTERPRATOR_2_TOKENTYPETOSTRING_H
 
 #endif //PSUDO_INTERPRATOR_2_TOKENTYPETOSTRING_H
-#include "../Tokenisation/Token.h"
+#include "../Tokenisation/token.h"
 
 const char* tokenTypeToString(enum TokenType token);

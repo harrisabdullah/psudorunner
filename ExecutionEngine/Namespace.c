@@ -6,36 +6,29 @@
 #include "Resolver.h"
 #include "../common/Stack.h"
 #include "../common/tokenTypeToString.h"
+#include "../errors/internalErrors.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
-/**
- * Initializes a new namespace list.
- *
- * @return: A pointer to the newly created namespace list.
- */
-struct List* namespaceInit(){
-    return listInit(Variable);
+List* namespaceInit(){
+    List* namespace = malloc(sizeof(List));
+    listInit(namespace);
+    return namespace;
 }
 
-/**
- * Appends a new variable to the namespace list.
- *
- * @param namespaceList: The namespace list to append to.
- * @param identifier: The name of the variable to append.
- * @param type: The type of the variable to append.
- *
- * @return: None
- */
-void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenType type){
+void namespaceAppend(List* namespaceList, char* identifier, enum TokenType type){
     
-    struct VariableValue* value = (struct VariableValue*) malloc(sizeof(struct VariableValue));
+    struct VariableValue* value = malloc(sizeof(struct VariableValue));
+    Variable* var = malloc(sizeof(Variable));
+    if (value == NULL || var == NULL){
+        ie_allocationError();
+    }
     value->type = type;
+    var->value = value;
+    var->variableName = identifier;
 
-    listAppend(namespaceList, (union listValue){.variable=(struct Variable){
-        .variableName = identifier,
-        .value = value,
-    }});
+    listAppend(namespaceList, var);
 }
 
 /**
@@ -47,12 +40,12 @@ void namespaceAppend(struct List* namespaceList, char* identifier, enum TokenTyp
  *
  * @return: None
  */
-void namespaceAssign(struct List* namespace, struct Identifier identifier, struct Expression* data, struct Stack* stack){
+void namespaceAssign(List* namespace, struct Identifier identifier, struct Expression* data, struct Stack* stack){
     int i = 0;
-    while (i < namespace->head && strcmp(namespace->array[i].variable.variableName, identifier.lexeme) != 0){
+    while (i < namespace->length && strcmp(((Variable*)namespace->items[i])->variableName, identifier.lexeme) != 0){
         i++;
     }
-    if (i >= namespace->head){
+    if (i >= namespace->length){
         // TODO: explode
         printf("cant find name to assign too\n");
         return;
@@ -64,11 +57,10 @@ void namespaceAssign(struct List* namespace, struct Identifier identifier, struc
         resolveExpression(namespace, identifier.indexExpression, stack);
         int index = stackPop(stack)->data.integer;
         char c = resolvedValue->data.string[0];
-        namespace->array[i].variable.value->data.string[index-1] = c;
+        ((Variable*)namespace->items[i])->value->data.string[index-1] = c;
         return;
     }
-    namespace->array[i].variable.value = resolvedValue;
-
+    ((Variable*)namespace->items[i])->value = resolvedValue;
 }
 
 

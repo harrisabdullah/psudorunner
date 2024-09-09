@@ -53,9 +53,9 @@ enum TokenType {
     CHARACTER,
 };
 
-struct Token {
+typedef struct Token {
     enum TokenType type;
     char* lexeme;
-};
+} Token;
 
 #endif //PSUDO_INTERPRATOR_2_TOKEN_H

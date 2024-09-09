@@ -21,9 +21,9 @@
  */
 struct VariableValue* stringToVariableValue(enum TokenType type, char* data, struct List* namespace){
     if (type == IDENTIFIER){
-        for (int i=0; i<namespace->head; i++){
-            if (strcmp(data, namespace->array[i].variable.variableName) == 0){
-                return namespace->array[i].variable.value;
+        for (int i=0; i<namespace->length; i++){
+            if (strcmp(data, ((Variable*)namespace->items[i])->variableName) == 0){
+                return ((Variable*)namespace->items[i])->value;
             }
         }
     }
