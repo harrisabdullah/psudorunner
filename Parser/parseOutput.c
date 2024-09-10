@@ -1,5 +1,5 @@
 #include "Parser.h"
-#include "../Common/List.h"
+#include "../common/List.h"
 #include <stdio.h>
 
 void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex){

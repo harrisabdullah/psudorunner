@@ -13,7 +13,7 @@ void stackInit(struct Stack* stack){
    stack->arrayLength = STACK_CHUNK_SIZE;
    stack->head = 0;
    stack->popDepth = 0;
-   stack->array = (union StackValue*)calloc(STACK_CHUNK_SIZE, sizeof(struct VariableValue*));
+   stack->array = (struct VariableValue**)calloc(STACK_CHUNK_SIZE, sizeof(struct VariableValue*));
 
 
    if (stack->array == NULL){
@@ -25,7 +25,7 @@ void stackInit(struct Stack* stack){
 void stackPush(struct Stack* stack, struct VariableValue* data){
    if (stack->head == stack->arrayLength){
       stack->arrayLength += STACK_CHUNK_SIZE;
-      stack->array = (union StackValue*)realloc(stack->array, sizeof(struct VariableValue*)*stack->arrayLength);
+      stack->array = (struct VariableValue**)realloc(stack->array, sizeof(struct VariableValue*)*stack->arrayLength);
 
       if (stack->array == NULL){
          perror("stack allocation failed\n");
@@ -45,7 +45,7 @@ void stackPush(struct Stack* stack, struct VariableValue* data){
 struct VariableValue* stackPop(struct Stack* stack){
    if (stack->arrayLength - stack->head >= 2 * STACK_CHUNK_SIZE){
       stack->arrayLength -= STACK_CHUNK_SIZE;
-      stack->array = (union stackValue*)realloc(stack->array, sizeof(struct VariableValue*)*stack->arrayLength);
+      stack->array = (struct VariableValue**)realloc(stack->array, sizeof(struct VariableValue*)*stack->arrayLength);
    };
 
    stack->head--;
