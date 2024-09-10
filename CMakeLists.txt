@@ -47,4 +47,4 @@ set(HEADERS
 )
 
 # Add executable target
-add_executable(psudo_interprator_2 ${SOURCES} ${HEADERS})
+add_executable(psudo_interprator_2 ${PROJECT_SOURCE_DIR}/${SOURCES} ${PROJECT_SOURCE_DIR}/${HEADERS})
