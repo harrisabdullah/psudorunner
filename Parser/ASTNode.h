@@ -4,7 +4,7 @@
 
 #ifndef PSUDO_INTERPRATOR_2_ASTNODE_H
 #define PSUDO_INTERPRATOR_2_ASTNODE_H
-#include "../Tokenisation/token.h"
+#include "../Tokenisation/Token.h"
 #include "Expression.h"
 
 struct ASTDeclare {
