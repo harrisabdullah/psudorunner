@@ -3,7 +3,7 @@
 //
 
 #include "tokenTypeToString.h"
-#include "../Tokenisation/token.h"
+#include "../Tokenisation/Token.h"
 
 
 // debug function
