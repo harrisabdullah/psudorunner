@@ -32,7 +32,7 @@ set(SOURCES
 # Set the header files (optional but helpful)
 set(HEADERS
     Tokenisation/Tokenizer.h
-    Tokenisation/token.h
+    Tokenisation/Token.h
     common/List.h
     common/tokenTypeToString.h
     ExecutionEngine/ExecutionEngine.h
