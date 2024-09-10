@@ -5,7 +5,7 @@
 #ifndef PSUDO_INTERPRATOR_2_VARIABLE_H
 #define PSUDO_INTERPRATOR_2_VARIABLE_H
 #include <stdlib.h>
-#include "../Tokenisation/token.h"
+#include "../Tokenisation/Token.h"
 
 union VariableData {
     int integer;

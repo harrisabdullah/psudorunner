@@ -2,7 +2,7 @@
 // Created by Harris on 15/08/2024.
 //
 #include "Resolver.h"
-#include <String.h>
+#include <string.h>
 
 void resolveIdentifier(struct List* namespace, struct Identifier identifier, struct Stack* stack){
    struct VariableValue* value;
