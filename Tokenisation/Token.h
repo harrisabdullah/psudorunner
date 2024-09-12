@@ -7,21 +7,23 @@
 
 enum TokenType {
     NULL_TYPE = -1,
-    DECLARE, // DECLARE statement e.g. "DECLARE i: INTEGER"
-    IDENTIFIER, // names of function or variables e.g. `i`
-    INTEGER_IDENTIFIER, // the integer type e.g. the "INTEGER" in "DECLARE i: INTEGER"
-    REAL_IDENTIFIER, // the real type
+    DECLARE, 
+    IDENTIFIER, 
+    // ALL TYPE IDENTIFERS MUST BE ADDED TO isTypeIdentifier() IN Parser.c
+    INTEGER_IDENTIFIER,
+    REAL_IDENTIFIER, 
     BOOLEAN_IDENTIFIER,
     STRING_IDENTIFIER,
-    INTEGER, // declaring integer values
-    REAL, // declaring real values
-    BOOLEAN, // declaring boolean values
+    // ALL TYPE IDENTIFERS MUST BE ADDED TO isTypeIdentifier() IN Parser.c
+    INTEGER, 
+    REAL,
+    BOOLEAN, 
     STRING,
-    ASSIGNMENT, // the assignment operator e.g. the "<-" in "i <- 5"
-    ADDITION, // the addition operator e.g. "1+1"
-    SUBTRACTION, // the subtraction operator e.g. "2-1"
-    DIVISION, // the division operator e.g. "4/2"
-    MULTIPLICATION, // the multiplication operator e.g. "3*3"
+    ASSIGNMENT, 
+    ADDITION,
+    SUBTRACTION, 
+    DIVISION, 
+    MULTIPLICATION, 
     MODULO,
     EQUALS,
     NOT_EQUALS,
@@ -32,11 +34,11 @@ enum TokenType {
     AND,
     OR,
     NOT,
-    OPEN_PAREN, // open parenthesis
-    CLOSE_PAREN, // close parenthesis
-    COLON, // colon
-    NEW_LINE, // used to terminate statements e.g. the semicolon in c
-    OUTPUT, // its basically print
+    OPEN_PAREN, 
+    CLOSE_PAREN,
+    COLON,
+    NEW_LINE,
+    OUTPUT,
     IF,
     THEN,
     ENDIF,
@@ -51,6 +53,8 @@ enum TokenType {
     OPEN_SQUARE_PAREN,
     CLOSE_SQUARE_PAREN,
     CHARACTER,
+    COMMA,
+    FUNCTION_CALL,
 };
 
 typedef struct Token {

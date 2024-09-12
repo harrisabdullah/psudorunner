@@ -10,15 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-/**
- * Converts a string representation of a variable value to a VariableValue struct.
- *
- * @param type: The type of the variable value.
- * @param data: The string representation of the variable value.
- * @param namespace: The namespace list to search for identifiers.
- *
- * @return: A pointer to the VariableValue struct.
- */
+
 struct VariableValue* stringToVariableValue(enum TokenType type, char* data, struct List* namespace){
     if (type == IDENTIFIER){
         for (int i=0; i<namespace->length; i++){
@@ -51,20 +43,14 @@ struct VariableValue* stringToVariableValue(enum TokenType type, char* data, str
     return result;
 }
 
-/**
- * Resolves an expression to a variable value.
- *
- * @param namespace: The namespace list to search for variable values.
- * @param expression: The expression to resolve.
- *
- * @return: A pointer to the resolved VariableValue struct.
- */
-
- // you dont need to return anything 
 void resolveExpression(struct List* namespace, struct Expression* expression, struct Stack* stack){
     if (expression->isConstant){
         if (expression->type == IDENTIFIER){
             resolveIdentifier(namespace, expression->identifier, stack);
+            return;
+        }
+        if (expression->type == FUNCTION_CALL){
+            execSTDFunc(expression->funcCall, namespace, stack);
             return;
         }
         stackPush(stack, stringToVariableValue(expression->type, expression->lexeme, namespace));
@@ -116,7 +102,6 @@ void resolveExpression(struct List* namespace, struct Expression* expression, st
             int rightValue = stackPop(stack)->data.boolean;
 
             result->data.boolean = leftValue || rightValue;
-            result->data.boolean = 1;
         }
         stackPush(stack, result);
         return;

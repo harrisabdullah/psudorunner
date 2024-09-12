@@ -27,6 +27,12 @@ int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenTy
     return 0;
 }
 
+int isTypeIdentifier(Token* t){
+    return t->type == INTEGER_IDENTIFIER ||
+           t->type == REAL_IDENTIFIER ||
+           t->type == BOOLEAN_IDENTIFIER ||
+           t->type == STRING_IDENTIFIER;
+}
 
 struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
     if (((Token*)tokens.items[startIndex])->type == OPEN_PAREN &&
@@ -54,8 +60,20 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
         return returnValue;
     }
 
+    // function calls
+    if ((((Token*)tokens.items[startIndex])->type == IDENTIFIER ||
+    isTypeIdentifier((Token*)tokens.items[startIndex])) &&
+    ((Token*)tokens.items[startIndex+1])->type == OPEN_PAREN &&
+    ((Token*)tokens.items[endIndex])->type == CLOSE_PAREN){
+        returnValue->type = FUNCTION_CALL;
+        returnValue->isConstant = 1;
+        returnValue->funcCall = parseFuncCall(tokens, startIndex, endIndex);
+        return returnValue;
+    }
+
+    // indexing
     if (((Token*)tokens.items[startIndex])->type == IDENTIFIER &&
-    ((Token*)tokens.items[startIndex])->type == OPEN_SQUARE_PAREN &&
+    ((Token*)tokens.items[startIndex+1])->type == OPEN_SQUARE_PAREN &&
     ((Token*)tokens.items[endIndex])->type == CLOSE_SQUARE_PAREN) {
         struct Identifier identifier_s;
         identifier_s.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
@@ -306,6 +324,16 @@ void printExpression(struct Expression* expression){
             }
             return;
         };
+
+        if (expression->type == FUNCTION_CALL){
+            printf(" %s(", expression->funcCall.lexeme);
+            for (int i=0; i<expression->funcCall.args.length; i++){
+                printExpression(expression->funcCall.args.items[i]);
+                printf(", ");
+            }
+            printf(") ");
+            return;
+        }
 
         printf(" %s ", expression->lexeme);
         return;

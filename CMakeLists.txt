@@ -16,6 +16,7 @@ set(SOURCES
     ExecutionEngine/resolveIdentifier.c
     ExecutionEngine/Namespace.c
     ExecutionEngine/Resolver.c
+    ExecutionEngine/execSTDFunc.c
     common/Stack.c
     Parser/Parser.c
     Parser/parseAssignment.c
@@ -26,7 +27,10 @@ set(SOURCES
     Parser/parseWhile.c
     Parser/parseRepeat.c
     Parser/parseFor.c
+    Parser/parseFuncCall.c
     errors/internalErrors.c
+    pseudo_std/std_INT.c
+    pseudo_std/std.c
 )
 
 # Set the header files (optional but helpful)
@@ -44,6 +48,7 @@ set(HEADERS
     Parser/ASTNode.h
     Parser/Expression.h
     errors/internalErrors.h
+    pseudo_std/std.h
 )
 
 # Add executable target

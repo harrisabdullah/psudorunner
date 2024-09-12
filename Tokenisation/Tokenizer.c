@@ -56,6 +56,10 @@ int tokenizeOneChar(Token* token, Token* previousToken, char Char) {
         case '[':
             token->type = OPEN_SQUARE_PAREN;
             break;
+
+        case ',':
+            token->type = COMMA;
+            break;
             
         case ']':
             token->type = CLOSE_SQUARE_PAREN;

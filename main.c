@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 int main() {
-   List tokens = tokenize("OUTPUT 1", 8);
+   List tokens = tokenize("OUTPUT INTEGER(1.2)", 19);
    printTokenList(tokens);
     List* AST = malloc(sizeof(List));
    listInit(AST);

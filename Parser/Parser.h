@@ -26,6 +26,11 @@ int parseWhile(ASTNode* node, List tokens, int startIndex, int endIndex);
 int parseRepeat(ASTNode* node, List tokens, int startIndex, int endIndex);
 int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex);
 
+struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex);
+
+int isTypeIdentifier(Token* t);
+int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenType open, enum TokenType close);
+
 struct Expression* parseExpression(List tokens, int startIndex, int endIndex);
 int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex);
 

@@ -9,6 +9,8 @@
 #include "Namespace.h"
 #include "Variable.h"
 
+void execSTDFunc(struct FuncCall f, List* ns, struct Stack* stack);
+
 struct VariableValue* stringToVariableValue(enum TokenType type, char* data, struct List* namespace);
 void resolveIdentifier(struct List* namespace, struct Identifier identifier, struct Stack* stack);
 void resolveExpression(struct List* namespace, struct Expression* expression, struct Stack* stack);

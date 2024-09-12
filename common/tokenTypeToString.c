@@ -106,5 +106,9 @@ const char* tokenTypeToString(enum TokenType token) {
             return "CLOSE_SQUARE_PAREN";
         case CHARACTER:
             return "CHARACTER";
+        case COMMA:
+            return "COMMA";
+        case FUNCTION_CALL:
+            return "FUNCTION_CALL";
     }
 }
