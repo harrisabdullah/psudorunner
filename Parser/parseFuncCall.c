@@ -8,7 +8,7 @@ struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex){
    struct FuncCall funcCall;
 
    if (isTypeIdentifier((Token*)tokens.items[startIndex])){
-      funcCall.lexeme = tokenTypeToString(((Token*)tokens.items[startIndex])->type);
+      funcCall.lexeme = (char*)tokenTypeToString(((Token*)tokens.items[startIndex])->type);
    } else {
       funcCall.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
    }
