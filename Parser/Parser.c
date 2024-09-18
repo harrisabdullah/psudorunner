@@ -5,6 +5,8 @@
 #include "../common/List.h"
 #include "../common/tokenTypeToString.h"
 #include "../errors/internalErrors.h"
+#include "../errors/errors.h"
+#include "../errors/syntaxChecker.h"
 #include "Parser.h"
 #include "ASTNode.h"
 #include <stdio.h>
@@ -34,7 +36,7 @@ int isTypeIdentifier(Token* t){
            t->type == STRING_IDENTIFIER;
 }
 
-struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
+struct Expression* parseExpression(List tokens, int startIndex, int endIndex, char* code){
     if (((Token*)tokens.items[startIndex])->type == OPEN_PAREN &&
         ((Token*)tokens.items[endIndex])->type == CLOSE_PAREN) {
         startIndex++;
@@ -54,6 +56,7 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
             return returnValue;
         }
         
+        syn_checkConst(startIndex, tokens, code);
         returnValue->type = ((Token*)tokens.items[startIndex])->type;
         returnValue->lexeme = ((Token*)tokens.items[startIndex])->lexeme;
         returnValue->isConstant = 1;
@@ -67,7 +70,7 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
     ((Token*)tokens.items[endIndex])->type == CLOSE_PAREN){
         returnValue->type = FUNCTION_CALL;
         returnValue->isConstant = 1;
-        returnValue->funcCall = parseFuncCall(tokens, startIndex, endIndex);
+        returnValue->funcCall = parseFuncCall(tokens, startIndex, endIndex, code);
         return returnValue;
     }
 
@@ -78,7 +81,7 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
         struct Identifier identifier_s;
         identifier_s.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
         identifier_s.hasIndex = 1;
-        identifier_s.indexExpression = parseExpression(tokens, startIndex+2, endIndex-1);
+        identifier_s.indexExpression = parseExpression(tokens, startIndex+2, endIndex-1, code);
 
         returnValue->type = IDENTIFIER;
         returnValue->isConstant = 1;
@@ -154,18 +157,18 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex) {
 
     returnValue->left = NULL;
     if (!is_not) {
-        returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex - 1);
+        returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex - 1, code);
     }
 
 
-    returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex);
+    returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex, code);
     returnValue->type = ((Token*)tokens.items[bestOperationIndex])->type;
     returnValue->isConstant = 0;
     return returnValue;
 };
 
 
-int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex){
+int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, char* code){
     enum TokenType currantType;
     int lineStartIndex, newlineIndex = startIndex-1;
     int moveStartIndex = 0, newStartIndex = 0;
@@ -185,7 +188,7 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex){
             newlineIndex++;
         }
         if (lineStartIndex == newlineIndex){
-            break;
+            continue;
         }
         currantType = ((Token*)tokens.items[lineStartIndex])->type;
         if (status == P_IF || status == P_ELSE){
@@ -216,32 +219,32 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex){
         }
         if (currantType == IF){
             moveStartIndex = 1;
-            newStartIndex = parseIf(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseIf(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == ELSE){
             moveStartIndex = 1;
-            newStartIndex = parseElse(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseElse(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == WHILE){
             moveStartIndex = 1;
-            newStartIndex = parseWhile(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseWhile(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == REPEAT){
             moveStartIndex = 1;
-            newStartIndex = parseRepeat(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseRepeat(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == FOR){
             moveStartIndex = 1;
-            newStartIndex = parseFor(newNode, tokens, lineStartIndex, newlineIndex) + newlineIndex + 3;
+            newStartIndex = parseFor(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == DECLARE){
             parseDeclare(newNode, tokens, lineStartIndex);
         }
         else if (currantType == IDENTIFIER){
-            parseAssignment(newNode, tokens, lineStartIndex, newlineIndex);
+            parseAssignment(newNode, tokens, lineStartIndex, newlineIndex, code);
         }
         else if (currantType == OUTPUT){
-            parseOutput(newNode, tokens, lineStartIndex, newlineIndex);
+            parseOutput(newNode, tokens, lineStartIndex, newlineIndex, code);
         }
         listAppend(ASTList, newNode);
     }

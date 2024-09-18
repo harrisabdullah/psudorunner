@@ -4,7 +4,7 @@
 #include "Parser.h"
 #include <stdio.h>
 
-struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex){
+struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex, char* code){
    struct FuncCall funcCall;
 
    if (isTypeIdentifier((Token*)tokens.items[startIndex])){
@@ -26,7 +26,7 @@ struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex){
              ((Token*)tokens.items[argEnd])->type != CLOSE_PAREN){
          argEnd++;
       }
-      listAppend(&funcCall.args, parseExpression(tokens, argStart, argEnd-1));
+      listAppend(&funcCall.args, parseExpression(tokens, argStart, argEnd-1, code));
    }
    return funcCall;
 }

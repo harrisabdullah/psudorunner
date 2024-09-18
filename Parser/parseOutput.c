@@ -2,7 +2,7 @@
 #include "../common/List.h"
 #include <stdio.h>
 
-void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex){
+void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex, char* code){
    node->type = OUTPUT;
-   node->value.output = (struct ASTOutput){.value = parseExpression(tokens, startIndex+1, endIndex-1)};
+   node->value.output = (struct ASTOutput){.value = parseExpression(tokens, startIndex+1, endIndex-1, code)};
 }

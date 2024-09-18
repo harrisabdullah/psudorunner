@@ -4,15 +4,18 @@
 #include "ExecutionEngine/ExecutionEngine.h"
 #include "common/tokenTypeToString.h"
 #include <stdio.h>
+#include <string.h>
 
 int main() {
-   List tokens = tokenize("OUTPUT INTEGER(1.2)", 19);
+   char* code = "OUTPUT 1+OUTPUT";
+   List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
     List* AST = malloc(sizeof(List));
    listInit(AST);
-   parse(AST, tokens, P_NORMAL, 0);
+   parse(AST, tokens, P_NORMAL, 0, code);
    printASTList(*AST);
    List* namespace = malloc(sizeof(List));
    listInit(namespace);
+   printf("----------------------------\n");
    executeAST(*AST, namespace);
 }

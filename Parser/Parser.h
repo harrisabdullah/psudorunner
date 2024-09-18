@@ -17,22 +17,22 @@ enum ParserStatus {
 };
 
 void parseDeclare(ASTNode* node, List tokens, int startIndex);
-void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex);
-void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex);
+void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
+void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
 
-int parseIf(ASTNode* node, List tokens, int startIndex, int endIndex);
-int parseElse(ASTNode* node, List tokens, int startIndex, int endIndex);
-int parseWhile(ASTNode* node, List tokens, int startIndex, int endIndex);
-int parseRepeat(ASTNode* node, List tokens, int startIndex, int endIndex);
-int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex);
+int parseIf(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
+int parseElse(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
+int parseWhile(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
+int parseRepeat(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
+int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
 
-struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex);
+struct FuncCall parseFuncCall(List tokens, int startIndex, int endIndex, char* code);
 
 int isTypeIdentifier(Token* t);
 int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenType open, enum TokenType close);
 
-struct Expression* parseExpression(List tokens, int startIndex, int endIndex);
-int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex);
+struct Expression* parseExpression(List tokens, int startIndex, int endIndex, char* code);
+int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, char* code);
 
 // debug functions
 void printASTList(List AST);

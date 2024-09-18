@@ -1,6 +1,6 @@
 #include "Parser.h"
 
-void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex){
+void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex, char* code){
    struct Identifier identifer;
    identifer.hasIndex = 0;
    node->type = ASSIGNMENT;
@@ -12,11 +12,11 @@ void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex){
          i++;
       }
       identifer.hasIndex = 1;
-      identifer.indexExpression = parseExpression(tokens, startIndex+2, i-1);
+      identifer.indexExpression = parseExpression(tokens, startIndex+2, i-1, code);
       arrowIndex = i+1;
    }
    identifer.lexeme = ((Token*)tokens.items[startIndex])->lexeme;
    node->value.assignment = (struct ASTAssignment){.identifier = identifer,
-                                                   .value = parseExpression(tokens, arrowIndex+1, endIndex-1)};
+                                                   .value = parseExpression(tokens, arrowIndex+1, endIndex-1, code)};
                      
 }

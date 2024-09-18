@@ -2,7 +2,7 @@
 #include "../common/List.h"
 #include "../errors/internalErrors.h"
 
-int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex){
+int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* code){
    node->type = FOR;
    node->value.For.identifier = (struct Identifier){.lexeme = ((Token*)tokens.items[startIndex+1])->lexeme,
                                                    .hasIndex = 0};
@@ -11,15 +11,15 @@ int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex){
    while (((Token*)tokens.items[toIndex])->type != TO){
       toIndex++;
    }
-   node->value.For.rangeMin = parseExpression(tokens, startIndex+3, toIndex-1);
-   node->value.For.rangeMax = parseExpression(tokens, toIndex+1, endIndex-1);
+   node->value.For.rangeMin = parseExpression(tokens, startIndex+3, toIndex-1, code);
+   node->value.For.rangeMax = parseExpression(tokens, toIndex+1, endIndex-1, code);
    
    struct List* forList = malloc(sizeof(List));
    if (forList == NULL){
       ie_allocationError();
    }
    listInit(forList);
-   int offset = parse(forList, tokens, P_FOR, endIndex+1);
+   int offset = parse(forList, tokens, P_FOR, endIndex+1, code);
    node->value.For.content = forList;
 
    return offset;

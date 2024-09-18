@@ -66,12 +66,6 @@ int tokenizeOneChar(Token* token, Token* previousToken, char Char) {
             break;
 
         case '\n':
-            if (previousToken == NULL) {
-                break;
-            }
-            if (previousToken->type == NEW_LINE){
-                break;
-            }
             token->type = NEW_LINE;
             break;
 
@@ -96,8 +90,10 @@ int tokenizeKeywords(Token* token, const char* code, int currentCodeIndex, int c
 
     for (int i=0; i<KEYWORD_COUNT; i++){
         kwLen = strlen(KEYWORDS_STR[i]);
-        if (kwLen + currentCodeIndex >= codeLen){
+        if (kwLen + currentCodeIndex > codeLen){
             continue;
+        }
+        if (currentCodeIndex == 9){
         }
         if (strncmp(KEYWORDS_STR[i], &code[currentCodeIndex], kwLen) == 0){
             token->type = KEYWORD_TYPE[i];
@@ -214,6 +210,7 @@ int tokenizeString(Token* token, const char* code, int currentCodeIndex, int cod
 
 List tokenize(char* code, int codeLen) {
     int lexemeLen = 0;
+    int lineNumber = 1;
     List tokens;
     listInit(&tokens);
     Token* previouseToken = NULL;
@@ -250,7 +247,7 @@ List tokenize(char* code, int codeLen) {
 }
 
 void printToken(Token* token){
-    if (token->lexeme == ""){
+    if (token->lexeme[0] == '\0'){
         printf("%s", tokenTypeToString(token->type));
         return;
     }
