@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main() {
-   char* code = "DECLARE i: INTEGER\nFOR i <- 1 TO 5\nOUTPUT i \n NEXT i";
+   char* code = "DECLARE i: INTEGER\nFOR i <- 1 TO 5\nOUTPUT i";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
     List* AST = malloc(sizeof(List));

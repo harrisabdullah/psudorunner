@@ -33,6 +33,10 @@ int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* cod
    }
    listInit(forList);
    int offset = parse(forList, tokens, P_FOR, endIndex+1, code);
+   if (offset == -1){
+      e_syntaxError(startIndex, tokens, code, "Cant find 'NEXT <identifier>'.");
+   }
+
    node->value.For.content = forList;
 
    return offset;

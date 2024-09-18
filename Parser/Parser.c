@@ -204,17 +204,17 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
         }
         if (status == P_WHILE){
             if (currantType == ENDWHILE){
-                break;
+                return newlineIndex - startIndex - 1;
             }
         }
         if (status == P_REPEAT){
             if (currantType == UNTIL){
-                break;
+                return newlineIndex - startIndex - 1;
             }
         }
         if (status == P_FOR){
             if (currantType == NEXT){
-                break;
+                return newlineIndex - startIndex - 1;
             }
         }
 
@@ -252,6 +252,10 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
             parseOutput(newNode, tokens, lineStartIndex, newlineIndex, code);
         }
         listAppend(ASTList, newNode);
+    }
+
+    if (status != P_NORMAL){
+        return -1;
     }
     return newlineIndex - startIndex - 1;
 };
