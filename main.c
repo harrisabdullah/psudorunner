@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main() {
-   char* code = "OUTPUT 1+OUTPUT";
+   char* code = "OUTPUT (1))";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
     List* AST = malloc(sizeof(List));

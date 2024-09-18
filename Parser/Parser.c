@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 
-int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenType open, enum TokenType close){
+int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenType open, enum TokenType close, char* code){
     int depth = 1;
     for (int i=openParenIndex+1; i<=endIndex; i++) {
         if (((Token*)tokens.items[i])->type == open) {
@@ -26,6 +26,7 @@ int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenTy
             }
         }
     }
+    e_syntaxError(openParenIndex, tokens, code, "Bracket opened but never closed.");
     return 0;
 }
 
@@ -96,17 +97,21 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex, ch
 
     while (i <= endIndex){
         if (((Token*)tokens.items[i])->type == OPEN_PAREN){
-            i = findClosingParen(i, tokens, endIndex, OPEN_PAREN, CLOSE_PAREN) + 1;
+            i = findClosingParen(i, tokens, endIndex, OPEN_PAREN, CLOSE_PAREN, code) + 1;
             continue;
         }
 
         if (((Token*)tokens.items[i])->type == OPEN_SQUARE_PAREN){
-            i = findClosingParen(i, tokens, endIndex, OPEN_SQUARE_PAREN, CLOSE_SQUARE_PAREN) + 1;
+            i = findClosingParen(i, tokens, endIndex, OPEN_SQUARE_PAREN, CLOSE_SQUARE_PAREN, code) + 1;
             continue;
         }
 
-        switch (((Token*)tokens.items[i])->type) {
+        if (((Token*)tokens.items[i])->type == CLOSE_PAREN ||
+            ((Token*)tokens.items[i])->type == CLOSE_SQUARE_PAREN){
+                e_syntaxError(i, tokens, code, "Bracket closed but never opened.");
+            }
 
+        switch (((Token*)tokens.items[i])->type) {
             case AND:
             case OR:
                 if (operationLevel < 4){
