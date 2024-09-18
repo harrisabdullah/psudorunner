@@ -44,15 +44,19 @@ char* getLine(int lineIndex, char* sourceCode){
    return line;
 }
 
-void e_raise(int tokenIndex, List tokens, char* sourceCode, char* catagory, char* message){
+void e_raise(int tokenIndex, List tokens, char* sourceCode, char* catagory, char* message, char* footer){
    int lineIndex = getLineIndex(tokenIndex, tokens);
    char* lineStr = getLine(lineIndex, sourceCode);
    fprintf(stderr, "Error on line %d:\n", lineIndex+1);
    fprintf(stderr, "%4d | %s\n", lineIndex+1, lineStr);
-      fprintf(stderr, "%s: %s\n", catagory, message);
+      fprintf(stderr, "%s: %s%s\n", catagory, message, footer);
    exit(EXIT_FAILURE);
 }
 
 void e_syntaxError(int tokenIndex, List tokens, char* sourceCode, char* message){
-   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message);
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "");
+}
+
+void e_forError(int tokenIndex, List tokens, char* sourceCode, char* message){
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   FOR <identifier> <- <integer> TO <integer>");
 }

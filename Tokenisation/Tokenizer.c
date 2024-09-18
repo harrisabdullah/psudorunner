@@ -219,9 +219,9 @@ List tokenize(char* code, int codeLen) {
         ie_allocationError();
 
     for (int i = 0; i < codeLen; i++) {
-        lexemeLen = tokenizeOneChar(newToken, previouseToken, code[i]);
+        lexemeLen = tokenizeKeywords(newToken, code, i, codeLen);
         if (lexemeLen == 0)
-            lexemeLen = tokenizeKeywords(newToken, code, i, codeLen);
+            lexemeLen = tokenizeOneChar(newToken, previouseToken, code[i]);
         if (lexemeLen == 0)
             lexemeLen = tokenizeNumber(newToken, code, i, codeLen);
         if (lexemeLen == 0)

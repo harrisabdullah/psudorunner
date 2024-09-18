@@ -8,5 +8,6 @@
 #include "../Tokenisation/Token.h"
 
 void e_syntaxError(int tokenIndex, List tokens, char* sourceCode, char* message);
+void e_forError(int tokenIndex, List tokens, char* sourceCode, char* message);
 
 #endif // PSUDO_INTERPRATOR_2_ERRORS_H
