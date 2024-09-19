@@ -197,10 +197,17 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
         }
         currantType = ((Token*)tokens.items[lineStartIndex])->type;
         if (status == P_IF || status == P_ELSE){
-            if (currantType == ENDIF ||
-                currantType == ELSE){
-                break;
+            if (currantType == ENDIF){
+                if (newlineIndex - lineStartIndex > 1){
+                    e_ifError(lineStartIndex, tokens, code, "Invalid endif statment.");
                 }
+                return newlineIndex - startIndex - 1;
+            }
+            if (currantType == ELSE){
+                if (newlineIndex - lineStartIndex > 1){
+                    e_elseError(lineStartIndex, tokens, code, "Invalid else statment.");
+                }
+            }
         }
         if (status == P_WHILE){
             if (currantType == ENDWHILE){
@@ -224,7 +231,12 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
         }
         if (currantType == IF){
             moveStartIndex = 1;
-            newStartIndex = parseIf(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
+            newStartIndex = parseIf(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex;
+            if (((Token*)tokens.items[newStartIndex+1])->type == ELSE){
+                newStartIndex += 1;
+            } else {
+                newStartIndex += 3;
+            }
         }
         else if (currantType == ELSE){
             moveStartIndex = 1;
@@ -293,19 +305,21 @@ void printASTList(List AST){
                 printf("ELSE: {code: ");
                 printASTList(*(((ASTNode*)AST.items[i])->value.Else.content));
                 printf("}\n");
-
+                continue;
             case WHILE:
                 printf("WHILE: {condition: ");
                 printExpression(((ASTNode*)AST.items[i])->value.While.condition);
                 printf(", code: ");
                 printASTList(*(((ASTNode*)AST.items[i])->value.While.content));
                 printf("}\n");
+                continue;
             case REPEAT:
                 printf("REPEAT UNTIL: {condition: ");
                 printExpression(((ASTNode*)AST.items[i])->value.Repeat.condition);
                 printf(", code: ");
                 printASTList(*(((ASTNode*)AST.items[i])->value.Repeat.content));
                 printf("}\n");
+                continue;
             case FOR:
                 printf("FOR: {range: ");
                 printExpression(((ASTNode*)AST.items[i])->value.For.rangeMin);
@@ -314,7 +328,7 @@ void printASTList(List AST){
                 printf(", code: ");
                 printASTList(*(((ASTNode*)AST.items[i])->value.For.content));
                 printf("}\n");
-
+                continue;
         }
     }
 }

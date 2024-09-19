@@ -5,11 +5,11 @@
 
 int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* code){
    node->type = FOR;
-   if (((Token*)tokens.items[startIndex+1])->type != IDENTIFIER){
+   if (startIndex + 1 >= endIndex || ((Token*)tokens.items[startIndex+1])->type != IDENTIFIER){
       e_forError(startIndex, tokens, code, "Invalid for loop identifier.");
    }
-   if (((Token*)tokens.items[startIndex+2])->type != ASSIGNMENT){
-      e_forError(startIndex, tokens, code, "For loop has no '<-'.");
+   if (startIndex + 2 >= endIndex || ((Token*)tokens.items[startIndex+2])->type != ASSIGNMENT){
+      e_forError(startIndex, tokens, code, "Missing '<-'.");
    }
    node->value.For.identifier = (struct Identifier){.lexeme = ((Token*)tokens.items[startIndex+1])->lexeme,
                                                    .hasIndex = 0};
@@ -18,7 +18,7 @@ int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* cod
    while (((Token*)tokens.items[toIndex])->type != TO){
       toIndex++;
       if (toIndex > endIndex){
-         e_forError(startIndex, tokens, code, "For loop has no 'TO'.");
+         e_forError(startIndex, tokens, code, "Missing 'TO'.");
       }
    }
    if (startIndex+3 > toIndex-1 || toIndex+1 > endIndex-1){
@@ -34,7 +34,7 @@ int parseFor(ASTNode* node, List tokens, int startIndex, int endIndex, char* cod
    listInit(forList);
    int offset = parse(forList, tokens, P_FOR, endIndex+1, code);
    if (offset == -1){
-      e_syntaxError(startIndex, tokens, code, "Cant find 'NEXT <identifier>'.");
+      e_forError(startIndex, tokens, code, "Missing 'NEXT <identifier>'.");
    }
 
    node->value.For.content = forList;

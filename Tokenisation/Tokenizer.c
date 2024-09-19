@@ -225,11 +225,11 @@ List tokenize(char* code, int codeLen) {
         if (lexemeLen == 0)
             lexemeLen = tokenizeNumber(newToken, code, i, codeLen);
         if (lexemeLen == 0)
-            lexemeLen = tokenizeIdentifier(newToken, code, i, codeLen);
-        if (lexemeLen == 0)
             lexemeLen = tokenizeString(newToken, code, i, codeLen);
         if (lexemeLen == 0)
             lexemeLen = tokenizeBool(newToken, code, i, codeLen);
+        if (lexemeLen == 0)
+            lexemeLen = tokenizeIdentifier(newToken, code, i, codeLen);
         if (lexemeLen == 0){
             continue;
         }

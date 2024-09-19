@@ -58,5 +58,13 @@ void e_syntaxError(int tokenIndex, List tokens, char* sourceCode, char* message)
 }
 
 void e_forError(int tokenIndex, List tokens, char* sourceCode, char* message){
-   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   FOR <identifier> <- <integer> TO <integer>");
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   FOR <identifier> <- <integer> TO <integer>\n        ...\n    NEXT <identifier>");
+}
+
+void e_ifError(int tokenIndex, List tokens, char* sourceCode, char* message){
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   IF <condition> THEN\n        ...\n    ENDIF");
+}
+
+void e_elseError(int tokenIndex, List tokens, char* sourceCode, char* message){
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   IF <condition> THEN\n        ...\n    ELSE\n        ...\n    ENDIF");
 }

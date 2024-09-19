@@ -7,10 +7,11 @@
 #include <string.h>
 
 int main() {
-   char* code = "DECLARE i: INTEGER\nFOR i <- 1 TO 5\nOUTPUT i";
+   char* code = "IF FALSE THEN\n OUTPUT 1\nELSE 1\nOUTPUT 2\nENDIF";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
-    List* AST = malloc(sizeof(List));
+   printf("\n");
+   List* AST = malloc(sizeof(List));
    listInit(AST);
    parse(AST, tokens, P_NORMAL, 0, code);
    printASTList(*AST);
