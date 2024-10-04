@@ -16,7 +16,7 @@ enum ParserStatus {
    P_FOR,
 };
 
-void parseDeclare(ASTNode* node, List tokens, int startIndex);
+void parseDeclare(ASTNode* node, List tokens, int startIndex, char* code);
 void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
 void parseOutput(ASTNode* node, List tokens, int startIndex, int endIndex, char* code);
 

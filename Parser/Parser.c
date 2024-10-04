@@ -255,7 +255,7 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
             newStartIndex = parseFor(newNode, tokens, lineStartIndex, newlineIndex, code) + newlineIndex + 3;
         }
         else if (currantType == DECLARE){
-            parseDeclare(newNode, tokens, lineStartIndex);
+            parseDeclare(newNode, tokens, lineStartIndex, code);
         }
         else if (currantType == IDENTIFIER){
             parseAssignment(newNode, tokens, lineStartIndex, newlineIndex, code);

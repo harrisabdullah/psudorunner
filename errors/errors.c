@@ -49,7 +49,7 @@ void e_raise(int tokenIndex, List tokens, char* sourceCode, char* catagory, char
    char* lineStr = getLine(lineIndex, sourceCode);
    fprintf(stderr, "Error on line %d:\n", lineIndex+1);
    fprintf(stderr, "%4d | %s\n", lineIndex+1, lineStr);
-      fprintf(stderr, "%s: %s%s\n", catagory, message, footer);
+   fprintf(stderr, "%s: %s%s\n", catagory, message, footer);
    exit(EXIT_FAILURE);
 }
 
@@ -58,7 +58,7 @@ void e_syntaxError(int tokenIndex, List tokens, char* sourceCode, char* message)
 }
 
 void e_forError(int tokenIndex, List tokens, char* sourceCode, char* message){
-   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   FOR <identifier> <- <integer> TO <integer>\n        ...\n    NEXT <identifier>");
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   FOR <name> <- <integer> TO <integer>\n        ...\n    NEXT <name>");
 }
 
 void e_ifError(int tokenIndex, List tokens, char* sourceCode, char* message){
@@ -67,4 +67,8 @@ void e_ifError(int tokenIndex, List tokens, char* sourceCode, char* message){
 
 void e_elseError(int tokenIndex, List tokens, char* sourceCode, char* message){
    e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   IF <condition> THEN\n        ...\n    ELSE\n        ...\n    ENDIF");
+}
+
+void e_declareError(int tokenIndex, List tokens, char* sourceCode, char* message){
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   DECLARE <name>: <datatype>");
 }

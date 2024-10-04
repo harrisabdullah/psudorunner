@@ -10,3 +10,7 @@ void syn_checkConst(int tokenIndex, List tokens, char* sourceCode){
          e_syntaxError(tokenIndex, tokens, sourceCode, "Invalid Expression.");
        }
 }
+
+int syn_isConstIdentifier(enum TokenType t){
+  return t == INTEGER_IDENTIFIER || t == STRING_IDENTIFIER || t == REAL_IDENTIFIER || t == BOOLEAN_IDENTIFIER;
+}

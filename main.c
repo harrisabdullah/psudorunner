@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main() {
-   char* code = "IF FALSE THEN\n OUTPUT 1\nELSE 1\nOUTPUT 2\nENDIF";
+   char* code = "DECLARE aa: INTEGER";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
    printf("\n");
