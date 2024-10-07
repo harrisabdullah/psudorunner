@@ -162,10 +162,15 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex, ch
 
     returnValue->left = NULL;
     if (!is_not) {
+        if (bestOperationIndex-1 < startIndex){
+            e_syntaxError(startIndex, tokens, code, "Invalid syntax.");
+        }
         returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex - 1, code);
     }
 
-
+    if (bestOperationIndex+1 > endIndex){
+        e_syntaxError(bestOperationIndex, tokens, code, "Invalid syntax.");
+    }
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex, code);
     returnValue->type = ((Token*)tokens.items[bestOperationIndex])->type;
     returnValue->isConstant = 0;

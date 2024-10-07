@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main() {
-   char* code = "DECLAR";
+   char* code = "OUTPUT 1.1.1";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
    printf("\n");

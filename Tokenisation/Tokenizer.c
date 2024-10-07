@@ -6,6 +6,7 @@
 #include "../common/List.h"
 #include "../common/tokenTypeToString.h"
 #include "../errors/internalErrors.h"
+#include "../errors/errors.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -138,9 +139,6 @@ int tokenizeNumber(Token* token, const char* code, int currentCodeIndex, int cod
     while (i < codeLen && (isdigit(code[i]) || code[i] == '.')) {
         if (code[i] == '.' && isInt == 1) {
             isInt = 0;
-        } else if (code[i] == '.' && isInt == 0) {
-            perror("Syntax Error: number contains two '.'s");
-            exit(EXIT_FAILURE);
         }
         i++;
     }
