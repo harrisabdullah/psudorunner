@@ -31,6 +31,7 @@ set(SOURCES
     errors/internalErrors.c
     errors/errors.c
     errors/syntaxChecker.c
+    errors/parserErrors.c
     pseudo_std/std_INT.c
     pseudo_std/std.c
 )
@@ -50,8 +51,9 @@ set(HEADERS
     Parser/ASTNode.h
     Parser/Expression.h
     errors/internalErrors.h
-    errors/errors.h
     errors/syntaxChecker.h
+    errors/parserErrors.h
+    errors/errors.h
     pseudo_std/std.h
 )
 

@@ -5,7 +5,7 @@
 #include "../common/List.h"
 #include "../common/tokenTypeToString.h"
 #include "../errors/internalErrors.h"
-#include "../errors/errors.h"
+#include "../errors/parserErrors.h"
 #include "../errors/syntaxChecker.h"
 #include "Parser.h"
 #include "ASTNode.h"
@@ -26,7 +26,7 @@ int findClosingParen(int openParenIndex, List tokens, int endIndex, enum TokenTy
             }
         }
     }
-    e_syntaxError(openParenIndex, tokens, code, "Bracket opened but never closed.");
+    pe_syntaxError(((Token*)tokens.items[openParenIndex])->lineNum, code, "Bracket opened but never closed.");
     return 0;
 }
 
@@ -57,7 +57,7 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex, ch
             return returnValue;
         }
         
-        syn_checkConst(startIndex, tokens, code);
+        syn_checkConst(((Token*)tokens.items[startIndex])->lineNum, startIndex, tokens, code);
         returnValue->type = ((Token*)tokens.items[startIndex])->type;
         returnValue->lexeme = ((Token*)tokens.items[startIndex])->lexeme;
         returnValue->isConstant = 1;
@@ -108,7 +108,7 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex, ch
 
         if (((Token*)tokens.items[i])->type == CLOSE_PAREN ||
             ((Token*)tokens.items[i])->type == CLOSE_SQUARE_PAREN){
-                e_syntaxError(i, tokens, code, "Bracket closed but never opened.");
+                pe_syntaxError(((Token*)tokens.items[i])->lineNum, code, "Bracket closed but never opened.");
             }
 
         switch (((Token*)tokens.items[i])->type) {
@@ -163,13 +163,13 @@ struct Expression* parseExpression(List tokens, int startIndex, int endIndex, ch
     returnValue->left = NULL;
     if (!is_not) {
         if (bestOperationIndex-1 < startIndex){
-            e_syntaxError(startIndex, tokens, code, "Invalid syntax.");
+            pe_syntaxError(((Token*)tokens.items[startIndex])->lineNum, code, "Invalid syntax.");
         }
         returnValue->left = parseExpression(tokens, startIndex, bestOperationIndex - 1, code);
     }
 
     if (bestOperationIndex+1 > endIndex){
-        e_syntaxError(bestOperationIndex, tokens, code, "Invalid syntax.");
+        pe_syntaxError(((Token*)tokens.items[bestOperationIndex])->lineNum, code, "Invalid syntax.");
     }
     returnValue->right = parseExpression(tokens, bestOperationIndex+1, endIndex, code);
     returnValue->type = ((Token*)tokens.items[bestOperationIndex])->type;
@@ -204,13 +204,13 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
         if (status == P_IF || status == P_ELSE){
             if (currantType == ENDIF){
                 if (newlineIndex - lineStartIndex > 1){
-                    e_ifError(lineStartIndex, tokens, code, "Invalid endif statment.");
+                    pe_ifError(((Token*)tokens.items[lineStartIndex])->lineNum, code, "Invalid endif statment.");
                 }
                 return newlineIndex - startIndex - 1;
             }
             if (currantType == ELSE){
                 if (newlineIndex - lineStartIndex > 1){
-                    e_elseError(lineStartIndex, tokens, code, "Invalid else statment.");
+                    pe_elseError(((Token*)tokens.items[lineStartIndex])->lineNum, code, "Invalid else statment.");
                 }
             }
         }

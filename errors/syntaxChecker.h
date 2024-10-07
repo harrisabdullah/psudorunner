@@ -7,7 +7,7 @@
 #include "../common/List.h"
 #include "../Tokenisation/Token.h"
 
-void syn_checkConst(int tokenIndex, List tokens, char* sourceCode);
+void syn_checkConst(int line, int tokenIndex, List tokens, char* sourceCode);
 int syn_isConstIdentifier(enum TokenType t);
 
 #endif // PSUDO_INTERPRATOR_2_SYNTAX_CHECKER_H

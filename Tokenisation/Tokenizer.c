@@ -208,7 +208,7 @@ int tokenizeString(Token* token, const char* code, int currentCodeIndex, int cod
 
 List tokenize(char* code, int codeLen) {
     int lexemeLen = 0;
-    int lineNumber = 1;
+    int lineNumber = 0;
     List tokens;
     listInit(&tokens);
     Token* previouseToken = NULL;
@@ -217,6 +217,10 @@ List tokenize(char* code, int codeLen) {
         ie_allocationError();
 
     for (int i = 0; i < codeLen; i++) {
+        newToken->lineNum = lineNumber;
+        if (code[i] == '\n'){
+            lineNumber++;
+        }
         lexemeLen = tokenizeKeywords(newToken, code, i, codeLen);
         if (lexemeLen == 0)
             lexemeLen = tokenizeOneChar(newToken, previouseToken, code[i]);
@@ -255,7 +259,7 @@ void printToken(Token* token){
 void printTokenList(List tokens){
     printf("{");
     for (int i = 0; i<tokens.length; i++){
-        printf("%i: ", i);
+        printf("%i: %i: ", ((Token*)tokens.items[i])->lineNum, i);
         printToken(tokens.items[i]);
         printf(", ");
     }

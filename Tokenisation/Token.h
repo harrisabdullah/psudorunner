@@ -60,6 +60,7 @@ enum TokenType {
 typedef struct Token {
     enum TokenType type;
     char* lexeme;
+    int lineNum;
 } Token;
 
 #endif //PSUDO_INTERPRATOR_2_TOKEN_H
