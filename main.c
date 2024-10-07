@@ -7,7 +7,7 @@
 #include <string.h>
 
 int main() {
-   char* code = "DECLARE aa: INTEGER";
+   char* code = "DECLAR";
    List tokens = tokenize(code, strlen(code));
    printTokenList(tokens);
    printf("\n");

@@ -13,5 +13,6 @@ void e_forError(int tokenIndex, List tokens, char* sourceCode, char* message);
 void e_ifError(int tokenIndex, List tokens, char* sourceCode, char* message);
 void e_elseError(int tokenIndex, List tokens, char* sourceCode, char* message);
 void e_declareError(int tokenIndex, List tokens, char* sourceCode, char* message);
+void e_assignmentError(int tokenIndex, List tokens, char* sourceCode, char* message);
 
 #endif // PSUDO_INTERPRATOR_2_ERRORS_H

@@ -1,6 +1,10 @@
 #include "Parser.h"
+#include "../errors/errors.h"
 
 void parseAssignment(ASTNode* node, List tokens, int startIndex, int endIndex, char* code){
+   if (((Token*)tokens.items[startIndex])->type != IDENTIFIER){
+      e_assignmentError(startIndex, tokens, code, "Invalid variable name.");
+   }
    struct Identifier identifer;
    identifer.hasIndex = 0;
    node->type = ASSIGNMENT;

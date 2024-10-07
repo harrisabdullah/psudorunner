@@ -72,3 +72,7 @@ void e_elseError(int tokenIndex, List tokens, char* sourceCode, char* message){
 void e_declareError(int tokenIndex, List tokens, char* sourceCode, char* message){
    e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   DECLARE <name>: <datatype>");
 }
+
+void e_assignmentError(int tokenIndex, List tokens, char* sourceCode, char* message){
+   e_raise(tokenIndex, tokens, sourceCode, "SyntaxError", message, "\n\nCorrect format:\n   <name> <- <value>");
+}
