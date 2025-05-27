@@ -56,8 +56,13 @@ jobs:
 
     - name: Setup GoogleTest
       run: |
-        cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
+        else
+         cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
+        fi
         cmake --build ${{ github.workspace }}/googletest/build --target install
+      shell: bash
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
