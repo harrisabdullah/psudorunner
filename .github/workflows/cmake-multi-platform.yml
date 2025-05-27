@@ -57,9 +57,9 @@ jobs:
     - name: Setup GoogleTest
       run: |
         if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/external/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
+          cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
         else
-         cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/external/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
+         cmake -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/googletest/install -B ${{ github.workspace }}/googletest/build -S ${{ github.workspace }}/googletest
         fi
         cmake --build ${{ github.workspace }}/googletest/build --target install
       shell: bash

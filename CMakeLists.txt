@@ -11,7 +11,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 enable_testing()
 
-add_subdirectory(external/googletest)
+add_subdirectory(googletest)
 
 set(SRC
     src/main.c
