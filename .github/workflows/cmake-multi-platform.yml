@@ -53,6 +53,8 @@ jobs:
       run: |
         echo "PATH: $PATH"
         cmake --version
+      if: runner.os == 'Windows'
+      run: |
         where nmake
         nmake /?
 
