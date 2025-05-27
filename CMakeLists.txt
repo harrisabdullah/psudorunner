@@ -1,61 +1,69 @@
 cmake_minimum_required(VERSION 3.23)
-project(psudo_interprator_2 C)
+
+set(This psudo_interprator)
+project(${This} C CXX)
 
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
 
-# Include the script for updating submodules
-include(cmake/updateSubmodules.cmake)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Set the source files for the project
-set(SOURCES
-    main.c
-    Tokenisation/Tokenizer.c
-    common/List.c
-    common/tokenTypeToString.c
-    ExecutionEngine/ExecutionEngine.c
-    ExecutionEngine/resolveIdentifier.c
-    ExecutionEngine/Namespace.c
-    ExecutionEngine/Resolver.c
-    ExecutionEngine/execSTDFunc.c
-    common/Stack.c
-    Parser/Parser.c
-    Parser/parseAssignment.c
-    Parser/parseDeclare.c
-    Parser/parseElse.c
-    Parser/parseIf.c
-    Parser/parseOutput.c
-    Parser/parseWhile.c
-    Parser/parseRepeat.c
-    Parser/parseFor.c
-    Parser/parseFuncCall.c
-    errors/internalErrors.c
-    errors/errors.c
-    errors/syntaxChecker.c
-    errors/parserErrors.c
-    pseudo_std/std_INT.c
-    pseudo_std/std.c
+enable_testing()
+
+add_subdirectory(external/googletest)
+
+set(SRC
+    src/main.c
+    src/Tokenisation/Tokenizer.c
+    src/common/List.c
+    src/common/tokenTypeToString.c
+    src/ExecutionEngine/ExecutionEngine.c
+    src/ExecutionEngine/resolveIdentifier.c
+    src/ExecutionEngine/Namespace.c
+    src/ExecutionEngine/Resolver.c
+    src/ExecutionEngine/execSTDFunc.c
+    src/common/Stack.c
+    src/Parser/Parser.c
+    src/Parser/parseAssignment.c
+    src/Parser/parseDeclare.c
+    src/Parser/parseElse.c
+    src/Parser/parseIf.c
+    src/Parser/parseOutput.c
+    src/Parser/parseWhile.c
+    src/Parser/parseRepeat.c
+    src/Parser/parseFor.c
+    src/Parser/parseFuncCall.c
+    src/errors/internalErrors.c
+    src/errors/errors.c
+    src/errors/syntaxChecker.c
+    src/errors/parserErrors.c
+    src/pseudo_std/std_INT.c
+    src/pseudo_std/std.c
 )
 
-# Set the header files (optional but helpful)
-set(HEADERS
-    Tokenisation/Tokenizer.h
-    Tokenisation/Token.h
-    common/List.h
-    common/tokenTypeToString.h
-    ExecutionEngine/ExecutionEngine.h
-    ExecutionEngine/Namespace.h
-    ExecutionEngine/Resolver.h
-    ExecutionEngine/Variable.h
-    common/Stack.h
-    Parser/Parser.h
-    Parser/ASTNode.h
-    Parser/Expression.h
-    errors/internalErrors.h
-    errors/syntaxChecker.h
-    errors/parserErrors.h
-    errors/errors.h
-    pseudo_std/std.h
+set(HDR
+    src/Tokenisation/Tokenizer.h
+    src/Tokenisation/Token.h
+    src/common/List.h
+    src/common/tokenTypeToString.h
+    src/ExecutionEngine/ExecutionEngine.h
+    src/ExecutionEngine/Namespace.h
+    src/ExecutionEngine/Resolver.h
+    src/ExecutionEngine/Variable.h
+    src/common/Stack.h
+    src/Parser/Parser.h
+    src/Parser/ASTNode.h
+    src/Parser/Expression.h
+    src/errors/internalErrors.h
+    src/errors/syntaxChecker.h
+    src/errors/parserErrors.h
+    src/errors/errors.h
+    src/pseudo_std/std.h
 )
 
-# Add executable target
-add_executable(psudo_interprator_2 ${PROJECT_SOURCE_DIR}/${SOURCES} ${PROJECT_SOURCE_DIR}/${HEADERS})
+add_library(${This} STATIC
+    ${SRC}
+)
+
+add_subdirectory(test)

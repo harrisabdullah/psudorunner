@@ -7,6 +7,10 @@
 #include "ASTNode.h"
 #include "../common/List.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 enum ParserStatus {
    P_NORMAL,
    P_IF,
@@ -37,4 +41,8 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
 // debug functions
 void printASTList(List AST);
 void printExpression(struct Expression* expression);
+
+#ifdef __cplusplus
+}
+#endif
 #endif //PSUDO_INTERPRATOR_2_PARSER_H
