@@ -54,6 +54,7 @@ jobs:
       run: |
         echo "PATH: $PATH"
         cmake --version
+        dir "C:\Program Files\Microsoft Visual Studio\2022"
         where nmake
         nmake /?
 
