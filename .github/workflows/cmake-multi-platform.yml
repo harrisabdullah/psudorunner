@@ -55,7 +55,7 @@ jobs:
       run: |
         set VSPATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional
         for /f %%i in ('dir "%VSPATH%\VC\Tools\MSVC" /b') do set VCTOOLSVERSION=%%i
-        set NMAKE="%VSPATH%\VC\Tools\MSVC\%VCTOOLSVERSION%\bin\HostX86\x86\nmake.exe"
+        set NMAKE="%VSPATH%\VC\Tools\MSVC\%VCTOOLSVERSION%\bin\HostX64\x64\nmake.exe"
 
     - name: Debug Environment (windows)
       if: runner.os == 'Windows'
