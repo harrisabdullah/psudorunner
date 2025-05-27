@@ -53,7 +53,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: cmd
       run: |
-        set VSPATH=C:\Program Files (x86)\Microsoft Visual Studio\2022\Professional
+        set VSPATH=C:\Program Files\Microsoft Visual Studio\2022\Professional
         for /f %%i in ('dir "%VSPATH%\VC\Tools\MSVC" /b') do set VCTOOLSVERSION=%%i
         set NMAKE="%VSPATH%\VC\Tools\MSVC\%VCTOOLSVERSION%\bin\HostX86\x86\nmake.exe"
 
