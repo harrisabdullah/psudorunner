@@ -50,6 +50,7 @@ jobs:
         submodules: true
 
     - name: Debug Environment (windows)
+      if: runner.os == 'Windows'
       run: |
         echo "PATH: $PATH"
         cmake --version
