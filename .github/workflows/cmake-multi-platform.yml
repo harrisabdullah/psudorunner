@@ -49,15 +49,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Debug Environment (windows)
-      if: runner.os == 'Windows'
-      run: |
-        echo "PATH: $PATH"
-        cmake --version
-        dir "C:\Program Files\Microsoft Visual Studio\2022"
-        where nmake
-        nmake /?
-
     - name: Setup VS environment and build (windows)
       if: runner.os == 'Windows'
       shell: cmd
@@ -70,6 +61,15 @@ jobs:
           -S ${{ github.workspace }} ^
         && cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} ^
         && ctest --build-config ${{ matrix.build_type }} --test-dir ${{ steps.strings.outputs.build-output-dir }}
+
+    - name: Debug Environment (windows)
+      if: runner.os == 'Windows'
+      run: |
+        echo "PATH: $PATH"
+        cmake --version
+        dir "C:\Program Files\Microsoft Visual Studio\2022"
+        where nmake
+        nmake /?
 
     - name: Setup GoogleTest
       uses: Bacondish2023/setup-googletest@v1.0.1
