@@ -49,12 +49,10 @@ jobs:
       with:
         submodules: true
 
-    - name: Debug Environment
+    - name: Debug Environment (windows)
       run: |
         echo "PATH: $PATH"
         cmake --version
-      if: runner.os == 'Windows'
-      run: |
         where nmake
         nmake /?
 
