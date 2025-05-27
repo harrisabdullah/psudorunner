@@ -53,6 +53,8 @@ jobs:
       run: |
         echo "PATH: $PATH"
         cmake --version
+        where nmake
+        nmake /?
 
     - name: Setup GoogleTest
       uses: Bacondish2023/setup-googletest@v1.0.1
