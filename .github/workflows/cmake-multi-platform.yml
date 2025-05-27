@@ -49,26 +49,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Setup VS environment and build (windows)
-      if: runner.os == 'Windows'
-      shell: cmd
-      run: |
-        set VSPATH=C:\Program Files\Microsoft Visual Studio\2022
-        for /f %%i in ('dir "%VSPATH%\VC\Tools\MSVC" /b') do set VCTOOLSVERSION=%%i
-        set NMAKE="%VSPATH%\VC\Tools\MSVC\%VCTOOLSVERSION%\bin\HostX86\x86\nmake.exe"
-
-    - name: Debug Environment (windows)
-      if: runner.os == 'Windows'
-      run: |
-        echo "PATH: $PATH"
-        cmake --version
-        dir "C:\Program Files\Microsoft Visual Studio\2022"
-        where nmake
-        nmake /?
-
-    - name: Setup GoogleTest
-      uses: Bacondish2023/setup-googletest@v1.0.1
-
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
