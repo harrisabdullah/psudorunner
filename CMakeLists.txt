@@ -67,3 +67,4 @@ add_library(${This} STATIC
 )
 
 add_subdirectory(test)
+add_executable(${This}_EXE ${SRC})

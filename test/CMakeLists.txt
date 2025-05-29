@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(This Tests)
+set(This Pseudo)
 
 set(Sources
-    tokentest.cpp
+    Tokenizer.cpp
 )
 
 add_executable(${This} ${Sources})

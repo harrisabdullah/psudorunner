@@ -7,6 +7,10 @@
 #include "../common/List.h"
 #include "Token.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 // tokenize text units
 int tokenizeOneChar(Token* token, Token* previouseToken, char Char);
@@ -22,4 +26,7 @@ struct List tokenize(char* code, int codeLen);
 void printToken(struct Token* token);
 void printTokenList(List tokens);
 
+#ifdef __cplusplus
+}
+#endif
 #endif //PSUDO_INTERPRATOR_2_TOKENIZER_H
