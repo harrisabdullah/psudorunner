@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.29)
 set(This Pseudo)
 
 set(Sources
+    tokenizerTestUtils.h
     Tokenizer.cpp
 )
 
