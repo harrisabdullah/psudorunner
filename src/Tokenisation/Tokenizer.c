@@ -94,9 +94,12 @@ int tokenizeKeywords(Token* token, const char* code, int currentCodeIndex, int c
         if (kwLen + currentCodeIndex > codeLen){
             continue;
         }
-        if (currentCodeIndex == 9){
-        }
         if (strncmp(KEYWORDS_STR[i], &code[currentCodeIndex], kwLen) == 0){
+            if (kwLen + currentCodeIndex + 1 <= codeLen){
+                if (code[kwLen + currentCodeIndex] != '\n' && code[kwLen + currentCodeIndex] != ' '){
+                    continue; // doesnt end in EOF, \n or " "
+                }
+            }
             token->type = KEYWORD_TYPE[i];
             token->lexeme = "";
             return kwLen;
@@ -108,7 +111,7 @@ int tokenizeKeywords(Token* token, const char* code, int currentCodeIndex, int c
 
 
 int tokenizeBool(Token* token, const char* code, int currentCodeIndex, int codeLen){
-    if (currentCodeIndex + 4 >= codeLen){
+    if (currentCodeIndex + 3 >= codeLen){
        return 0;
     }
     if (strncmp("TRUE", &code[currentCodeIndex], 4) == 0){
@@ -116,7 +119,7 @@ int tokenizeBool(Token* token, const char* code, int currentCodeIndex, int codeL
         token->lexeme = "TRUE";
         return 4;
     }
-    if (currentCodeIndex + 5 >= codeLen){
+    if (currentCodeIndex + 4 >= codeLen){
         return 0;
     }
     if (strncmp("FALSE", &code[currentCodeIndex], 5) == 0){
@@ -129,16 +132,18 @@ int tokenizeBool(Token* token, const char* code, int currentCodeIndex, int codeL
 
 
 int tokenizeNumber(Token* token, const char* code, int currentCodeIndex, int codeLen) {
-    if (!isdigit(code[currentCodeIndex])) {
+    if (!isdigit(code[currentCodeIndex]) && code[currentCodeIndex] != '.') {
         return 0;
     }
 
     int i = currentCodeIndex + 1;
-    int isInt = 1;
+    int isInt = code[currentCodeIndex] != '.';
 
     while (i < codeLen && (isdigit(code[i]) || code[i] == '.')) {
         if (code[i] == '.' && isInt == 1) {
             isInt = 0;
+        } else if (code[i] == '.' && isInt == 0){
+            break;
         }
         i++;
     }

@@ -7,17 +7,18 @@
 #include <string.h>
 
 int main() {
-   char* code = "+-/*():=<,>[]\n";
+   char* code = "OUTPUT \"Hello world!\"";
    List tokens = tokenize(code, strlen(code));
 
+   printf("-------- DEBUG info --------\nTokens: ");
    printTokenList(tokens);
-   printf("\n");
    List* AST = malloc(sizeof(List));
    listInit(AST);
    parse(AST, tokens, P_NORMAL, 0, code);
+   printf("\nAST: ");
    printASTList(*AST);
    List* namespace = malloc(sizeof(List));
    listInit(namespace);
-   printf("----------------------------\n");
+   printf("\n------ program output ------\n");
    executeAST(*AST, namespace);
 }

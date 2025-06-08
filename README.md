@@ -33,5 +33,6 @@ make
 ## Roadmap
 
 - [ ] Extensive unit tests
+- [ ] Syntax error on invalid identifier name in tokenisation.
 - [ ] Clean command-line interface: pass a `.pseudo` file or read from STDIN
 - [ ] Memory-safe parsing
