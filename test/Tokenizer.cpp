@@ -151,6 +151,7 @@ TEST(Tokenizer, LineNumbers) {
   ASSERT_TOKEN_LIST_EQ(result, expectedTypes);
   ASSERT_TOKEN_LEXEMES_EQ(result, expectedLexemes);
   ASSERT_TOKEN_LINES_EQ(result, expectedLines);
+  ASSERT_EQ(1, 2);
 }
 
 TEST(Tokenizer, WhitespaceAndUnrecognized) {
