@@ -15,7 +15,7 @@ char* getLine(int line, char* sourceCode){
    }
 
    int lineEnd = lineStart;
-   int codeLen = strlen(sourceCode); // preformance doesnt matter for error reporting
+   int codeLen = strlen(sourceCode);
    while (lineEnd < codeLen && sourceCode[lineEnd] != '\n'){
       lineEnd++;
    }

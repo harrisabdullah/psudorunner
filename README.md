@@ -15,7 +15,7 @@ This project is a pure C implementation of an interpreter that executes IGCSE / 
 ## Installation
 
 ```bash
-git clone https://github.com/harrisabdullah/psudorunner
+git clone --recurse-submodules https://github.com/harrisabdullah/psudorunner
 cd psudorunner
 mkdir build && cd build
 cmake ..
@@ -27,12 +27,20 @@ make
 1. Edit main.c, assign your pseudocode to the char* code variable.
 2. Build & run:
 ```bash
-./psudo_interprator_2
+./psudo_interprator_EXE
 ```
 
 ## Roadmap
 
-- [ ] Extensive unit tests
+### testing
+
+- [ ] Parser unit testing.
+- [ ] Execution engine unit testing.
+- [ ] Integration testing.
+
+### other
+
+- [ ] Revamp error handling to return error structs that can then be passed to an error-raising function.
 - [ ] Syntax error on invalid identifier name in tokenisation.
-- [ ] Clean command-line interface: pass a `.pseudo` file or read from STDIN
-- [ ] Memory-safe parsing
+- [ ] Clean command-line interface: pass a `.pseudo` file or read from STDIN.
+- [ ] Memory safety.
