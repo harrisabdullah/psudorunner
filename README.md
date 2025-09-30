@@ -7,7 +7,7 @@ This project is a pure C implementation of an interpreter that executes IGCSE / 
 - Supports:
   - Control flow: `IF` / `ELSE IF` / `ELSE` / `ENDIF`
   - Loops: `FOR` / `WHILE` / `REPEAT` / `UNTIL`
-  - I/O: `INPUT`, `OUTPUT`
+  - I/O: `OUTPUT`
 - Written in pure C (C99)
 - Unit tested with Google Test
 - Build system: CMake
