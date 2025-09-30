@@ -212,6 +212,7 @@ int parse(List* ASTList, List tokens, enum ParserStatus status, int startIndex, 
                 if (newlineIndex - lineStartIndex > 1){
                     pe_elseError(((Token*)tokens.items[lineStartIndex])->lineNum, code, "Invalid else statment.");
                 }
+                return newlineIndex - startIndex - 1;
             }
         }
         if (status == P_WHILE){
